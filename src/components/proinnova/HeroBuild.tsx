@@ -5,22 +5,35 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import MagneticButton from "./MagneticButton";
 import { BUILDING_FLOORS } from "./site";
-import heroImg from "../../assets/obra/hero-proinnova.jpg";
+import { TIMELINE, floorsBuiltAt, stageAt, type Stage } from "./buildTimeline";
 
 // three.js is heavy and needs WebGL, so it is split out and only loaded in the browser.
 const BuildingScene = lazy(() => import("./BuildingScene"));
 
 gsap.registerPlugin(ScrollTrigger);
 
+const pad = (n: number) => String(n).padStart(2, "0");
+
 export default function HeroBuild() {
   const sectionRef = useRef<HTMLElement>(null);
   const progressRef = useRef({ value: 0 });
-  const [floorsBuilt, setFloorsBuilt] = useState(0);
+  const [floorsBuilt, setFloorsBuilt] = useState(() => floorsBuiltAt(0));
+  const [stage, setStage] = useState<Stage>(() => stageAt(0));
   // The page is server-rendered; the WebGL canvas can only mount client-side.
   const [canRender3D, setCanRender3D] = useState(false);
+  const [sceneReady, setSceneReady] = useState(false);
+  // Stop drawing the 3D scene once the hero has scrolled out of view.
+  const [inView, setInView] = useState(true);
 
   useEffect(() => {
     setCanRender3D(true);
+    const section = sectionRef.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(([entry]) => setInView(entry?.isIntersecting ?? true), {
+      rootMargin: "120px 0px",
+    });
+    observer.observe(section);
+    return () => observer.disconnect();
   }, []);
 
   useGSAP(
@@ -28,11 +41,15 @@ export default function HeroBuild() {
       const section = sectionRef.current;
       if (!section) return;
 
+      const sync = (p: number) => {
+        progressRef.current.value = p;
+        setFloorsBuilt(floorsBuiltAt(p));
+        setStage(stageAt(p));
+      };
+
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        progressRef.current.value = 1;
-        setFloorsBuilt(BUILDING_FLOORS);
+        sync(1);
         gsap.set(".hero-build__final", { opacity: 1 });
-        gsap.set(".hero-build__photo", { opacity: 0.42, filter: "blur(7px)" });
         return;
       }
 
@@ -40,67 +57,58 @@ export default function HeroBuild() {
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: "+=320%",
+          end: "+=380%",
           pin: true,
-          scrub: 0.8,
-          onUpdate: (self) => {
-            progressRef.current.value = self.progress;
-            const built = Math.round(
-              gsap.utils.mapRange(0.08, 0.82, 0, BUILDING_FLOORS, self.progress),
-            );
-            setFloorsBuilt(Math.min(BUILDING_FLOORS, Math.max(0, built)));
-          },
+          scrub: 1,
+          onUpdate: (self) => sync(self.progress),
         },
       });
 
-      // The photo drops back into a soft, defocused sky/skyline plate so the
-      // 3D structure reads as the subject instead of competing with it.
-      tl.to(
-        ".hero-build__photo",
-        { opacity: 0.42, filter: "blur(7px) saturate(0.85)", duration: 0.14 },
-        0,
-      )
-        .to(".hero-build__photo", { scale: 1.1, duration: 1 }, 0)
-        .to(".hero-build__kicker", { opacity: 0, y: -20, duration: 0.1 }, 0.02)
-        .fromTo(".hero-build__final", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.1 }, 0.76)
+      // Keeps the timeline exactly one unit long so positions below are scroll fractions.
+      tl.to({}, { duration: 1 }, 0)
+        .to(".hero-build__kicker", { opacity: 0, y: -16, duration: 0.06 }, 0.02)
+        .to(".hero-build__intro", { y: -12, duration: 0.3 }, TIMELINE.reveal - 0.3)
+        .fromTo(
+          ".hero-build__final",
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 0.08 },
+          TIMELINE.reveal,
+        )
         .fromTo(
           ".hero-build__final-item",
           { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.08, stagger: 0.03 },
-          0.78,
+          { opacity: 1, y: 0, duration: 0.07, stagger: 0.025 },
+          TIMELINE.reveal + 0.02,
         );
 
       gsap
-        .timeline({ delay: 0.2 })
-        .from(".hero-build__eyebrow", { opacity: 0, y: 16, duration: 0.5, ease: "power2.out" })
+        .timeline({ delay: 0.35 })
+        .from(".hero-build__eyebrow", { opacity: 0, y: 16, duration: 0.7, ease: "power3.out" })
         .from(
           ".hero-build__line > span",
-          { opacity: 0, yPercent: 110, duration: 0.8, ease: "expo.out", stagger: 0.1 },
-          "-=0.2",
+          { yPercent: 115, duration: 1.1, ease: "expo.out", stagger: 0.12 },
+          "-=0.45",
         )
-        .from(".hero-build__kicker", { opacity: 0, y: 16, duration: 0.5, ease: "power2.out" }, "-=0.3");
+        .from(".hero-build__kicker", { opacity: 0, y: 12, duration: 0.6, ease: "power2.out" }, "-=0.5")
+        .from(".hero-build__meter", { opacity: 0, x: 16, duration: 0.8, ease: "power3.out" }, "-=0.6");
     },
     { scope: sectionRef },
   );
 
   return (
     <section className="hero-build" ref={sectionRef} id="inicio">
-      <div className="hero-build__photo">
-        <img
-          src={heroImg}
-          alt="Obra de Proinnova en construcción al atardecer sobre la ciudad"
-          fetchPriority="high"
-        />
-      </div>
-      <div className="hero-build__scrim" />
-
-      <div className="hero-build__scene" aria-hidden="true">
+      <div className={`hero-build__scene ${sceneReady ? "is-ready" : ""}`} aria-hidden="true">
         {canRender3D && (
           <Suspense fallback={null}>
-            <BuildingScene progressRef={progressRef} />
+            <BuildingScene
+              progressRef={progressRef}
+              active={inView}
+              onReady={() => setSceneReady(true)}
+            />
           </Suspense>
         )}
       </div>
+      <div className="hero-build__scrim" />
 
       <div className="hero-build__ui">
         <div className="hero-build__intro">
@@ -118,7 +126,10 @@ export default function HeroBuild() {
               <span>impulsan negocios.</span>
             </span>
           </h1>
-          <p className="hero-build__kicker">Desliza para construir ↓</p>
+          <p className="hero-build__kicker">
+            <span className="hero-build__kicker-line" aria-hidden="true" />
+            Desliza para construir
+          </p>
         </div>
 
         <div className="hero-build__final">
@@ -138,7 +149,8 @@ export default function HeroBuild() {
       <div className="hero-build__meter" aria-hidden="true">
         <span className="hero-build__meter-label">Niveles</span>
         <span className="hero-build__meter-count">
-          {String(floorsBuilt).padStart(2, "0")}/{String(BUILDING_FLOORS).padStart(2, "0")}
+          {pad(floorsBuilt)}
+          <span className="hero-build__meter-total">/{pad(BUILDING_FLOORS)}</span>
         </span>
         <div className="hero-build__meter-track">
           <div
@@ -146,6 +158,7 @@ export default function HeroBuild() {
             style={{ height: `${(floorsBuilt / BUILDING_FLOORS) * 100}%` }}
           />
         </div>
+        <span className="hero-build__meter-stage">{stage}</span>
       </div>
     </section>
   );

@@ -8,7 +8,7 @@ export const CONTACT = {
 } as const;
 
 /** Floors in the hero model. The hero's level meter reads this too, so they stay in sync. */
-export const BUILDING_FLOORS = 6;
+export const BUILDING_FLOORS = 8;
 
 export function telHref(phone: string) {
   return `tel:${phone.replace(/\s+/g, "")}`;
