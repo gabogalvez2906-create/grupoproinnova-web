@@ -39,8 +39,19 @@ export default function HeroBuild({ onOverHeroChange }: HeroBuildProps) {
       rootMargin: "120px 0px",
     });
     observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
+
+    // While the hero is pinned it stays fixed at the top, so its own rect is the
+    // honest answer to "is the nav sitting on the 3D scene right now?".
+    const syncNav = () => onOverHeroChange?.(section.getBoundingClientRect().bottom > 90);
+    syncNav();
+    window.addEventListener("scroll", syncNav, { passive: true });
+    window.addEventListener("resize", syncNav);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", syncNav);
+      window.removeEventListener("resize", syncNav);
+    };
+  }, [onOverHeroChange]);
 
   useGSAP(
     () => {
@@ -70,10 +81,6 @@ export default function HeroBuild({ onOverHeroChange }: HeroBuildProps) {
           pin: true,
           scrub: 1,
           onUpdate: (self) => sync(self.progress),
-          // The pin lasts exactly as long as the hero fills the screen, so it
-          // also decides when the nav can stop being transparent.
-          onToggle: (self) => onOverHeroChange?.(self.isActive),
-          onRefresh: (self) => onOverHeroChange?.(self.isActive),
         },
       });
 
