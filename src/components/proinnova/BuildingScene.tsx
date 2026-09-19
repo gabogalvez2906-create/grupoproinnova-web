@@ -1,7 +1,7 @@
-import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, type RefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Bloom, EffectComposer, ToneMapping, Vignette } from "@react-three/postprocessing";
-import { ToneMappingMode } from "postprocessing";
+import { ToneMappingMode, type BloomEffect } from "postprocessing";
 import * as THREE from "three";
 
 import { BUILDING_FLOORS } from "./site";
@@ -9,9 +9,12 @@ import {
   clamp01,
   easeInOutCubic,
   easeOutCubic,
+  duskValue,
   facadeValue,
+  floorFacadeAt,
+  floorLightAt,
   floorPhase,
-  lightsValue,
+  glowGain,
   range,
   structureValue,
 } from "./buildTimeline";
@@ -40,6 +43,8 @@ const TOP = FLOORS * FLOOR_H;
 const SUN_DIR = new THREE.Vector3(0.309, 0.1, -0.951).normalize();
 const SUN_AZIMUTH = Math.atan2(SUN_DIR.z, SUN_DIR.x);
 const HAZE = "#d4875f";
+const RIDGE_DAY = new THREE.Color("#b0705a");
+const RIDGE_NIGHT = new THREE.Color("#241d24");
 
 const COLUMNS: { x: number; z: number; delay: number }[] = [];
 for (let i = 0; i < COLS_X; i++) {
@@ -141,9 +146,21 @@ const SKY_FRAG = /* glsl */ `
       col = mix(col, cloud, c * 0.8);
     }
 
+    // Stars come out as the sky deepens, away from the sun.
+    if (h > 0.04) {
+      vec2 sp = floor(d.xz / (h + 0.22) * 150.0);
+      float st = hash(sp);
+      float twinkle = 0.55 + 0.45 * sin(uTime * 1.6 + st * 91.0);
+      float mask = smoothstep(0.06, 0.55, h) * (1.0 - pow(sd, 2.0));
+      col += lin(vec3(0.82, 0.86, 1.0)) * smoothstep(0.994, 0.9985, st) * uDusk * mask * twinkle * 2.2;
+    }
+
     // Sun disc — well above 1.0 so the bloom pass picks it up.
     col += lin(vec3(1.0, 0.7, 0.38)) * pow(sd, 900.0) * 2.2;
     col += lin(vec3(1.0, 0.86, 0.62)) * smoothstep(0.99955, 0.9998, sd) * 6.0;
+
+    // Past golden hour everything falls off toward night.
+    col *= mix(1.0, 0.34, smoothstep(0.45, 1.0, uDusk));
 
     gl_FragColor = vec4(col, 1.0);
     #include <colorspace_fragment>
@@ -173,11 +190,13 @@ function Sky({ progressRef }: { progressRef: ProgressRef }) {
     if (!mesh) return;
     mesh.position.copy(camera.position);
     const p = progressRef.current.value;
-    material.uniforms["uDusk"]!.value = easeInOutCubic(range(p, 0.3, 1));
+    const dusk = duskValue(p);
+    material.uniforms["uDusk"]!.value = dusk;
     material.uniforms["uTime"]!.value = clock.elapsedTime;
+    // The sun keeps sinking through the scroll, which is what makes the windows read.
     (material.uniforms["uSunDir"]!.value as THREE.Vector3)
       .copy(SUN_DIR)
-      .setY(SUN_DIR.y - 0.035 * range(p, 0.3, 1))
+      .setY(SUN_DIR.y - 0.108 * dusk)
       .normalize();
   });
 
@@ -219,14 +238,16 @@ function SkyEnvironment() {
 
 function City({ progressRef }: { progressRef: ProgressRef }) {
   const towersRef = useRef<THREE.InstancedMesh>(null);
-  const windowsRef = useRef<THREE.InstancedMesh>(null);
+  const bankRefs = useRef<(THREE.InstancedMesh | null)[]>([]);
   const mountainsRef = useRef<THREE.InstancedMesh>(null);
+  const ridgeRef = useRef<THREE.MeshBasicMaterial>(null);
 
   const layout = useMemo(() => {
     const rand = mulberry32(1987);
     const towers: THREE.Matrix4[] = [];
     const tints: THREE.Color[] = [];
-    const lights: THREE.Matrix4[] = [];
+    // Four banks so the city switches on in waves instead of one flat cut.
+    const banks: THREE.Matrix4[][] = [[], [], [], []];
     const m = new THREE.Matrix4();
     const q = new THREE.Quaternion();
 
@@ -258,8 +279,8 @@ function City({ progressRef }: { progressRef: ProgressRef }) {
           const ly = 1 + r * 1.9;
           if (ly > h - 0.6) continue;
           m.compose(new THREE.Vector3(lx, ly, faceZ), q, new THREE.Vector3(0.42, 0.58, 0.08));
-          lights.push(m.clone());
-          if (lights.length > 1400) break;
+          banks[Math.floor(rand() * banks.length)]!.push(m.clone());
+          if (banks.reduce((n, b) => n + b.length, 0) > 1400) break;
         }
       }
     }
@@ -280,19 +301,23 @@ function City({ progressRef }: { progressRef: ProgressRef }) {
         ),
       );
     }
-    return { towers, tints, lights, mountains };
+    return { towers, tints, banks, mountains };
   }, []);
 
-  const windowMaterial = useMemo(
-    () => new THREE.MeshBasicMaterial({ color: new THREE.Color("#ffb46a"), toneMapped: false }),
-    [],
+  const bankMaterials = useMemo(
+    () =>
+      layout.banks.map(
+        () => new THREE.MeshBasicMaterial({ color: new THREE.Color("#000000"), toneMapped: false }),
+      ),
+    [layout],
   );
+
+  useEffect(() => () => bankMaterials.forEach((m) => m.dispose()), [bankMaterials]);
 
   useLayoutEffect(() => {
     const towers = towersRef.current;
-    const windows = windowsRef.current;
     const mountains = mountainsRef.current;
-    if (!towers || !windows || !mountains) return;
+    if (!towers || !mountains) return;
     layout.towers.forEach((mat, i) => {
       towers.setMatrixAt(i, mat);
       const tint = layout.tints[i];
@@ -300,15 +325,27 @@ function City({ progressRef }: { progressRef: ProgressRef }) {
     });
     towers.instanceMatrix.needsUpdate = true;
     if (towers.instanceColor) towers.instanceColor.needsUpdate = true;
-    layout.lights.forEach((mat, i) => windows.setMatrixAt(i, mat));
-    windows.instanceMatrix.needsUpdate = true;
+    bankRefs.current.forEach((mesh, b) => {
+      const bank = layout.banks[b];
+      if (!mesh || !bank) return;
+      bank.forEach((mat, i) => mesh.setMatrixAt(i, mat));
+      mesh.instanceMatrix.needsUpdate = true;
+    });
     layout.mountains.forEach((mat, i) => mountains.setMatrixAt(i, mat));
     mountains.instanceMatrix.needsUpdate = true;
   }, [layout]);
 
-  useFrame(() => {
-    const glow = 0.06 + 2.6 * easeInOutCubic(range(progressRef.current.value, 0.45, 0.95));
-    windowMaterial.color.setRGB(1 * glow, 0.62 * glow, 0.3 * glow);
+  useFrame(({ clock }) => {
+    const dusk = duskValue(progressRef.current.value);
+    const t = clock.elapsedTime;
+    const ridge = ridgeRef.current;
+    if (ridge) ridge.color.copy(RIDGE_DAY).lerp(RIDGE_NIGHT, dusk);
+    bankMaterials.forEach((m, b) => {
+      const start = b * 0.17;
+      const on = range(dusk, start, start + 0.45);
+      const glow = (0.05 + 2.7 * on) * (0.94 + 0.06 * Math.sin(t * (0.7 + b * 0.31) + b));
+      m.color.setRGB(glow, 0.62 * glow, 0.3 * glow);
+    });
   });
 
   return (
@@ -321,20 +358,25 @@ function City({ progressRef }: { progressRef: ProgressRef }) {
         <boxGeometry />
         <meshStandardMaterial color="#ffffff" roughness={0.95} metalness={0.05} />
       </instancedMesh>
-      <instancedMesh
-        ref={windowsRef}
-        args={[undefined, windowMaterial, layout.lights.length]}
-        frustumCulled={false}
-      >
-        <boxGeometry />
-      </instancedMesh>
+      {layout.banks.map((bank, b) => (
+        <instancedMesh
+          key={b}
+          ref={(mesh) => {
+            bankRefs.current[b] = mesh;
+          }}
+          args={[undefined, bankMaterials[b], Math.max(bank.length, 1)]}
+          frustumCulled={false}
+        >
+          <boxGeometry />
+        </instancedMesh>
+      ))}
       <instancedMesh
         ref={mountainsRef}
         args={[undefined, undefined, layout.mountains.length]}
         frustumCulled={false}
       >
         <cylinderGeometry args={[0.035, 0.5, 1, 40, 1, true]} />
-        <meshBasicMaterial color="#b0705a" fog={false} />
+        <meshBasicMaterial ref={ridgeRef} color="#b0705a" fog={false} />
       </instancedMesh>
     </group>
   );
@@ -349,11 +391,14 @@ function makeFacadeTextures(cols: number, seed: number) {
   const h = 72;
   const glass = document.createElement("canvas");
   const glow = document.createElement("canvas");
-  glass.width = glow.width = w;
-  glass.height = glow.height = h;
+  // Grey per window = the moment it switches on, so they light one by one.
+  const order = document.createElement("canvas");
+  glass.width = glow.width = order.width = w;
+  glass.height = glow.height = order.height = h;
   const g = glass.getContext("2d");
   const e = glow.getContext("2d");
-  if (!g || !e) return null;
+  const o = order.getContext("2d");
+  if (!g || !e || !o) return null;
 
   const grad = g.createLinearGradient(0, 0, 0, h);
   grad.addColorStop(0, "#3a4656");
@@ -362,16 +407,22 @@ function makeFacadeTextures(cols: number, seed: number) {
   g.fillRect(0, 0, w, h);
   e.fillStyle = "#000";
   e.fillRect(0, 0, w, h);
+  // 1.0 = never lit: uLit tops out at 1, so these windows stay dark.
+  o.fillStyle = "#fff";
+  o.fillRect(0, 0, w, h);
 
   for (let c = 0; c < cols; c++) {
     const x = c * cw;
     if (rand() < 0.74) {
-      const warm = 30 + rand() * 14;
-      const light = 52 + rand() * 22;
-      e.fillStyle = `hsl(${warm}, 85%, ${light}%)`;
+      const warm = 28 + rand() * 16;
+      const light = 44 + rand() * 20;
+      e.fillStyle = `hsl(${warm}, 62%, ${light}%)`;
       // Some rooms have the blinds half down.
       const top = rand() < 0.3 ? h * (0.15 + rand() * 0.4) : 3;
       e.fillRect(x + 2, top, cw - 4, h - top - 3);
+      const at = Math.round((0.04 + rand() * 0.82) * 255);
+      o.fillStyle = `rgb(${at},${at},${at})`;
+      o.fillRect(x, 0, cw, h);
     }
   }
   // Mullions and transom.
@@ -385,9 +436,13 @@ function makeFacadeTextures(cols: number, seed: number) {
 
   const map = new THREE.CanvasTexture(glass);
   const emissiveMap = new THREE.CanvasTexture(glow);
+  const orderMap = new THREE.CanvasTexture(order);
   map.colorSpace = emissiveMap.colorSpace = THREE.SRGBColorSpace;
   map.anisotropy = emissiveMap.anisotropy = 4;
-  return { map, emissiveMap };
+  // Raw threshold values: no colour conversion, no blending between windows.
+  orderMap.magFilter = orderMap.minFilter = THREE.NearestFilter;
+  orderMap.generateMipmaps = false;
+  return { map, emissiveMap, orderMap };
 }
 
 function useSharedAssets() {
@@ -427,6 +482,13 @@ function useSharedAssets() {
 
 type Assets = ReturnType<typeof useSharedAssets>;
 
+/** Uniforms injected into the curtain-wall material so windows light one by one. */
+interface LitUniforms {
+  uLit: { value: number };
+  uTime: { value: number };
+  uOrder: { value: THREE.Texture | null };
+}
+
 function Level({ index, progressRef, assets }: { index: number; progressRef: ProgressRef; assets: Assets }) {
   const baseY = index * FLOOR_H;
   const columnsRef = useRef<THREE.InstancedMesh>(null);
@@ -443,8 +505,8 @@ function Level({ index, progressRef, assets }: { index: number; progressRef: Pro
   const facadeMaterials = useMemo(() => {
     const front = makeFacadeTextures(10, 101 + index * 17);
     const side = makeFacadeTextures(7, 303 + index * 23);
-    const make = (tex: ReturnType<typeof makeFacadeTextures>) =>
-      new THREE.MeshStandardMaterial({
+    const make = (tex: ReturnType<typeof makeFacadeTextures>) => {
+      const m = new THREE.MeshStandardMaterial({
         color: "#ffffff",
         map: tex?.map ?? null,
         emissive: new THREE.Color("#ffffff"),
@@ -454,6 +516,40 @@ function Level({ index, progressRef, assets }: { index: number; progressRef: Pro
         roughness: 0.16,
         envMapIntensity: 1.4,
       });
+      // Every window carries its own switch-on threshold in `uOrder`, so a floor
+      // lights room by room (with a little mains flicker) instead of all at once.
+      const lit = {
+        uLit: { value: 0 },
+        uTime: { value: 0 },
+        uOrder: { value: tex?.orderMap ?? null },
+      };
+      m.userData["lit"] = lit;
+      m.onBeforeCompile = (shader) => {
+        Object.assign(shader.uniforms, lit);
+        shader.fragmentShader = shader.fragmentShader
+          .replace(
+            "void main() {",
+            /* glsl */ `
+              uniform float uLit;
+              uniform float uTime;
+              uniform sampler2D uOrder;
+              void main() {
+            `,
+          )
+          .replace(
+            "#include <emissivemap_fragment>",
+            /* glsl */ `
+              #include <emissivemap_fragment>
+              float wAt = texture2D( uOrder, vEmissiveMapUv ).r;
+              float wOn = smoothstep( wAt, wAt + 0.05, uLit );
+              float wFlick = 0.88 + 0.12 * sin( uTime * ( 2.4 + wAt * 7.0 ) + wAt * 57.0 );
+              totalEmissiveRadiance *= wOn * wFlick;
+            `,
+          );
+      };
+      m.customProgramCacheKey = () => "proinnova-facade-lit";
+      return m;
+    };
     const cap = new THREE.MeshStandardMaterial({ color: "#2a2724", roughness: 0.9 });
     const sideMat = make(side);
     const frontMat = make(front);
@@ -466,6 +562,7 @@ function Level({ index, progressRef, assets }: { index: number; progressRef: Pro
       new Set(facadeMaterials).forEach((m) => {
         m.map?.dispose();
         m.emissiveMap?.dispose();
+        (m.userData["lit"] as LitUniforms | undefined)?.uOrder.value?.dispose();
         m.dispose();
       });
     },
@@ -495,13 +592,13 @@ function Level({ index, progressRef, assets }: { index: number; progressRef: Pro
 
   const dummy = useMemo(() => new THREE.Object3D(), []);
 
-  useFrame(() => {
+  useFrame(({ clock }) => {
     const p = progressRef.current.value;
     const sv = structureValue(p);
     const lt = floorPhase(sv, index);
     const nextLt = index + 1 < FLOORS ? floorPhase(sv, index + 1) : 0;
-    const ft = easeInOutCubic(floorPhase(facadeValue(p), index, 1.4));
-    const gt = floorPhase(lightsValue(p), index, 2.2);
+    const ft = easeInOutCubic(floorFacadeAt(p, index));
+    const gt = floorLightAt(p, index);
 
     // Rebar cages rise first; the top floor's stubs go once the curtain wall starts.
     const rebarGroup = rebarGroupRef.current;
@@ -561,11 +658,17 @@ function Level({ index, progressRef, assets }: { index: number; progressRef: Pro
     if (facade) {
       facade.visible = ft > 0.001;
       facade.scale.y = Math.max(ft, 0.0001);
-      const glow = gt * 2.4;
-      const front = facadeMaterials[4];
-      const side = facadeMaterials[0];
-      if (front) front.emissiveIntensity = glow;
-      if (side) side.emissiveIntensity = glow;
+      const glow = glowGain(p);
+      const t = clock.elapsedTime;
+      for (const m of [facadeMaterials[0], facadeMaterials[4]]) {
+        if (!m) continue;
+        m.emissiveIntensity = glow;
+        const u = m.userData["lit"] as LitUniforms | undefined;
+        if (u) {
+          u.uLit.value = gt;
+          u.uTime.value = t;
+        }
+      }
     }
   });
 
@@ -662,7 +765,7 @@ function RoofCrown({ progressRef }: { progressRef: ProgressRef }) {
       group.visible = up > 0.001;
       group.scale.y = Math.max(easeOutCubic(up), 0.0001);
     }
-    const g = 0.4 + 3.2 * easeInOutCubic(range(lightsValue(p), 0.55, 1));
+    const g = 0.3 + 3.3 * duskValue(p) * range(up, 0.25, 1);
     glowMaterial.color.setRGB(0.79 * g, 0.66 * g, 0.38 * g);
   });
 
@@ -761,6 +864,11 @@ function latticeMatrices() {
 
 function Crane({ progressRef }: { progressRef: ProgressRef }) {
   const latticeRef = useRef<THREE.InstancedMesh>(null);
+  const beacon = useMemo(
+    () => new THREE.MeshBasicMaterial({ color: new THREE.Color("#3a0805"), toneMapped: false }),
+    [],
+  );
+  useEffect(() => () => beacon.dispose(), [beacon]);
   const hookRef = useRef<THREE.Group>(null);
   const cableRef = useRef<THREE.Mesh>(null);
   const members = useMemo(latticeMatrices, []);
@@ -773,8 +881,13 @@ function Crane({ progressRef }: { progressRef: ProgressRef }) {
     lattice.instanceMatrix.needsUpdate = true;
   }, [members]);
 
-  useFrame((_, dt) => {
+  useFrame(({ clock }, dt) => {
     const p = progressRef.current.value;
+    // Aviation beacon on the mast head: a slow double blink, brighter at dusk.
+    const beat = clock.elapsedTime % 2.6;
+    const blink = Math.max(Math.exp(-beat * 6), Math.exp(-Math.abs(beat - 0.42) * 8));
+    const b = (0.12 + 3.4 * blink) * (0.35 + 0.65 * duskValue(p));
+    beacon.color.setRGB(b, b * 0.09, b * 0.06);
     // Follow whichever slab is currently being lowered.
     let target = MAST_H - 4;
     for (let i = FLOORS - 1; i >= 0; i--) {
@@ -801,6 +914,10 @@ function Crane({ progressRef }: { progressRef: ProgressRef }) {
         <boxGeometry />
         <meshStandardMaterial color="#a98b62" roughness={0.55} metalness={0.35} />
       </instancedMesh>
+
+      <mesh position={[0, MAST_H + 1.15, 0]} material={beacon}>
+        <sphereGeometry args={[0.17, 10, 8]} />
+      </mesh>
 
       <group position={[0, MAST_H, 0]} rotation={[0, JIB_ANGLE, 0]}>
         {/* counterweight and operator cab */}
@@ -865,6 +982,97 @@ function Site() {
   );
 }
 
+/** Two work-light masts that strike up as the sun goes. */
+function Floodlights({ progressRef }: { progressRef: ProgressRef }) {
+  const masts = useMemo(
+    () =>
+      [
+        { x: SLAB_X / 2 + 5, z: -SLAB_Z / 2 - 5.5, ry: Math.PI + 0.5 },
+        { x: SLAB_X / 2 + 7.5, z: SLAB_Z / 2 + 3.5, ry: Math.PI - 0.5 },
+      ] as const,
+    [],
+  );
+  const head = useMemo(
+    () => new THREE.MeshBasicMaterial({ color: new THREE.Color("#120c06"), toneMapped: false }),
+    [],
+  );
+  const coneMaterial = useMemo(
+    () =>
+      new THREE.ShaderMaterial({
+        uniforms: {
+          uColor: { value: new THREE.Color("#ffd9a0") },
+          uOpacity: { value: 0 },
+          uTime: { value: 0 },
+        },
+        vertexShader: [
+          "varying vec2 vUv;",
+          "varying vec3 vPos;",
+          "void main() {",
+          "  vUv = uv; vPos = position;",
+          "  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);",
+          "}",
+        ].join("\n"),
+        fragmentShader: [
+          "uniform vec3 uColor;",
+          "uniform float uOpacity;",
+          "uniform float uTime;",
+          "varying vec2 vUv;",
+          "varying vec3 vPos;",
+          "void main() {",
+          "  float gradient = pow(vUv.y, 1.6);",
+          "  float edge = pow(1.0 - abs(vUv.x * 2.0 - 1.0), 1.5);",
+          "  float flicker = 0.92 + 0.08 * sin(uTime * 2.6 + vPos.y * 1.7);",
+          "  gl_FragColor = vec4(uColor, gradient * edge * uOpacity * flicker);",
+          "}",
+        ].join("\n"),
+        transparent: true,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+      }),
+    [],
+  );
+
+  useEffect(
+    () => () => {
+      head.dispose();
+      coneMaterial.dispose();
+    },
+    [head, coneMaterial],
+  );
+
+  useFrame(({ clock }) => {
+    const on = range(duskValue(progressRef.current.value), 0.12, 0.6);
+    const h = 0.04 + 1.05 * on;
+    head.color.setRGB(h, h * 0.82, h * 0.58);
+    coneMaterial.uniforms["uOpacity"]!.value = 0.2 * on;
+    coneMaterial.uniforms["uTime"]!.value = clock.elapsedTime;
+  });
+
+  const H = 7.5;
+  return (
+    <group>
+      {masts.map((m, i) => (
+        <group key={i} position={[m.x, 0, m.z]} rotation={[0, m.ry, 0]}>
+          <mesh position={[0, H / 2, 0]} castShadow>
+            <cylinderGeometry args={[0.07, 0.11, H, 6]} />
+            <meshStandardMaterial color="#3a332d" roughness={0.7} metalness={0.4} />
+          </mesh>
+          <mesh position={[0, H + 0.18, 0.12]} material={head}>
+            <boxGeometry args={[0.9, 0.34, 0.2]} />
+          </mesh>
+          {/* volumetric shaft pointing back at the tower */}
+          <group position={[0, H, 0]} rotation={[Math.PI - 0.55, 0, 0]}>
+            <mesh position={[0, 5.5, 0]} material={coneMaterial}>
+              <cylinderGeometry args={[0.18, 3.4, 11, 20, 1, true]} />
+            </mesh>
+          </group>
+        </group>
+      ))}
+    </group>
+  );
+}
+
 function Dust() {
   const ref = useRef<THREE.Points>(null);
   const { geometry, base } = useMemo(() => {
@@ -923,6 +1131,8 @@ function Dust() {
 
 function Lighting({ progressRef, shadows }: { progressRef: ProgressRef; shadows: boolean }) {
   const sunRef = useRef<THREE.DirectionalLight>(null);
+  const fillRef = useRef<THREE.DirectionalLight>(null);
+  const hemiRef = useRef<THREE.HemisphereLight>(null);
   const target = useMemo(() => new THREE.Object3D(), []);
 
   useLayoutEffect(() => {
@@ -940,10 +1150,24 @@ function Lighting({ progressRef, shadows }: { progressRef: ProgressRef; shadows:
     cam.updateProjectionMatrix();
   }, [target]);
 
+  const { scene } = useThree();
+  const fogDay = useMemo(() => new THREE.Color(HAZE), []);
+  const fogNight = useMemo(() => new THREE.Color("#1a1620"), []);
+
   useFrame(() => {
+    const dusk = duskValue(progressRef.current.value);
     const sun = sunRef.current;
-    if (!sun) return;
-    sun.intensity = 3.4 - 1.6 * range(progressRef.current.value, 0.4, 1);
+    if (sun) {
+      sun.intensity = 3.4 - 3.05 * dusk;
+      sun.color.setRGB(1, 0.67 - 0.16 * dusk, 0.4 - 0.16 * dusk);
+    }
+    const fill = fillRef.current;
+    if (fill) fill.intensity = 0.45 + 0.25 * dusk;
+    const hemi = hemiRef.current;
+    if (hemi) hemi.intensity = 0.55 - 0.33 * dusk;
+    // The warm haze has to cool down too, or the night reads orange.
+    const fog = scene.fog as THREE.FogExp2 | null;
+    if (fog) fog.color.copy(fogDay).lerp(fogNight, dusk);
   });
 
   return (
@@ -959,10 +1183,28 @@ function Lighting({ progressRef, shadows }: { progressRef: ProgressRef; shadows:
         shadow-bias={-0.0004}
         shadow-normalBias={0.03}
       />
-      <hemisphereLight args={["#9fb1d6", "#3a2a22", 0.55]} />
-      <directionalLight position={[-40, 25, 45]} color="#8ea6d4" intensity={0.45} />
+      <hemisphereLight ref={hemiRef} args={["#9fb1d6", "#3a2a22", 0.55]} />
+      <directionalLight ref={fillRef} position={[-40, 25, 45]} color="#8ea6d4" intensity={0.45} />
     </>
   );
+}
+
+/** Pushes the bloom as the scene darkens, so the lit windows really glow. */
+function BloomDriver({
+  progressRef,
+  bloomRef,
+}: {
+  progressRef: ProgressRef;
+  bloomRef: RefObject<BloomEffect | null>;
+}) {
+  useFrame(() => {
+    const bloom = bloomRef.current;
+    if (!bloom) return;
+    const dusk = duskValue(progressRef.current.value);
+    bloom.intensity = 0.72 + 0.55 * dusk;
+    bloom.luminanceMaterial.threshold = 0.95 - 0.22 * dusk;
+  });
+  return null;
 }
 
 function CameraRig({ progressRef, onReady }: { progressRef: ProgressRef; onReady?: (() => void) | undefined }) {
@@ -1001,9 +1243,15 @@ function CameraRig({ progressRef, onReady }: { progressRef: ProgressRef; onReady
 
     const built = Math.min(TOP, structureValue(p) * TOP);
     const settle = range(p, 0.78, 1);
-    const orbit = -0.62 + 0.2 * cp + (1 - intro) * -0.1 + pointer.current.x * 0.03;
-    const radius = (18 + built * 1.2 + 3 * settle + (1 - intro) * 8) * (portrait ? 2.75 : 1);
-    const height = 1.2 + built * 0.5 + 2 * settle + pointer.current.y * 0.4;
+    const idle = Math.sin(state.clock.elapsedTime * 0.11) * 0.018;
+    const orbit = -0.78 + 0.42 * cp + idle + (1 - intro) * -0.12 + pointer.current.x * 0.04;
+    const radius = (17.5 + built * 1.15 + 3.4 * settle + (1 - intro) * 9) * (portrait ? 2.75 : 1);
+    const height =
+      0.9 +
+      built * 0.55 +
+      2.4 * settle +
+      pointer.current.y * 0.45 +
+      Math.cos(state.clock.elapsedTime * 0.09) * 0.22;
 
     posTarget.set(Math.sin(orbit) * radius, height, Math.cos(orbit) * radius);
     lookTarget.set(0, 1.5 + built * 0.5, 0);
@@ -1034,6 +1282,7 @@ export default function BuildingScene({
   onReady?: (() => void) | undefined;
 }) {
   const coarse = typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches;
+  const bloomRef = useRef<BloomEffect>(null);
 
   return (
     <Canvas
@@ -1054,16 +1303,62 @@ export default function BuildingScene({
 
       <City progressRef={progressRef} />
       <Site />
+      <Floodlights progressRef={progressRef} />
       <Building progressRef={progressRef} />
       <Crane progressRef={progressRef} />
       <Dust />
 
+      <BloomDriver progressRef={progressRef} bloomRef={bloomRef} />
+
       <EffectComposer multisampling={coarse ? 0 : 4}>
-        <Bloom mipmapBlur intensity={0.9} luminanceThreshold={0.92} luminanceSmoothing={0.25} radius={0.72} />
+        <Bloom
+          ref={bloomRef}
+          mipmapBlur
+          intensity={0.9}
+          luminanceThreshold={0.92}
+          luminanceSmoothing={0.25}
+          radius={0.78}
+        />
         <Vignette offset={0.28} darkness={0.6} />
         <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
       </EffectComposer>
     </Canvas>
+  );
+}
+
+/** Warm light escaping the finished floors, so the tower lifts off the dark site. */
+function InteriorGlow({ progressRef }: { progressRef: ProgressRef }) {
+  const lowRef = useRef<THREE.PointLight>(null);
+  const highRef = useRef<THREE.PointLight>(null);
+
+  useFrame(() => {
+    const p = progressRef.current.value;
+    const gain = 0.25 + 0.75 * duskValue(p);
+    const low = lowRef.current;
+    const high = highRef.current;
+    if (low) low.intensity = 26 * floorLightAt(p, 1) * gain;
+    if (high) high.intensity = 30 * floorLightAt(p, FLOORS - 2) * gain;
+  });
+
+  return (
+    <>
+      <pointLight
+        ref={lowRef}
+        position={[0, FLOOR_H * 1.6, 0]}
+        color="#ffb877"
+        intensity={0}
+        distance={26}
+        decay={2}
+      />
+      <pointLight
+        ref={highRef}
+        position={[0, TOP - FLOOR_H * 1.4, 0]}
+        color="#ffc48c"
+        intensity={0}
+        distance={30}
+        decay={2}
+      />
+    </>
   );
 }
 
@@ -1075,6 +1370,7 @@ function Building({ progressRef }: { progressRef: ProgressRef }) {
         <Level key={i} index={i} progressRef={progressRef} assets={assets} />
       ))}
       <RoofCrown progressRef={progressRef} />
+      <InteriorGlow progressRef={progressRef} />
     </group>
   );
 }

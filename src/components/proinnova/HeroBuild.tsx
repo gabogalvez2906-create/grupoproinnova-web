@@ -5,7 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import MagneticButton from "./MagneticButton";
 import { BUILDING_FLOORS } from "./site";
-import { TIMELINE, floorsBuiltAt, stageAt, type Stage } from "./buildTimeline";
+import { TIMELINE, floorsBuiltAt, floorsLitAt, stageAt, type Stage } from "./buildTimeline";
 
 // three.js is heavy and needs WebGL, so it is split out and only loaded in the browser.
 const BuildingScene = lazy(() => import("./BuildingScene"));
@@ -23,6 +23,7 @@ export default function HeroBuild({ onOverHeroChange }: HeroBuildProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const progressRef = useRef({ value: 0 });
   const [floorsBuilt, setFloorsBuilt] = useState(() => floorsBuiltAt(0));
+  const [floorsLit, setFloorsLit] = useState(() => floorsLitAt(0));
   const [stage, setStage] = useState<Stage>(() => stageAt(0));
   // The page is server-rendered; the WebGL canvas can only mount client-side.
   const [canRender3D, setCanRender3D] = useState(false);
@@ -49,6 +50,7 @@ export default function HeroBuild({ onOverHeroChange }: HeroBuildProps) {
       const sync = (p: number) => {
         progressRef.current.value = p;
         setFloorsBuilt(floorsBuiltAt(p));
+        setFloorsLit(floorsLitAt(p));
         setStage(stageAt(p));
       };
 
@@ -71,6 +73,7 @@ export default function HeroBuild({ onOverHeroChange }: HeroBuildProps) {
           // The pin lasts exactly as long as the hero fills the screen, so it
           // also decides when the nav can stop being transparent.
           onToggle: (self) => onOverHeroChange?.(self.isActive),
+          onRefresh: (self) => onOverHeroChange?.(self.isActive),
         },
       });
 
@@ -104,6 +107,9 @@ export default function HeroBuild({ onOverHeroChange }: HeroBuildProps) {
     },
     { scope: sectionRef },
   );
+
+  const lighting = stage === "Iluminación" || stage === "Entrega";
+  const shown = lighting ? floorsLit : floorsBuilt;
 
   return (
     <section className="hero-build" ref={sectionRef} id="inicio">
@@ -157,15 +163,16 @@ export default function HeroBuild({ onOverHeroChange }: HeroBuildProps) {
       </div>
 
       <div className="hero-build__meter" aria-hidden="true">
-        <span className="hero-build__meter-label">Niveles</span>
+        {/* Once the frame is topped out the meter starts counting lit floors instead. */}
+        <span className="hero-build__meter-label">{lighting ? "Encendidos" : "Niveles"}</span>
         <span className="hero-build__meter-count">
-          {pad(floorsBuilt)}
+          {pad(shown)}
           <span className="hero-build__meter-total">/{pad(BUILDING_FLOORS)}</span>
         </span>
         <div className="hero-build__meter-track">
           <div
             className="hero-build__meter-fill"
-            style={{ height: `${(floorsBuilt / BUILDING_FLOORS) * 100}%` }}
+            style={{ height: `${(shown / BUILDING_FLOORS) * 100}%` }}
           />
         </div>
         <span className="hero-build__meter-stage">{stage}</span>

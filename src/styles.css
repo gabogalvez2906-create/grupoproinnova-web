@@ -340,13 +340,16 @@
     align-items: center;
   }
 
+  /* The mark sits above the wordmark, the way the brand artwork does it: side by
+     side the little pillar and its cap read as letters and swallow the mark. */
   .logo {
     --logo-ink: var(--pi-logo-ink);
     --logo-grey: var(--pi-logo-grey);
     --logo-tan: var(--pi-tan);
     display: inline-flex;
-    align-items: center;
-    gap: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
   }
 
   .logo--on-dark {
@@ -356,9 +359,10 @@
   }
 
   .logo__icon {
-    width: 27px;
-    height: 42px;
+    width: 23px;
+    height: 36px;
     flex: none;
+    margin-left: 2px;
   }
 
   .logo__ink {
@@ -382,7 +386,7 @@
   .logo__word {
     font-family: var(--pi-font-brand);
     font-weight: 300;
-    font-size: 1.16rem;
+    font-size: 1.08rem;
     letter-spacing: 0.2em;
     line-height: 1;
     white-space: nowrap;
@@ -409,16 +413,16 @@
   }
 
   .logo--stacked {
-    gap: 16px;
+    gap: 12px;
   }
 
   .logo--stacked .logo__icon {
-    width: 34px;
-    height: 53px;
+    width: 32px;
+    height: 50px;
   }
 
   .logo--stacked .logo__word {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
   }
 
 

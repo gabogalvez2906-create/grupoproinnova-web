@@ -7,13 +7,13 @@ import { BUILDING_FLOORS } from "./site";
 
 export const TIMELINE = {
   /** Concrete frame rises floor by floor. `head` is how much already stands on the first frame. */
-  structure: { from: 0, to: 0.6, head: 0.3 },
-  /** Glass curtain wall goes on, bottom to top. */
-  facade: { from: 0.56, to: 0.82 },
-  /** Interior and city lights come up as the sun drops. */
-  lights: { from: 0.78, to: 0.96 },
+  structure: { from: 0, to: 0.58, head: 0.26 },
+  /** Glass curtain wall goes on bottom-up, overlapping the last floors of structure. */
+  facade: { from: 0.28, to: 0.84 },
+  /** The sun keeps dropping: how dark the scene has gone. */
+  dusk: { from: 0.3, to: 1 },
   /** Subtitle and call to action appear. */
-  reveal: 0.84,
+  reveal: 0.86,
 } as const;
 
 export const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
@@ -28,7 +28,7 @@ export function structureValue(p: number) {
 }
 
 export const facadeValue = (p: number) => range(p, TIMELINE.facade.from, TIMELINE.facade.to);
-export const lightsValue = (p: number) => range(p, TIMELINE.lights.from, TIMELINE.lights.to);
+export const duskValue = (p: number) => easeInOutCubic(range(p, TIMELINE.dusk.from, TIMELINE.dusk.to));
 
 /**
  * Progress of floor `i` inside a phase value `v` that walks the floors bottom-up.
@@ -38,6 +38,21 @@ export function floorPhase(v: number, i: number, overlap = 1.6) {
   return clamp01((v * (BUILDING_FLOORS - 1 + overlap) - i) / overlap);
 }
 
+/** How far floor `i` is into its curtain wall. */
+export const floorFacadeAt = (p: number, i: number) => floorPhase(facadeValue(p), i, 1.4);
+
+/**
+ * How lit floor `i` is (0 → 1). A floor starts switching its windows on as soon as
+ * its glass is half in, so lights climb the tower behind the facade instead of
+ * waiting for the end. Dusk only decides how much they read against the sky.
+ */
+export function floorLightAt(p: number, i: number) {
+  return easeInOutCubic(range(floorFacadeAt(p, i), 0.45, 1));
+}
+
+/** Overall glow multiplier: faint while the sun is up, full once it is down. */
+export const glowGain = (p: number) => 0.16 + 1.22 * duskValue(p);
+
 export function floorsBuiltAt(p: number) {
   const v = structureValue(p);
   let built = 0;
@@ -45,11 +60,18 @@ export function floorsBuiltAt(p: number) {
   return built;
 }
 
+/** Windows already lit, for the hero meter. */
+export function floorsLitAt(p: number) {
+  let lit = 0;
+  for (let i = 0; i < BUILDING_FLOORS; i++) if (floorLightAt(p, i) >= 0.5) lit++;
+  return lit;
+}
+
 export type Stage = "Estructura" | "Fachada" | "Iluminación" | "Entrega";
 
 export function stageAt(p: number): Stage {
-  if (p < TIMELINE.structure.to) return "Estructura";
-  if (p < TIMELINE.facade.to) return "Fachada";
-  if (p < TIMELINE.lights.to) return "Iluminación";
+  if (p < TIMELINE.facade.from) return "Estructura";
+  if (p < TIMELINE.facade.to - 0.14) return "Fachada";
+  if (p < 0.95) return "Iluminación";
   return "Entrega";
 }
