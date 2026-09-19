@@ -66,7 +66,7 @@ export default function ServicesInteractive() {
     <section className="services" id="servicios">
       <div className="services__heading">
         <span className="eyebrow">Servicios</span>
-        <h2>Soluciones integrales</h2>
+        <h2 data-split>Soluciones integrales</h2>
       </div>
 
       <div className="services__body">
@@ -83,6 +83,7 @@ export default function ServicesInteractive() {
               <span className="services__num">{s.n}</span>
               <span className="services__title">{s.title}</span>
               <span className="services__desc">{s.desc}</span>
+              <span className="services__arrow" aria-hidden="true">↗</span>
             </li>
           ))}
         </ul>
@@ -104,7 +105,7 @@ export default function ServicesInteractive() {
       <div className="services__extra">
         <ScrollReveal>
           <span className="eyebrow">Nuestra especialidad</span>
-          <h3>Dónde entregamos más valor</h3>
+          <h3 data-split>Dónde entregamos más valor</h3>
         </ScrollReveal>
         <ScrollReveal stagger className="especialidad-grid">
           {especialidades.map((e) => (

@@ -86,7 +86,26 @@ export default function ProinnovaHome() {
       <main>
         <HeroBuild onOverHeroChange={setOverHero} />
 
-        <Marquee items={["Innovación", "Calidad", "Confianza", "Excelencia"]} />
+        <Marquee
+          items={["Innovación", "Calidad", "Confianza", "Excelencia", "Obra civil", "Acabados"]}
+        />
+
+        <section className="stats" aria-label="Proinnova en cifras">
+          {[
+            { n: 1, label: "Equipo responsable", note: "de la idea a la entrega" },
+            { n: 10, label: "Servicios integrados", note: "bajo un mismo techo" },
+            { n: 6, label: "Pasos de metodología", note: "sin improvisar" },
+            { n: 0, label: "Excusas", note: "una fecha, un estándar" },
+          ].map((s) => (
+            <div className="stats__item" key={s.label}>
+              <span className="stats__num" data-count={s.n}>
+                0
+              </span>
+              <span className="stats__label">{s.label}</span>
+              <span className="stats__note">{s.note}</span>
+            </div>
+          ))}
+        </section>
 
         {/* 1 · Quiénes somos */}
         <section className="about" id="quienes-somos">
@@ -101,7 +120,7 @@ export default function ProinnovaHome() {
           <div className="about__content">
             <ScrollReveal>
               <span className="eyebrow">Quiénes somos</span>
-              <h2>Somos la constructora que entrega lo que promete.</h2>
+              <h2 data-split>Somos la constructora que entrega lo que promete.</h2>
               <p>
                 Un solo equipo responsable de diseño, obra y acabados en Guatemala. Un estándar,
                 una fecha, cero excusas.
@@ -120,20 +139,20 @@ export default function ProinnovaHome() {
         </section>
 
         {/* 2 · Valores */}
-        <section className="section" id="valores">
-          <ScrollReveal>
-            <span className="eyebrow">Valores</span>
-            <h2>Lo que nos define</h2>
-          </ScrollReveal>
-          <ScrollReveal stagger className="pillars">
-            {pillars.map((p) => (
-              <div className="pillar" key={p.n}>
-                <span className="pillar__num">{p.n}</span>
-                <h3>{p.title}</h3>
-                <p>{p.desc}</p>
-              </div>
-            ))}
-          </ScrollReveal>
+        <section className="values" id="valores">
+          <div className="values__inner">
+            <span className="eyebrow eyebrow--light">Valores</span>
+            <h2 data-split>Lo que nos define</h2>
+            <ScrollReveal stagger className="pillars">
+              {pillars.map((p) => (
+                <div className="pillar" key={p.n} data-spot>
+                  <span className="pillar__num">{p.n}</span>
+                  <h3>{p.title}</h3>
+                  <p>{p.desc}</p>
+                </div>
+              ))}
+            </ScrollReveal>
+          </div>
         </section>
 
         {/* 3 · Servicios (incluye Nuestra especialidad) */}
@@ -150,11 +169,7 @@ export default function ProinnovaHome() {
           <div className="cta-final__inner">
             <ScrollReveal>
               <span className="eyebrow eyebrow--light">Contacto</span>
-              <h2>
-                Construyamos juntos
-                <br />
-                tu próximo proyecto.
-              </h2>
+              <h2 data-split>Construyamos juntos tu próximo proyecto.</h2>
               <p className="cta-final__lead">
                 Construimos relaciones de largo plazo a través de proyectos ejecutados con calidad,
                 responsabilidad y excelencia.

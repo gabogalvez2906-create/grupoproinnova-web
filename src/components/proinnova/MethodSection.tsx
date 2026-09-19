@@ -31,7 +31,7 @@ export default function MethodSection() {
       <div className="method__inner">
         <ScrollReveal>
           <span className="eyebrow eyebrow--light">Metodología</span>
-          <h2 className="on-dark">Un método ordenado</h2>
+          <h2 className="on-dark" data-split>Un método ordenado</h2>
           <p className="on-dark-soft method__lead">
             Seis pasos que convierten una idea en una obra entregada, con un solo interlocutor de
             principio a fin.
@@ -40,6 +40,9 @@ export default function MethodSection() {
 
         <ScrollReveal stagger>
           <ol className="method__steps">
+            <li className="method__track" aria-hidden="true">
+              <i data-line />
+            </li>
             {steps.map((step) => (
               <li className="method__step" key={step.n}>
                 <span className="method__num">{step.n}</span>

@@ -33,7 +33,7 @@ export default function ProjectsGallery() {
       <div className="gallery__heading">
         <ScrollReveal>
           <span className="eyebrow">Casos de éxito</span>
-          <h2>De la estructura al detalle</h2>
+          <h2 data-split>De la estructura al detalle</h2>
         </ScrollReveal>
       </div>
 

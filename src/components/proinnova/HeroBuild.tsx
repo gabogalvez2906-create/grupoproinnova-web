@@ -140,13 +140,13 @@ export default function HeroBuild({ onOverHeroChange }: HeroBuildProps) {
           </span>
           <h1 className="hero-build__title">
             <span className="hero-build__line">
-              <span>Construimos</span>
+              <span>Levantamos</span>
             </span>
             <span className="hero-build__line">
-              <span>espacios que</span>
+              <span>lo que Guatemala</span>
             </span>
             <span className="hero-build__line">
-              <span>impulsan negocios.</span>
+              <span>va a recordar.</span>
             </span>
           </h1>
           <p className="hero-build__kicker">
@@ -157,8 +157,8 @@ export default function HeroBuild({ onOverHeroChange }: HeroBuildProps) {
 
         <div className="hero-build__final">
           <p className="hero-build__final-item hero-build__sub">
-            Un solo equipo responsable de diseño, obra y acabados. Un estándar, una fecha, cero
-            excusas.
+            De la primera excavación a la última luz encendida: un solo equipo, un estándar, una
+            fecha, cero excusas.
           </p>
           <div className="hero-build__final-item hero-build__cta">
             <MagneticButton href="#contacto">Agenda una consultoría</MagneticButton>

@@ -408,18 +408,18 @@ function makeFacadeTextures(cols: number, seed: number) {
   g.fillRect(0, 0, w, h);
   e.fillStyle = "#000";
   e.fillRect(0, 0, w, h);
-  // 1.0 = never lit: uLit tops out at 1, so these windows stay dark.
+  // Every window gets a switch-on moment (< 1), so the whole tower ends up lit.
   o.fillStyle = "#fff";
   o.fillRect(0, 0, w, h);
 
   for (let c = 0; c < cols; c++) {
     const x = c * cw;
-    if (rand() < 0.74) {
+    {
       const warm = 28 + rand() * 16;
       const light = 44 + rand() * 20;
       e.fillStyle = `hsl(${warm}, 62%, ${light}%)`;
       // Some rooms have the blinds half down.
-      const top = rand() < 0.3 ? h * (0.15 + rand() * 0.4) : 3;
+      const top = rand() < 0.3 ? h * (0.06 + rand() * 0.1) : 3;
       e.fillRect(x + 2, top, cw - 4, h - top - 3);
       const at = Math.round((0.04 + rand() * 0.82) * 255);
       o.fillStyle = `rgb(${at},${at},${at})`;
@@ -875,12 +875,68 @@ function Crane({ progressRef }: { progressRef: ProgressRef }) {
   const members = useMemo(latticeMatrices, []);
   const hookY = useRef(MAST_H - 4);
 
+  // Night-shift lighting: a string of work lamps up the mast and along the jib,
+  // a floodlight at the trolley and a lit cab, so the crane still reads at dusk.
+  const lampsRef = useRef<THREE.InstancedMesh>(null);
+  const lampMat = useMemo(() => new THREE.MeshBasicMaterial({ color: "#000", toneMapped: false }), []);
+  const floodMat = useMemo(() => new THREE.MeshBasicMaterial({ color: "#000", toneMapped: false }), []);
+  const cabMat = useMemo(() => new THREE.MeshBasicMaterial({ color: "#000", toneMapped: false }), []);
+  const coneMat = useMemo(
+    () =>
+      new THREE.MeshBasicMaterial({
+        color: "#ffd9a0",
+        transparent: true,
+        opacity: 0,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        toneMapped: false,
+      }),
+    [],
+  );
+  useEffect(
+    () => () => {
+      lampMat.dispose();
+      floodMat.dispose();
+      cabMat.dispose();
+      coneMat.dispose();
+    },
+    [lampMat, floodMat, cabMat, coneMat],
+  );
+  // Lamp positions in the crane's local frame (mast) and in the jib frame.
+  const lamps = useMemo(() => {
+    const list: THREE.Matrix4[] = [];
+    const jib = new THREE.Matrix4().compose(
+      new THREE.Vector3(0, MAST_H, 0),
+      new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), JIB_ANGLE),
+      new THREE.Vector3(1, 1, 1),
+    );
+    const put = (v: THREE.Vector3, k: number, m?: THREE.Matrix4) => {
+      const at = m ? v.clone().applyMatrix4(m) : v;
+      list.push(new THREE.Matrix4().compose(at, new THREE.Quaternion(), new THREE.Vector3(k, k, k)));
+    };
+    for (let y = 2.5; y < MAST_H; y += 3.2) {
+      for (const [x, z] of [[0.34, 0.34], [-0.34, -0.34]] as const) put(new THREE.Vector3(x, y, z), 1);
+    }
+    for (let x = -4.6; x <= TROLLEY_X + 2.8; x += 1.6) {
+      put(new THREE.Vector3(x, -0.06, 0.3), 1, jib);
+      put(new THREE.Vector3(x, -0.06, -0.3), 1, jib);
+    }
+    put(new THREE.Vector3(TROLLEY_X + 3, 0.05, 0), 1.7, jib);
+    put(new THREE.Vector3(-5, 0.05, 0), 1.7, jib);
+    return list;
+  }, []);
+
   useLayoutEffect(() => {
     const lattice = latticeRef.current;
     if (!lattice) return;
     members.forEach((m, i) => lattice.setMatrixAt(i, m));
     lattice.instanceMatrix.needsUpdate = true;
-  }, [members]);
+    const lampMesh = lampsRef.current;
+    if (lampMesh) {
+      lamps.forEach((m, i) => lampMesh.setMatrixAt(i, m));
+      lampMesh.instanceMatrix.needsUpdate = true;
+    }
+  }, [members, lamps]);
 
   useFrame(({ clock }, dt) => {
     const p = progressRef.current.value;
@@ -889,6 +945,13 @@ function Crane({ progressRef }: { progressRef: ProgressRef }) {
     const blink = Math.max(Math.exp(-beat * 6), Math.exp(-Math.abs(beat - 0.42) * 8));
     const b = (0.12 + 3.4 * blink) * (0.35 + 0.65 * duskValue(p));
     beacon.color.setRGB(b, b * 0.09, b * 0.06);
+    // Work lights strike up as the sun sets, with a faint shimmer.
+    const on = range(duskValue(p), 0.12, 0.65);
+    const shimmer = 0.94 + 0.06 * Math.sin(clock.elapsedTime * 5.1);
+    lampMat.color.setRGB(2.6 * on * shimmer, 1.9 * on * shimmer, 1.0 * on * shimmer);
+    floodMat.color.setRGB(5 * on, 4.2 * on, 3 * on);
+    cabMat.color.setRGB(2.4 * on, 1.7 * on, 0.8 * on);
+    coneMat.opacity = 0.16 * on;
     // Follow whichever slab is currently being lowered.
     let target = MAST_H - 4;
     for (let i = FLOORS - 1; i >= 0; i--) {
@@ -916,6 +979,10 @@ function Crane({ progressRef }: { progressRef: ProgressRef }) {
         <meshStandardMaterial color="#a98b62" roughness={0.55} metalness={0.35} />
       </instancedMesh>
 
+      <instancedMesh ref={lampsRef} args={[undefined, undefined, lamps.length]} material={lampMat} frustumCulled={false}>
+        <sphereGeometry args={[0.11, 8, 6]} />
+      </instancedMesh>
+
       <mesh position={[0, MAST_H + 1.15, 0]} material={beacon}>
         <sphereGeometry args={[0.17, 10, 8]} />
       </mesh>
@@ -930,6 +997,14 @@ function Crane({ progressRef }: { progressRef: ProgressRef }) {
           <boxGeometry args={[0.8, 0.75, 0.7]} />
           <meshStandardMaterial color="#d9d2c4" roughness={0.4} metalness={0.2} />
         </mesh>
+        {/* lit cab window */}
+        <mesh position={[0.75, -0.45, 0.81]} material={cabMat}>
+          <planeGeometry args={[0.55, 0.32]} />
+        </mesh>
+        {/* floodlight head on the trolley, throwing a cone of light on the work */}
+        <mesh position={[TROLLEY_X, -0.22, 0.3]} material={floodMat}>
+          <sphereGeometry args={[0.16, 10, 8]} />
+        </mesh>
         <group position={[TROLLEY_X, 0, 0]}>
           <mesh ref={cableRef}>
             <cylinderGeometry args={[0.012, 0.012, 1, 5]} />
@@ -939,6 +1014,12 @@ function Crane({ progressRef }: { progressRef: ProgressRef }) {
             <mesh castShadow>
               <boxGeometry args={[0.28, 0.4, 0.2]} />
               <meshStandardMaterial color="#e0a431" roughness={0.5} metalness={0.3} />
+            </mesh>
+            <mesh position={[0, -1.4, 0]} material={coneMat}>
+              <coneGeometry args={[1.5, 2.8, 24, 1, true]} />
+            </mesh>
+            <mesh position={[0, 0.3, 0]} material={floodMat}>
+              <sphereGeometry args={[0.1, 8, 6]} />
             </mesh>
           </group>
         </group>
