@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, type RefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Bloom, EffectComposer, ToneMapping, Vignette } from "@react-three/postprocessing";
+import { Bloom, EffectComposer, SMAA, ToneMapping, Vignette } from "@react-three/postprocessing";
 import { ToneMappingMode, type BloomEffect } from "postprocessing";
 import * as THREE from "three";
 
@@ -20,6 +20,7 @@ import {
 } from "./buildTimeline";
 
 type ProgressRef = { current: { value: number } };
+
 
 /* ---------------------------------------------------------------- geometry */
 
@@ -1129,7 +1130,15 @@ function Dust() {
 
 /* ---------------------------------------------------------------- lights & camera */
 
-function Lighting({ progressRef, shadows }: { progressRef: ProgressRef; shadows: boolean }) {
+function Lighting({
+  progressRef,
+  shadows,
+  shadowSize,
+}: {
+  progressRef: ProgressRef;
+  shadows: boolean;
+  shadowSize: number;
+}) {
   const sunRef = useRef<THREE.DirectionalLight>(null);
   const fillRef = useRef<THREE.DirectionalLight>(null);
   const hemiRef = useRef<THREE.HemisphereLight>(null);
@@ -1179,7 +1188,7 @@ function Lighting({ progressRef, shadows }: { progressRef: ProgressRef; shadows:
         color="#ffab66"
         intensity={3.4}
         castShadow={shadows}
-        shadow-mapSize={[2048, 2048]}
+        shadow-mapSize={[shadowSize, shadowSize]}
         shadow-bias={-0.0004}
         shadow-normalBias={0.03}
       />
@@ -1272,6 +1281,27 @@ function CameraRig({ progressRef, onReady }: { progressRef: ProgressRef; onReady
 
 /* ---------------------------------------------------------------- canvas */
 
+/**
+ * Integrated GPUs render this scene at roughly a third of the speed of a
+ * discrete one, so they get fewer pixels and a smaller shadow map rather than a
+ * slideshow. Read once, before the canvas exists.
+ */
+function detectGpuTier(): "high" | "low" {
+  if (typeof document === "undefined") return "high";
+  try {
+    const probe = document.createElement("canvas");
+    const gl = probe.getContext("webgl2") ?? probe.getContext("webgl");
+    if (!gl) return "low";
+    const info = gl.getExtension("WEBGL_debug_renderer_info");
+    const name = info ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL)) : "";
+    return /Intel|Mali|Adreno|PowerVR|SwiftShader|llvmpipe|Microsoft Basic/i.test(name)
+      ? "low"
+      : "high";
+  } catch {
+    return "low";
+  }
+}
+
 export default function BuildingScene({
   progressRef,
   active = true,
@@ -1283,11 +1313,13 @@ export default function BuildingScene({
 }) {
   const coarse = typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches;
   const bloomRef = useRef<BloomEffect>(null);
+  const tier = useMemo(detectGpuTier, []);
+  const light = coarse || tier === "low";
 
   return (
     <Canvas
       frameloop={active ? "always" : "never"}
-      dpr={[1, coarse ? 1.5 : 1.75]}
+      dpr={[1, light ? 1.25 : 1.75]}
       shadows={!coarse}
       camera={{ fov: 36, near: 0.5, far: 2000, position: [-18, 2, 26] }}
       gl={{ antialias: false, powerPreference: "high-performance" }}
@@ -1298,7 +1330,7 @@ export default function BuildingScene({
 
       <SkyEnvironment />
       <Sky progressRef={progressRef} />
-      <Lighting progressRef={progressRef} shadows={!coarse} />
+      <Lighting progressRef={progressRef} shadows={!coarse} shadowSize={light ? 1024 : 2048} />
       <CameraRig progressRef={progressRef} onReady={onReady} />
 
       <City progressRef={progressRef} />
@@ -1310,7 +1342,9 @@ export default function BuildingScene({
 
       <BloomDriver progressRef={progressRef} bloomRef={bloomRef} />
 
-      <EffectComposer multisampling={coarse ? 0 : 4}>
+      {/* multisampling stays 0: MSAA + the bloom mipmap blur render black on
+          Intel/ANGLE-D3D11. SMAA below does the anti-aliasing instead. */}
+      <EffectComposer multisampling={0}>
         <Bloom
           ref={bloomRef}
           mipmapBlur
@@ -1321,6 +1355,7 @@ export default function BuildingScene({
         />
         <Vignette offset={0.28} darkness={0.6} />
         <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
+        {!light && <SMAA />}
       </EffectComposer>
     </Canvas>
   );
