@@ -599,7 +599,8 @@
     justify-content: flex-end;
     max-width: var(--pi-container);
     margin: 0 auto;
-    padding: 0 var(--pi-edge) 88px;
+    /* top padding reserves the fixed nav (stacked logo ≈ 100px) so the copy never slides under it */
+    padding: 100px var(--pi-edge) 64px;
     pointer-events: none;
   }
 
@@ -609,7 +610,7 @@
 
   .hero-build__title {
     color: var(--pi-on-dark);
-    font-size: clamp(2.6rem, 7vw, 6.2rem);
+    font-size: clamp(2.6rem, min(7vw, 9.5vh), 6.2rem);
     margin: 12px 0 24px;
     text-shadow: 0 2px 30px oklch(0.16 0.012 40 / 0.45);
   }
