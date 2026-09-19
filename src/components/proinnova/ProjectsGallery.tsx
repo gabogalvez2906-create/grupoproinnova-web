@@ -40,7 +40,7 @@ export default function ProjectsGallery() {
       <ScrollReveal stagger className="gallery__grid">
         {projects.map((p) => (
           <figure className={`gallery__item ${p.span}`} key={p.title} tabIndex={0}>
-            <img src={p.img} alt={p.title} loading="lazy" />
+            <img src={p.img} alt={p.title} loading="lazy" data-parallax />
             <figcaption>
               <span className="gallery__tag">{p.tag}</span>
               <span className="gallery__title">{p.title}</span>

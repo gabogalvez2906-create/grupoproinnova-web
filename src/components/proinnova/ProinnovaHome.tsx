@@ -10,6 +10,7 @@ import HeroBuild from "./HeroBuild";
 import MagneticButton from "./MagneticButton";
 import Marquee from "./Marquee";
 import ScrollReveal from "./ScrollReveal";
+import ScrollEffects from "./ScrollEffects";
 import ServicesInteractive from "./ServicesInteractive";
 import MethodSection from "./MethodSection";
 import ProjectsGallery from "./ProjectsGallery";
@@ -61,6 +62,7 @@ export default function ProinnovaHome() {
   return (
     <div ref={rootRef}>
       <SmoothScroll />
+      <ScrollEffects />
       <Cursor />
 
       <header className={`nav ${overHero ? "nav--over-hero" : ""}`}>
@@ -88,11 +90,12 @@ export default function ProinnovaHome() {
 
         {/* 1 · Quiénes somos */}
         <section className="about" id="quienes-somos">
-          <div className="about__media">
+          <div className="about__media" data-zoom-reveal>
             <img
               src={ingenierosPlanos}
               alt="Ingenieros de Proinnova revisando planos en obra"
               loading="lazy"
+              data-parallax
             />
           </div>
           <div className="about__content">

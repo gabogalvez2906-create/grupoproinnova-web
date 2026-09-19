@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import ScrollReveal from "./ScrollReveal";
+import Tilt from "./Tilt";
 
 import showroomSala from "../../assets/obra/showroom-sala-clientes.jpg";
 import torreResidencial from "../../assets/obra/torre-residencial.jpg";
@@ -107,7 +108,7 @@ export default function ServicesInteractive() {
         </ScrollReveal>
         <ScrollReveal stagger className="especialidad-grid">
           {especialidades.map((e) => (
-            <div className="especialidad-card" key={e.n}>
+            <Tilt className="especialidad-card" key={e.n}>
               <img src={e.img} alt="" loading="lazy" />
               <div className="especialidad-card__overlay" />
               <div className="especialidad-card__content">
@@ -115,7 +116,7 @@ export default function ServicesInteractive() {
                 <h3 className="on-dark">{e.title}</h3>
                 <p className="on-dark-soft">{e.desc}</p>
               </div>
-            </div>
+            </Tilt>
           ))}
         </ScrollReveal>
       </div>

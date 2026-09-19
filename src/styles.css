@@ -1434,3 +1434,55 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ---------- scroll & pointer effects (ScrollEffects.tsx, Tilt.tsx) ---------- */
+/* Parallax images are oversized so the drift never exposes the frame edge. GSAP owns
+   `transform` (yPercent); zoom lives on the individual `scale` property so the two
+   compose, and the old transform transition must go or it would lag the scrub. */
+[data-parallax] {
+  scale: 1.16;
+  transition: scale 700ms ease !important;
+  will-change: transform;
+}
+
+.gallery__item:hover [data-parallax],
+.about__media:hover [data-parallax] {
+  scale: 1.24;
+  transform-origin: center;
+}
+
+.about__media {
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.tilt {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.tilt__glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms ease;
+  background: radial-gradient(
+    circle at var(--glare-x, 50%) var(--glare-y, 50%),
+    oklch(1 0 0 / 0.22),
+    transparent 55%
+  );
+}
+
+.tilt:hover .tilt__glare {
+  opacity: 1;
+}
+
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  [data-parallax] {
+    scale: 1;
+  }
+  .tilt__glare {
+    display: none;
+  }
+}
