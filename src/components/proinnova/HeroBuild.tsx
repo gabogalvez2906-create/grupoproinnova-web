@@ -14,7 +14,12 @@ gsap.registerPlugin(ScrollTrigger);
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-export default function HeroBuild() {
+interface HeroBuildProps {
+  /** Lets the fixed nav flip to its light-on-dark variant while the hero fills the screen. */
+  onOverHeroChange?: (over: boolean) => void;
+}
+
+export default function HeroBuild({ onOverHeroChange }: HeroBuildProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const progressRef = useRef({ value: 0 });
   const [floorsBuilt, setFloorsBuilt] = useState(() => floorsBuiltAt(0));
@@ -50,6 +55,8 @@ export default function HeroBuild() {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         sync(1);
         gsap.set(".hero-build__final", { opacity: 1 });
+        // Without the pin there is no hero-sized band for the nav to sit over.
+        onOverHeroChange?.(false);
         return;
       }
 
@@ -61,6 +68,9 @@ export default function HeroBuild() {
           pin: true,
           scrub: 1,
           onUpdate: (self) => sync(self.progress),
+          // The pin lasts exactly as long as the hero fills the screen, so it
+          // also decides when the nav can stop being transparent.
+          onToggle: (self) => onOverHeroChange?.(self.isActive),
         },
       });
 

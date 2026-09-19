@@ -10,6 +10,8 @@ import oficinaLounge from "../../assets/obra/oficina-lounge.jpg";
 import edificioAndamios from "../../assets/obra/edificio-andamios-malla.jpg";
 import estructuraConcreto from "../../assets/obra/estructura-concreto-multinivel.jpg";
 import interiorObraGris from "../../assets/obra/interior-obra-gris-atardecer.jpg";
+import logoElValle from "../../assets/obra/logo-centro-educativo-el-valle.jpg";
+import logoPremium from "../../assets/obra/logo-premium-restaurants.jpg";
 
 // Captions describe what each catalog photo shows; swap in real project names when available.
 const projects = [
@@ -27,10 +29,10 @@ const projects = [
 
 export default function ProjectsGallery() {
   return (
-    <section className="gallery" id="proyectos">
+    <section className="gallery" id="casos">
       <div className="gallery__heading">
         <ScrollReveal>
-          <span className="eyebrow">Proyectos</span>
+          <span className="eyebrow">Casos de éxito</span>
           <h2>De la estructura al detalle</h2>
         </ScrollReveal>
       </div>
@@ -46,6 +48,16 @@ export default function ProjectsGallery() {
           </figure>
         ))}
       </ScrollReveal>
+
+      <div className="casos__clients">
+        <ScrollReveal>
+          <span className="eyebrow">Clientes</span>
+        </ScrollReveal>
+        <ScrollReveal stagger className="clients">
+          <img src={logoElValle} alt="Centro Educativo El Valle" loading="lazy" />
+          <img src={logoPremium} alt="Premium Restaurants of America" loading="lazy" />
+        </ScrollReveal>
+      </div>
     </section>
   );
 }

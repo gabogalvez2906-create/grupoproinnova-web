@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import ScrollReveal from "./ScrollReveal";
+
 import showroomSala from "../../assets/obra/showroom-sala-clientes.jpg";
 import torreResidencial from "../../assets/obra/torre-residencial.jpg";
 import excavadora from "../../assets/obra/excavadora-terreno.jpg";
@@ -10,6 +12,9 @@ import muroGaviones from "../../assets/obra/muro-gaviones.jpg";
 import oficinaIluminacion from "../../assets/obra/oficina-iluminacion.jpg";
 import movimientoTierra from "../../assets/obra/movimiento-de-tierra.jpg";
 import obrerosColado from "../../assets/obra/obreros-colado-losa.jpg";
+import estructuraConcreto from "../../assets/obra/estructura-concreto-multinivel.jpg";
+import oficinaRemodelacion from "../../assets/obra/oficina-remodelacion-tablayeso.jpg";
+import recepcionCorporativa from "../../assets/obra/recepcion-corporativa.jpg";
 
 const services = [
   { n: "01", title: "Remodelaciones", desc: "Renovación de espacios", img: showroomSala },
@@ -22,6 +27,35 @@ const services = [
   { n: "08", title: "Instalaciones Eléctricas", desc: "Baja y media tensión", img: oficinaIluminacion },
   { n: "09", title: "Movimientos de Tierra", desc: "Corte, relleno y nivelación", img: movimientoTierra },
   { n: "10", title: "Project Management", desc: "Tiempo, costo y calidad", img: obrerosColado },
+];
+
+// Lines where a whole project is handed to one team. These used to be a section
+// of their own ("Nuestra especialidad") right next to this one.
+const especialidades = [
+  {
+    n: "01",
+    title: "Contratista general",
+    desc: "Coordinamos toda la obra bajo un solo responsable, de principio a fin.",
+    img: estructuraConcreto,
+  },
+  {
+    n: "02",
+    title: "Obra civil",
+    desc: "Movimiento de tierras, cimentaciones e infraestructura que perdura.",
+    img: movimientoTierra,
+  },
+  {
+    n: "03",
+    title: "Remodelaciones",
+    desc: "Transformamos espacios existentes en entornos modernos y funcionales.",
+    img: oficinaRemodelacion,
+  },
+  {
+    n: "04",
+    title: "Acabados",
+    desc: "Superficies, detalles y terminaciones de alta gama que definen la calidad.",
+    img: recepcionCorporativa,
+  },
 ];
 
 export default function ServicesInteractive() {
@@ -64,6 +98,26 @@ export default function ServicesInteractive() {
             />
           ))}
         </div>
+      </div>
+
+      <div className="services__extra">
+        <ScrollReveal>
+          <span className="eyebrow">Nuestra especialidad</span>
+          <h3>Dónde entregamos más valor</h3>
+        </ScrollReveal>
+        <ScrollReveal stagger className="especialidad-grid">
+          {especialidades.map((e) => (
+            <div className="especialidad-card" key={e.n}>
+              <img src={e.img} alt="" loading="lazy" />
+              <div className="especialidad-card__overlay" />
+              <div className="especialidad-card__content">
+                <span className="pillar__num">{e.n}</span>
+                <h3 className="on-dark">{e.title}</h3>
+                <p className="on-dark-soft">{e.desc}</p>
+              </div>
+            </div>
+          ))}
+        </ScrollReveal>
       </div>
     </section>
   );

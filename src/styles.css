@@ -87,13 +87,13 @@
   --muted-foreground: oklch(0.514 0.016 88.8);
   --accent: oklch(0.927 0.026 84.6);
   --accent-foreground: oklch(0.178 0.006 91.7);
-  --brand: oklch(0.545 0.082 78.7);
+  --brand: oklch(0.535 0.053 79);
   --brand-foreground: oklch(0.968 0.006 84.6);
   --destructive: oklch(0.501 0.178 28.7);
   --destructive-foreground: oklch(0.968 0.006 84.6);
   --border: oklch(0.873 0.014 88.7);
   --input: oklch(0.873 0.014 88.7);
-  --ring: oklch(0.645 0.096 77.8);
+  --ring: oklch(0.589 0.054 80.6);
   --chart-1: oklch(0.645 0.096 77.8);
   --chart-2: oklch(0.178 0.006 91.7);
   --chart-3: oklch(0.748 0.099 86.1);
@@ -111,22 +111,26 @@
   /* Site tokens used by the hand-built sections (src/components/proinnova). */
   --pi-bg: oklch(0.968 0.006 84.6);
   --pi-bg-alt: oklch(0.928 0.01 87.5);
-  --pi-ink: oklch(0.178 0.006 91.7);
-  --pi-ink-soft: oklch(0.398 0.014 89.8);
+  --pi-ink: oklch(0.288 0.004 106.6);
+  --pi-ink-soft: oklch(0.432 0.008 100);
   --pi-grey: oklch(0.514 0.016 88.8);
   --pi-line: oklch(0.873 0.014 88.7);
-  --pi-accent: oklch(0.545 0.082 78.7);
-  --pi-accent-dim: oklch(0.47 0.075 78.7);
-  --pi-gold: oklch(0.748 0.099 86.1);
-  --pi-gold-deep: oklch(0.645 0.096 77.8);
-  --pi-gold-light: oklch(0.814 0.08 86.1);
+  --pi-accent: oklch(0.535 0.053 79);
+  --pi-accent-dim: oklch(0.464 0.039 72.5);
+  --pi-tan: oklch(0.718 0.051 80.1);
+  --pi-tan-deep: oklch(0.589 0.054 80.6);
+  --pi-tan-light: oklch(0.813 0.042 83.1);
   --pi-on-dark: oklch(0.968 0.006 84.6);
   --pi-on-dark-soft: oklch(0.78 0.012 88);
-  --pi-dark: oklch(0.178 0.006 91.7);
-  --pi-dark-alt: oklch(0.223 0.01 88.8);
+  --pi-dark: oklch(0.226 0.004 106.7);
+  --pi-dark-alt: oklch(0.268 0.005 106.8);
+  /* Exact brand marks, used only by the logo lockup. */
+  --pi-logo-ink: oklch(0.348 0.003 106.6);
+  --pi-logo-grey: oklch(0.631 0.009 114.3);
 
   --pi-font-display: "Bebas Neue", "Arial Narrow", sans-serif;
   --pi-font-body: "Source Sans 3", system-ui, sans-serif;
+  --pi-font-brand: "Jost", "Futura", "Century Gothic", sans-serif;
 
   --pi-container: 1320px;
   --pi-edge: clamp(20px, 5vw, 64px);
@@ -230,7 +234,7 @@
   }
 
   .eyebrow--light {
-    color: var(--pi-gold-light);
+    color: var(--pi-tan-light);
   }
 
   .on-dark {
@@ -269,6 +273,7 @@
 
   /* One scale for every section title, whichever wrapper it sits in. */
   .section h2,
+  .method h2,
   .services__heading h2,
   .process__heading h2,
   .gallery__heading h2 {
@@ -291,13 +296,13 @@
   .cursor-dot {
     width: 8px;
     height: 8px;
-    background: var(--pi-gold-deep);
+    background: var(--pi-tan-deep);
   }
 
   .cursor-ring {
     width: 40px;
     height: 40px;
-    border: 1px solid var(--pi-gold-deep);
+    border: 1px solid var(--pi-tan-deep);
   }
 
   @media (hover: none) {
@@ -336,31 +341,86 @@
   }
 
   .logo {
+    --logo-ink: var(--pi-logo-ink);
+    --logo-grey: var(--pi-logo-grey);
+    --logo-tan: var(--pi-tan);
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
+  }
+
+  .logo--on-dark {
+    --logo-ink: var(--pi-on-dark);
+    --logo-grey: oklch(0.78 0.012 88);
+    --logo-tan: var(--pi-tan-light);
   }
 
   .logo__icon {
-    width: 30px;
-    height: 30px;
+    width: 27px;
+    height: 42px;
     flex: none;
   }
 
+  .logo__ink {
+    fill: var(--logo-ink);
+  }
+
+  .logo__tan {
+    fill: var(--logo-tan);
+  }
+
+  .logo__grey {
+    fill: var(--logo-grey);
+  }
+
+  .logo__lockup {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
   .logo__word {
-    font-family: var(--pi-font-display);
-    font-size: 1.45rem;
-    letter-spacing: 0.04em;
+    font-family: var(--pi-font-brand);
+    font-weight: 300;
+    font-size: 1.16rem;
+    letter-spacing: 0.2em;
     line-height: 1;
+    white-space: nowrap;
   }
 
   .logo__word-pro {
-    color: var(--pi-ink);
+    color: var(--logo-ink);
+    font-weight: 400;
   }
 
   .logo__word-innova {
-    color: var(--pi-gold-deep);
+    color: var(--logo-tan);
   }
+
+  .logo__tagline {
+    font-family: var(--pi-font-brand);
+    font-weight: 300;
+    font-size: 0.6rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--logo-grey);
+    padding-top: 6px;
+    border-top: 1px solid color-mix(in oklab, var(--logo-grey) 45%, transparent);
+  }
+
+  .logo--stacked {
+    gap: 16px;
+  }
+
+  .logo--stacked .logo__icon {
+    width: 34px;
+    height: 53px;
+  }
+
+  .logo--stacked .logo__word {
+    font-size: 1.4rem;
+  }
+
 
   .nav__links {
     display: flex;
@@ -397,6 +457,50 @@
     .nav__links {
       display: none;
     }
+  }
+
+  /* Over the hero the bar goes transparent and the mark flips to its light
+     version, so the logo is never lost against the 3D sky. */
+  .nav {
+    transition: background-color 400ms ease, border-color 400ms ease;
+  }
+
+  .nav--over-hero {
+    background: transparent;
+    backdrop-filter: none;
+    border-bottom-color: transparent;
+  }
+
+  .nav--over-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 220%;
+    background: linear-gradient(
+      to bottom,
+      oklch(0.18 0.01 60 / 0.55),
+      oklch(0.18 0.01 60 / 0)
+    );
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .nav--over-hero .nav__links a {
+    color: var(--pi-on-dark);
+  }
+
+  .nav--over-hero .nav__links a::after {
+    background: var(--pi-tan-light);
+  }
+
+  .nav--over-hero .magnetic-btn--outline {
+    border-color: oklch(0.968 0.006 84.6 / 0.6);
+    color: var(--pi-on-dark);
+  }
+
+  .nav--over-hero .magnetic-btn--outline:hover {
+    background: var(--pi-on-dark);
+    color: var(--pi-ink);
   }
 
   /* ---------- magnetic button ---------- */
@@ -538,7 +642,7 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: var(--pi-gold);
+    background: var(--pi-tan);
     animation: hero-kicker 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
   }
 
@@ -600,14 +704,14 @@
   }
 
   .hero-build__meter-stage {
-    color: var(--pi-gold-light);
+    color: var(--pi-tan-light);
   }
 
   .hero-build__meter-count {
     font-family: var(--pi-font-display);
     font-size: 1.5rem;
     line-height: 1;
-    color: var(--pi-gold);
+    color: var(--pi-tan);
     font-variant-numeric: tabular-nums;
   }
 
@@ -628,8 +732,8 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    background: var(--pi-gold);
-    box-shadow: 0 0 12px var(--pi-gold);
+    background: var(--pi-tan);
+    box-shadow: 0 0 12px var(--pi-tan);
     transition: height 400ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
@@ -676,14 +780,14 @@
   }
 
   .marquee__dot {
-    color: var(--pi-gold-deep);
+    color: var(--pi-tan-deep);
     font-size: 0.8rem;
   }
 
-  /* ---------- split (quienes somos) ---------- */
-  .split {
+  /* ---------- quienes somos ---------- */
+  .about {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 0.9fr 1.1fr;
     max-width: var(--pi-container);
     margin: 0 auto;
     gap: 64px;
@@ -691,51 +795,46 @@
     align-items: center;
   }
 
-  .split__media img {
+  .about__media img {
     width: 100%;
     aspect-ratio: 4 / 5;
     object-fit: cover;
     border-radius: 4px;
   }
 
-  .split__content h2 {
+  .about__content h2 {
     font-size: clamp(2rem, 4vw, 3.2rem);
     margin-bottom: 24px;
   }
 
-  .split__content p {
+  .about__content p {
     color: var(--pi-ink-soft);
-    max-width: 48ch;
     margin-bottom: 16px;
+    /* Justified with hyphenation: long Spanish words otherwise open rivers. */
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
   }
 
-  @media (max-width: 900px) {
-    .split {
-      grid-template-columns: 1fr;
-      padding: 80px var(--pi-edge);
-    }
+  .about__quote {
+    margin: 36px 0 0;
+    padding-left: 26px;
+    border-left: 2px solid var(--pi-tan);
+    font-family: var(--pi-font-display);
+    font-size: clamp(1.6rem, 2.8vw, 2.5rem);
+    line-height: 1.05;
+    color: var(--pi-ink);
   }
 
-  /* ---------- statement ---------- */
-  .statement {
-    padding: 100px var(--pi-edge);
-    max-width: var(--pi-container);
-    margin: 0 auto;
-  }
-
-  .statement__inner h2 {
-    font-size: clamp(2.2rem, 5.5vw, 4.8rem);
-    max-width: 20ch;
-  }
-
-  .statement__accent {
+  .about__quote span {
     color: var(--pi-accent);
   }
 
-  .statement--compromiso {
-    background: var(--pi-bg-alt);
-    max-width: none;
-    padding: 120px var(--pi-gutter);
+  @media (max-width: 900px) {
+    .about {
+      grid-template-columns: 1fr;
+      padding: 80px var(--pi-edge);
+    }
   }
 
   /* ---------- pillars ---------- */
@@ -750,7 +849,7 @@
 
   .pillar {
     background: var(--pi-bg);
-    padding: 40px 32px;
+    padding: 32px 28px;
   }
 
   .pillar__num {
@@ -762,7 +861,7 @@
   }
 
   .section--dark .pillar__num {
-    color: var(--pi-gold);
+    color: var(--pi-tan);
   }
 
   .pillar h3 {
@@ -950,179 +1049,133 @@
     }
   }
 
-  /* ---------- process timeline (pinned) ---------- */
-  .process {
-    background: var(--pi-bg-alt);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
+  /* ---------- metodologia ---------- */
+  .method {
+    background: var(--pi-dark);
+    padding: 120px 0;
   }
 
-  .process__inner {
+  .method__inner {
     max-width: var(--pi-container);
     margin: 0 auto;
     padding: 0 var(--pi-edge);
-    width: 100%;
   }
 
-  .process__heading {
-    margin-bottom: 56px;
-  }
-
-  .process__body {
-    display: grid;
-    grid-template-columns: 40px 1fr;
-    gap: 32px;
-  }
-
-  .process__rail-track {
-    position: relative;
-    width: 2px;
-    height: 100%;
-    background: var(--pi-line);
-    margin: 0 auto;
-  }
-
-  .process__rail-progress {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--pi-accent);
-    transform-origin: top;
-    transform: scaleY(0);
-  }
-
-  .process__list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
-  }
-
-  .process__step {
-    display: grid;
-    grid-template-columns: 60px 1fr;
-    gap: 20px;
-    align-items: start;
-    opacity: 0.35;
-    transition: opacity 350ms ease;
-  }
-
-  .process__step.is-active {
-    opacity: 1;
-  }
-
-  .process__num {
-    font-family: var(--pi-font-display);
-    font-size: 1.8rem;
-    color: var(--pi-accent);
-  }
-
-  .process__step h3 {
-    font-size: 1.6rem;
-    margin-bottom: 6px;
-  }
-
-  .process__step p {
-    color: var(--pi-ink-soft);
-  }
-
-  @media (max-width: 700px) {
-    .process__body {
-      grid-template-columns: 1fr;
-    }
-    .process__rail {
-      display: none;
-    }
-  }
-
-  /* ---------- certeza ---------- */
-  .certeza {
-    display: grid;
-    grid-template-columns: 0.9fr 1.1fr;
-    gap: 64px;
-  }
-
-  .certeza__intro h2 {
-    font-size: clamp(2rem, 4vw, 3.2rem);
-    margin-bottom: 20px;
-  }
-
-  .certeza__intro p {
-    color: var(--pi-ink-soft);
-    max-width: 42ch;
-  }
-
-  .certeza__list {
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
-  }
-
-  .certeza__item {
-    display: grid;
-    grid-template-columns: 48px 1fr;
-    gap: 16px;
-    padding-bottom: 28px;
-    border-bottom: 1px solid var(--pi-line);
-  }
-
-  .certeza__item h3 {
-    font-size: 1.2rem;
-    margin-bottom: 6px;
-  }
-
-  .certeza__item p {
-    color: var(--pi-ink-soft);
-    font-size: 0.95rem;
-  }
-
-  @media (max-width: 900px) {
-    .certeza {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  /* ---------- alcance ---------- */
-  .alcance__lead {
-    max-width: 52ch;
+  .method__lead {
+    max-width: 58ch;
     margin-top: 16px;
   }
 
-  .alcance {
+  .method__steps {
+    list-style: none;
+    margin: 56px 0 0;
+    padding: 0;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 32px;
-    margin-top: 56px;
-    padding-top: 40px;
-    border-top: 1px solid oklch(0.968 0.006 84.6 / 0.15);
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0 28px;
+    border-top: 1px solid oklch(0.968 0.006 84.6 / 0.18);
   }
 
-  .alcance__index {
+  .method__step {
+    position: relative;
+    padding-top: 28px;
+  }
+
+  .method__step::before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: 0;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--pi-tan);
+  }
+
+  .method__num {
     display: block;
     font-family: var(--pi-font-display);
-    font-size: 2rem;
-    color: var(--pi-gold);
-    margin-bottom: 14px;
-  }
-
-  .alcance__item h3 {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
+    color: var(--pi-tan);
     margin-bottom: 10px;
   }
 
-  @media (max-width: 900px) {
-    .alcance {
-      grid-template-columns: 1fr 1fr;
+  .method__step h3 {
+    font-size: 1.45rem;
+    color: var(--pi-on-dark);
+    margin-bottom: 8px;
+  }
+
+  .method__step p {
+    color: var(--pi-on-dark-soft);
+    font-size: 0.95rem;
+  }
+
+  .method__band {
+    margin-top: 88px;
+    padding-top: 56px;
+    border-top: 1px solid oklch(0.968 0.006 84.6 / 0.18);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+  }
+
+  .method__band h3 {
+    font-size: clamp(1.5rem, 2.4vw, 2rem);
+    color: var(--pi-on-dark);
+  }
+
+  .method__band-lead {
+    color: var(--pi-on-dark-soft);
+    margin-top: 12px;
+    max-width: 46ch;
+  }
+
+  .method__list {
+    list-style: none;
+    margin: 28px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px 28px;
+  }
+
+  .method__list strong {
+    display: block;
+    font-weight: 600;
+    color: var(--pi-tan-light);
+    margin-bottom: 4px;
+  }
+
+  .method__list p {
+    color: var(--pi-on-dark-soft);
+    font-size: 0.92rem;
+  }
+
+  @media (max-width: 1100px) {
+    .method__steps {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px 28px;
+      /* Wrapped rows need their own rule, otherwise the dots float loose. */
+      border-top: none;
+    }
+    .method__step {
+      border-top: 1px solid oklch(0.968 0.006 84.6 / 0.18);
     }
   }
 
-  @media (max-width: 560px) {
-    .alcance {
+  @media (max-width: 860px) {
+    .method__band {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .method__steps {
+      grid-template-columns: 1fr 1fr;
+    }
+    .method__list {
       grid-template-columns: 1fr;
     }
   }
@@ -1200,7 +1253,7 @@
     font-size: 0.72rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--pi-gold);
+    color: var(--pi-tan);
   }
 
   .gallery__title {
@@ -1297,7 +1350,7 @@
   }
 
   .cta-final__info a:hover {
-    color: var(--pi-gold-light);
+    color: var(--pi-tan-light);
   }
 
   @media (max-width: 900px) {
@@ -1311,6 +1364,44 @@
       grid-template-columns: 1fr;
       gap: 24px;
     }
+  }
+
+  /* ---------- extras added by the reorganised page ---------- */
+  /* Especialidades now live inside Servicios instead of their own band. */
+  .services__extra {
+    margin-top: 104px;
+    padding-top: 56px;
+    border-top: 1px solid var(--pi-line);
+  }
+
+  .services__extra h3 {
+    font-size: clamp(1.7rem, 2.6vw, 2.3rem);
+    max-width: 22ch;
+  }
+
+  .especialidad-card .pillar__num {
+    color: var(--pi-tan-light);
+  }
+
+  /* Clients sit at the end of Casos de exito, not in a section of their own. */
+  .casos__clients {
+    margin-top: 96px;
+    padding-top: 48px;
+    border-top: 1px solid var(--pi-line);
+  }
+
+  .casos__clients .eyebrow {
+    margin-bottom: 24px;
+  }
+
+  .cta-final__lead {
+    color: var(--pi-on-dark-soft);
+    max-width: 46ch;
+    margin: 0 0 28px;
+  }
+
+  .footer__logo {
+    margin-bottom: 4px;
   }
 
   /* ---------- footer ---------- */

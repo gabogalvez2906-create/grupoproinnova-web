@@ -409,7 +409,7 @@ function useSharedAssets() {
         concrete: new THREE.MeshStandardMaterial({ color: "#b3aca2", roughness: 0.92 }),
         slab: new THREE.MeshStandardMaterial({ color: "#bdb6ab", roughness: 0.9 }),
         steel: new THREE.MeshStandardMaterial({ color: "#3d352f", roughness: 0.5, metalness: 0.7 }),
-        rail: new THREE.MeshStandardMaterial({ color: "#d9a13a", roughness: 0.5, metalness: 0.3 }),
+        rail: new THREE.MeshStandardMaterial({ color: "#c9a373", roughness: 0.5, metalness: 0.3 }),
       },
     };
   }, []);
@@ -646,7 +646,7 @@ function Level({ index, progressRef, assets }: { index: number; progressRef: Pro
 function RoofCrown({ progressRef }: { progressRef: ProgressRef }) {
   const groupRef = useRef<THREE.Group>(null);
   const glowMaterial = useMemo(
-    () => new THREE.MeshBasicMaterial({ color: new THREE.Color("#c9a961"), toneMapped: false }),
+    () => new THREE.MeshBasicMaterial({ color: new THREE.Color("#cfc0a4"), toneMapped: false }),
     [],
   );
   const parapet = useMemo(
@@ -799,7 +799,7 @@ function Crane({ progressRef }: { progressRef: ProgressRef }) {
     <group position={MAST_POS}>
       <instancedMesh ref={latticeRef} args={[undefined, undefined, members.length]} frustumCulled={false} castShadow>
         <boxGeometry />
-        <meshStandardMaterial color="#c08a2e" roughness={0.55} metalness={0.35} />
+        <meshStandardMaterial color="#a98b62" roughness={0.55} metalness={0.35} />
       </instancedMesh>
 
       <group position={[0, MAST_H, 0]} rotation={[0, JIB_ANGLE, 0]}>
