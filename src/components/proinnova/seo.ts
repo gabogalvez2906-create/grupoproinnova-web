@@ -40,6 +40,7 @@ const organization = {
   address: { "@type": "PostalAddress", addressLocality: "Ciudad de Guatemala", addressCountry: "GT" },
   areaServed: { "@type": "Country", name: "Guatemala" },
   knowsLanguage: "es",
+  sameAs: Object.values(CONTACT.social),
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Servicios de construcción",

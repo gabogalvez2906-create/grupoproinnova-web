@@ -54,6 +54,7 @@ export default function ContactBand({
             <a href={waHref(waText)} target="_blank" rel="noopener noreferrer">
               {CONTACT.whatsappLabel}
             </a>
+            <p className="cta-final__hours">Atención de {CONTACT.hours}</p>
           </div>
           <div>
             <span className="eyebrow eyebrow--light">Ubicación</span>

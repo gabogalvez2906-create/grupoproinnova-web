@@ -2838,3 +2838,15 @@ html.js .hero-build__meter {
 .magnetic-btn.cta-final__btn--wa:hover {
   background: #178f47;
 }
+
+.cta-final__info .cta-final__hours {
+  margin-top: 6px;
+  font-size: 0.88rem;
+  color: var(--pi-on-dark-soft);
+}
+
+.wa-float__label small {
+  font-weight: 400;
+  font-size: 0.8rem;
+  opacity: 0.85;
+}

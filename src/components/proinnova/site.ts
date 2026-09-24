@@ -9,6 +9,10 @@ export const CONTACT = {
   // WhatsApp goes to the second number (Gabo, 2026-09-23). Keep both fields in step.
   whatsapp: "50242141321",
   whatsappLabel: "+502 4214 1321",
+  // Attention hours (Gabo, 2026-09-24). Days not confirmed yet, so no weekday is printed.
+  hours: "7:00 a. m. a 7:00 p. m.",
+  /** Official profiles; also emitted as `sameAs` in the JSON-LD. */
+  social: { linkedin: "https://www.linkedin.com/company/grupo-proinnova/" },
   website: "grupoproinnova.com",
   location: "Ciudad de Guatemala, Guatemala",
 } as const;
