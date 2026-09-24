@@ -6,8 +6,9 @@ export const CONTACT = {
   // Alias on Hostinger that delivers to ggalvez@grupoproinnova.com.
   email: "contacto@grupoproinnova.com",
   phones: ["+502 4142 0285", "+502 4214 1321"],
-  // The first number takes WhatsApp (confirmed by Gabo, 2026-09-23).
-  whatsapp: "50241420285",
+  // WhatsApp goes to the second number (Gabo, 2026-09-23). Keep both fields in step.
+  whatsapp: "50242141321",
+  whatsappLabel: "+502 4214 1321",
   website: "grupoproinnova.com",
   location: "Ciudad de Guatemala, Guatemala",
 } as const;

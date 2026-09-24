@@ -52,7 +52,7 @@ export default function ContactBand({
           <div>
             <span className="eyebrow eyebrow--light">WhatsApp</span>
             <a href={waHref(waText)} target="_blank" rel="noopener noreferrer">
-              {CONTACT.phones[0]}
+              {CONTACT.whatsappLabel}
             </a>
           </div>
           <div>

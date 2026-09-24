@@ -8,7 +8,7 @@ export default function WhatsAppButton({ text }: { text: string }) {
       href={waHref(text)}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={`Escríbanos por WhatsApp al ${CONTACT.phones[0]}`}
+      aria-label={`Escríbanos por WhatsApp al ${CONTACT.whatsappLabel}`}
       data-cursor="interactive"
     >
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
