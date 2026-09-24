@@ -52,6 +52,11 @@ Browser de la app no compone WebGL (`document.hidden`), no sirve para esto.
   vidrio. Cada ventana tiene su propio umbral de encendido horneado en una textura (`uOrder`) que el
   shader compara contra `uLit` → los pisos se encienden cuarto por cuarto.
 - **No vuelvas a poner `multisampling` > 0 en el EffectComposer.** El anti-aliasing es `<SMAA />`.
+- **Parpadeo negro (2026-09-24):** un solo píxel NaN se vuelve un cuadro entero negro porque el bloom lo
+  esparce. En ANGLE-D3D11 `pow()` de base negativa da NaN: en todo shader propio usa
+  `pow(max(x, 0.0), n)` / `clamp`. Tras tocar shaders o efectos corre
+  `SCROLL=1 node scripts/count-black-frames.mjs <url> 16` (en `../proinnova-web`, guarda cuadros en
+  `%TEMP%/flick`) y cuenta cuadros negros: debe dar 0.
 - `detectGpuTier()` baja resolución y sombras en GPU integrada. Si tocas calidad, re-mide con
   `perf-gpu.mjs` (objetivo: ≥ 45 fps en la Intel UHD).
 - Él rechazó el hero con foto borrosa y el modelo que solo giraba. **Mantén el atardecer 3D.**
