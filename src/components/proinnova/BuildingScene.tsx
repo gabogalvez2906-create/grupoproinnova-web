@@ -1297,6 +1297,9 @@ function BloomDriver({
   return null;
 }
 
+/** How much taller than the screen the landscape frame is (bigger = tower sits lower). */
+const LAND_DROP = 1.24;
+
 function CameraRig({ progressRef, onReady }: { progressRef: ProgressRef; onReady?: (() => void) | undefined }) {
   const { camera, size } = useThree();
   const look = useMemo(() => new THREE.Vector3(0, 3, 0), []);
@@ -1316,8 +1319,11 @@ function CameraRig({ progressRef, onReady }: { progressRef: ProgressRef; onReady
     if (key !== lastSize.current) {
       lastSize.current = key;
       const fullW = portrait ? size.width : size.width * 1.5;
-      const fullH = portrait ? size.height * 1.62 : size.height;
-      cam.fov = portrait ? 50 : 36;
+      // Landscape: render the top part of a taller frame, which drops the tower lower on
+      // screen and leaves headroom for the crane's jib and its work lights.
+      const fullH = portrait ? size.height * 1.62 : size.height * LAND_DROP;
+      // Widen the full frame by the same factor so the visible slice keeps a 36° view.
+      cam.fov = portrait ? 50 : (2 * Math.atan(LAND_DROP * Math.tan((18 * Math.PI) / 180)) * 180) / Math.PI;
       cam.aspect = fullW / fullH;
       cam.setViewOffset(fullW, fullH, 0, portrait ? size.height * 0.56 : 0, size.width, size.height);
       cam.updateProjectionMatrix();
@@ -1335,7 +1341,7 @@ function CameraRig({ progressRef, onReady }: { progressRef: ProgressRef; onReady
     const settle = range(p, 0.78, 1);
     const idle = Math.sin(state.clock.elapsedTime * 0.11) * 0.018;
     const orbit = -0.78 + 0.42 * cp + idle + (1 - intro) * -0.12 + pointer.current.x * 0.04;
-    const radius = (17.5 + built * 1.15 + 3.4 * settle + (1 - intro) * 9) * (portrait ? 2.75 : 1);
+    const radius = (17.5 + built * 1.15 + 3.4 * settle + (1 - intro) * 9) * (portrait ? 2.75 : 1.08);
     const height =
       0.9 +
       built * 0.55 +
