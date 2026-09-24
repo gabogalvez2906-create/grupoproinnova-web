@@ -64,6 +64,9 @@ Browser de la app no compone WebGL (`document.hidden`), no sirve para esto.
   (`--pi-tan`, `--pi-accent`, `--pi-logo-*`). No vuelvas al dorado.
 - Tipos: Bebas Neue (títulos), Source Sans 3 (texto), Jost (wordmark).
 - `CONTACT` en `site.ts` es la única verdad de contacto. El correo real es `contacto@grupoproinnova.com`.
+  **WhatsApp = segundo número (+502 4214 1321)**, pedido por él; botón flotante en todas las páginas
+  (`WhatsAppButton`), en contacto y en el footer, con mensaje prellenado por página.
+- Eslogan del hero: **"La obra no se apaga."** (lo eligió él el 2026-09-23).
 
 ## SEO y páginas
 
@@ -95,7 +98,11 @@ son páginas aparte, no secciones de la portada).
 ## Infraestructura
 
 - GitHub Pages sirve `gh-pages` (con CNAME). DNS en Hostinger vía MCP. **No toques los registros de
-  correo**: hay 3 buzones y el alias `contacto@` funcionando.
+  correo**: hay 3 buzones y el alias `contacto@` funcionando. En `@` hay dos TXT: el SPF del correo y
+  `google-site-verification=…` (verifica Search Console, propiedad de dominio en gabogalvez2906@gmail.com).
+  **No borres ninguno**; al agregar TXT usa `overwrite=false`.
+- IndexNow (Bing y otros): llave `public/c6c3ed75743f0a4b2c21947ae95dc684.txt`. Tras publicar páginas nuevas,
+  envía el sitemap a `https://api.indexnow.org/indexnow` y en Search Console pide indexación de las nuevas.
 - Lovable está en plan gratis (sin dominio propio) y Hostinger no tiene plan de hosting. Por eso
   Pages. No propongas migrar sin que él lo pida.
 
