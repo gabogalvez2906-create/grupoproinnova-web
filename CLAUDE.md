@@ -67,10 +67,10 @@ Browser de la app no compone WebGL (`document.hidden`), no sirve para esto.
 
 ## Estructura de la página (orden pedido por él)
 
-Hero → marquesina → **1 Quiénes somos** (texto justificado + cita "Creamos valor") → **2 Valores** →
-**3 Servicios** (incluye "Nuestra especialidad") → **4 Metodología** (6 pasos horizontales + fases +
-certeza) → **5 Casos de éxito** (incluye clientes) → **6 Contacto** → footer. El menú refleja ese orden.
-Si agregas algo, encájalo en una de esas seis; no crees secciones sueltas.
+Hero → marquesina fija (no rota) → cifras (+50 proyectos, +8 en simultáneo) → **1 Quiénes somos** (texto justificado + cita "Creamos valor") → **2 Valores** →
+**3 Servicios** (incluye "Nuestra especialidad") → **4 Casos de éxito** (incluye clientes) →
+**5 Contacto** → footer. Metodología se quitó a pedido suyo (la explica al licitar): no la regreses. El menú refleja ese orden.
+Si agregas algo, encájalo en una de esas cinco; no crees secciones sueltas.
 
 ## Infraestructura
 

@@ -47,7 +47,6 @@ export default function ScrollEffects() {
       gsap.utils.toArray<HTMLElement>("[data-count]").forEach((el) => {
         el.textContent = el.dataset["count"] ?? "";
       });
-      gsap.utils.toArray<HTMLElement>(".method__step").forEach((s) => s.classList.add("is-on"));
       return cleanup;
     }
 
@@ -116,19 +115,9 @@ export default function ScrollEffects() {
           scaleX: 1,
           ease: "none",
           transformOrigin: "left center",
-          scrollTrigger: { trigger: el.parentElement, start: "top 75%", end: "+=520", scrub: 0.5 },
+          scrollTrigger: { trigger: el, start: "top 85%", end: "top 55%", scrub: 0.5 },
         },
       );
-    });
-
-    // Method steps light up in sequence as the line reaches them.
-    gsap.utils.toArray<HTMLElement>(".method__step").forEach((step) => {
-      ScrollTrigger.create({
-        trigger: step,
-        start: "top 78%",
-        onEnter: () => step.classList.add("is-on"),
-        onLeaveBack: () => step.classList.remove("is-on"),
-      });
     });
 
     return cleanup;

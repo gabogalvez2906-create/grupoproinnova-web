@@ -12,7 +12,6 @@ import Marquee from "./Marquee";
 import ScrollReveal from "./ScrollReveal";
 import ScrollEffects from "./ScrollEffects";
 import ServicesInteractive from "./ServicesInteractive";
-import MethodSection from "./MethodSection";
 import ProjectsGallery from "./ProjectsGallery";
 import { CONTACT, telHref } from "./site";
 
@@ -27,6 +26,30 @@ const pillars = [
   { n: "04", title: "Transparencia", desc: "Presupuesto desglosado, sin costos ocultos." },
   { n: "05", title: "Seguridad", desc: "Protocolos de seguridad industrial en cada obra." },
   { n: "06", title: "Acompañamiento", desc: "Un interlocutor directo de la idea a la entrega." },
+];
+
+const stats = [
+  {
+    n: 50,
+    plus: true,
+    featured: true,
+    label: "Proyectos entregados",
+    note: "Más de cincuenta clientes creyeron en nosotros. Hoy operan, venden y viven en espacios que levantamos.",
+  },
+  {
+    n: 8,
+    plus: true,
+    featured: false,
+    label: "Obras en simultáneo",
+    note: "Capacidad para sostener varios frentes a la vez sin que ninguno pierda supervisión.",
+  },
+  {
+    n: 10,
+    plus: false,
+    featured: false,
+    label: "Especialidades integradas",
+    note: "Diseño, obra civil, estructuras, instalaciones y acabados bajo un solo contrato.",
+  },
 ];
 
 export default function ProinnovaHome() {
@@ -74,7 +97,6 @@ export default function ProinnovaHome() {
             <a href="#quienes-somos">Nosotros</a>
             <a href="#valores">Valores</a>
             <a href="#servicios">Servicios</a>
-            <a href="#metodologia">Metodología</a>
             <a href="#casos">Casos</a>
           </nav>
           <MagneticButton href="#contacto" variant="outline" className="nav__cta">
@@ -90,21 +112,28 @@ export default function ProinnovaHome() {
           items={["Innovación", "Calidad", "Confianza", "Excelencia", "Obra civil", "Acabados"]}
         />
 
-        <section className="stats" aria-label="Proinnova en cifras">
-          {[
-            { n: 1, label: "Equipo responsable", note: "de la idea a la entrega" },
-            { n: 10, label: "Servicios integrados", note: "bajo un mismo techo" },
-            { n: 6, label: "Pasos de metodología", note: "sin improvisar" },
-            { n: 0, label: "Excusas", note: "una fecha, un estándar" },
-          ].map((s) => (
-            <div className="stats__item" key={s.label}>
-              <span className="stats__num" data-count={s.n}>
-                0
-              </span>
-              <span className="stats__label">{s.label}</span>
-              <span className="stats__note">{s.note}</span>
-            </div>
-          ))}
+        <section className="stats" aria-labelledby="stats-title">
+          <div className="stats__intro">
+            <span className="eyebrow">Trayectoria y alcance</span>
+            <h2 id="stats-title" data-split>
+              Más alcance. El mismo estándar en cada obra.
+            </h2>
+          </div>
+          <div className="stats__grid">
+            {stats.map((s) => (
+              <div className={`stats__item ${s.featured ? "stats__item--featured" : ""}`} key={s.label}>
+                <span className="stats__rule" aria-hidden="true">
+                  <i data-line />
+                </span>
+                <span className="stats__num">
+                  {s.plus && <span className="stats__plus">+</span>}
+                  <span data-count={s.n}>0</span>
+                </span>
+                <span className="stats__label">{s.label}</span>
+                <p className="stats__note">{s.note}</p>
+              </div>
+            ))}
+          </div>
         </section>
 
         {/* 1 · Quiénes somos */}
@@ -158,13 +187,10 @@ export default function ProinnovaHome() {
         {/* 3 · Servicios (incluye Nuestra especialidad) */}
         <ServicesInteractive />
 
-        {/* 4 · Metodología (incluye fases y certeza) */}
-        <MethodSection />
-
-        {/* 5 · Casos de éxito (incluye clientes) */}
+        {/* 4 · Casos de éxito (incluye clientes) */}
         <ProjectsGallery />
 
-        {/* 6 · Contacto */}
+        {/* 5 · Contacto */}
         <section className="cta-final" id="contacto">
           <div className="cta-final__inner">
             <ScrollReveal>
