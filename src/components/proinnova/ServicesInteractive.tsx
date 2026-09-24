@@ -65,7 +65,7 @@ export default function ServicesInteractive() {
   return (
     <section className="services" id="servicios">
       <div className="services__heading">
-        <span className="eyebrow">Servicios</span>
+        <span className="eyebrow">Servicios de construcción</span>
         <h2 data-split>Soluciones integrales</h2>
       </div>
 

@@ -3,9 +3,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import ProinnovaHome from "../components/proinnova/ProinnovaHome";
 import heroImg from "../assets/obra/hero-proinnova.jpg";
 
-const TITLE = "Proinnova · Construcción e Innovación en Guatemala";
+const TITLE = "Constructora en Guatemala | Grupo Proinnova";
 const DESCRIPTION =
-  "Constructora en Guatemala: diseño, obra civil, estructuras metálicas, remodelaciones y acabados de alta gama bajo un solo responsable.";
+  "Grupo Proinnova, constructora en Guatemala: construcción comercial e industrial, obra civil, estructuras metálicas, remodelaciones y acabados. Cotice su obra.";
 
 export const Route = createFileRoute("/")({
   head: () => ({

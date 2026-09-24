@@ -1891,3 +1891,11 @@
     display: none;
   }
 }
+
+/* Hero eyebrow now lives inside the H1 (SEO): keep it on its own line with the old spacing. */
+.hero-build__title .hero-build__eyebrow {
+  display: block;
+  margin-bottom: 26px;
+  line-height: 1.4;
+  text-shadow: none;
+}

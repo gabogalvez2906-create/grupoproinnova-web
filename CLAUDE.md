@@ -19,7 +19,7 @@ así que muéstrale capturas, no descripciones.
 
 ```bash
 ./node_modules/.bin/tsc --noEmit                    # typecheck (TS estricto, debe salir limpio)
-npx vite build --config vite.config.static.ts       # build estático (~1s)
+bash scripts/build-static.sh                        # build estático + HTML pre-renderizado (SEO)
 bash scripts/deploy-pages.sh                        # publica a gh-pages → grupoproinnova.com
 git push origin main                                # el fuente va aparte del deploy
 ```
@@ -64,6 +64,15 @@ Browser de la app no compone WebGL (`document.hidden`), no sirve para esto.
   (`--pi-tan`, `--pi-accent`, `--pi-logo-*`). No vuelvas al dorado.
 - Tipos: Bebas Neue (títulos), Source Sans 3 (texto), Jost (wordmark).
 - `CONTACT` en `site.ts` es la única verdad de contacto. El correo real es `contacto@grupoproinnova.com`.
+
+## SEO
+
+- El HTML publicado va **pre-renderizado** (`static-site/entry-server.tsx` + `scripts/prerender.mjs`,
+  corre dentro de `build-static.sh`) y el cliente hidrata. Así Google ve todo el texto sin ejecutar JS.
+  Todo componente debe seguir siendo SSR-safe: nada de `window`/`document` fuera de efectos.
+- Title, description y JSON-LD (`GeneralContractor`) están en `static-site/index.html`.
+  `public/robots.txt` y `public/sitemap.xml` (si agregas páginas, agrégalas al sitemap).
+- El H1 lleva "Constructora en Guatemala" (el eyebrow vive dentro del H1). No lo saques.
 
 ## Estructura de la página (orden pedido por él)
 

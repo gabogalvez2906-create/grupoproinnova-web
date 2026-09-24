@@ -75,11 +75,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Proinnova · Construcción e Innovación" },
+      { title: "Constructora en Guatemala | Grupo Proinnova" },
       {
         name: "description",
         content:
-          "Constructora en Guatemala: diseño, obra civil, estructuras metálicas, remodelaciones y acabados.",
+          "Grupo Proinnova, constructora en Guatemala: construcción comercial e industrial, obra civil, estructuras metálicas, remodelaciones y acabados. Cotice su obra.",
       },
       { name: "author", content: "Proinnova" },
       { name: "theme-color", content: "#12110e" },

@@ -8,7 +8,7 @@ OUT="$(mktemp -d)"
 REMOTE="$(git -C "$ROOT" remote get-url origin)"
 
 cd "$ROOT"
-npx vite build --config vite.config.static.ts
+bash scripts/build-static.sh
 
 cp -r dist-static/. "$OUT/"
 printf "grupoproinnova.com\n" > "$OUT/CNAME"   # dominio propio en GitHub Pages

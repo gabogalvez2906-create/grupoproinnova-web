@@ -32,7 +32,7 @@ export default function ProjectsGallery() {
     <section className="gallery" id="casos">
       <div className="gallery__heading">
         <ScrollReveal>
-          <span className="eyebrow">Casos de éxito</span>
+          <span className="eyebrow">Casos de éxito · Proyectos en Guatemala</span>
           <h2 data-split>De la estructura al detalle</h2>
         </ScrollReveal>
       </div>

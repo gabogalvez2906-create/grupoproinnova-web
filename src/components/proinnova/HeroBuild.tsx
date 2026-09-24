@@ -135,16 +135,17 @@ export default function HeroBuild({ onOverHeroChange }: HeroBuildProps) {
 
       <div className="hero-build__ui">
         <div className="hero-build__intro">
-          <span className="hero-build__eyebrow eyebrow eyebrow--light">
-            Construcción e innovación · Guatemala
-          </span>
           <h1 className="hero-build__title">
+            {/* Part of the H1 on purpose: it carries the search phrase the page ranks for. */}
+            <span className="hero-build__eyebrow eyebrow eyebrow--light">
+              Constructora en Guatemala · Diseño, obra y acabados
+            </span>{" "}
             <span className="hero-build__line">
               <span>Levantamos</span>
-            </span>
+            </span>{" "}
             <span className="hero-build__line">
               <span>lo que Guatemala</span>
-            </span>
+            </span>{" "}
             <span className="hero-build__line">
               <span>va a recordar.</span>
             </span>
