@@ -1,30 +1,31 @@
 import ScrollReveal from "./ScrollReveal";
+import { servicePath } from "./services";
 
-import edificioComercial from "../../assets/obra/edificio-comercial-obra-gris.jpg";
-import showroomAutomotriz from "../../assets/obra/showroom-automotriz.jpg";
-import naveIndustrial from "../../assets/obra/nave-industrial-tragaluces.jpg";
-import plantaIndustrial from "../../assets/obra/planta-industrial.jpg";
-import pizzaHut from "../../assets/obra/pizza-hut-fachada.jpg";
-import bodegaIndustrial from "../../assets/obra/bodega-industrial-montacargas.jpg";
-import oficinaLounge from "../../assets/obra/oficina-lounge.jpg";
-import edificioAndamios from "../../assets/obra/edificio-andamios-malla.jpg";
-import estructuraConcreto from "../../assets/obra/estructura-concreto-multinivel.jpg";
-import interiorObraGris from "../../assets/obra/interior-obra-gris-atardecer.jpg";
-import logoElValle from "../../assets/obra/logo-centro-educativo-el-valle.jpg";
-import logoPremium from "../../assets/obra/logo-premium-restaurants.jpg";
+import edificioComercial from "../../assets/obra/edificio-comercial-obra-gris.webp";
+import showroomAutomotriz from "../../assets/obra/showroom-automotriz.webp";
+import naveIndustrial from "../../assets/obra/nave-industrial-tragaluces.webp";
+import plantaIndustrial from "../../assets/obra/planta-industrial.webp";
+import pizzaHut from "../../assets/obra/pizza-hut-fachada.webp";
+import bodegaIndustrial from "../../assets/obra/bodega-industrial-montacargas.webp";
+import oficinaLounge from "../../assets/obra/oficina-lounge.webp";
+import edificioAndamios from "../../assets/obra/edificio-andamios-malla.webp";
+import estructuraConcreto from "../../assets/obra/estructura-concreto-multinivel.webp";
+import interiorObraGris from "../../assets/obra/interior-obra-gris-atardecer.webp";
+import logoElValle from "../../assets/obra/logo-centro-educativo-el-valle.webp";
+import logoPremium from "../../assets/obra/logo-premium-restaurants.webp";
 
 // Captions describe what each catalog photo shows; swap in real project names when available.
 const projects = [
-  { img: edificioComercial, title: "Edificio comercial en obra gris", tag: "Construcción", span: "tall" },
-  { img: showroomAutomotriz, title: "Showroom automotriz", tag: "Acabados", span: "wide" },
-  { img: naveIndustrial, title: "Nave industrial", tag: "Estructuras metálicas", span: "" },
-  { img: plantaIndustrial, title: "Planta industrial", tag: "Construcción", span: "" },
-  { img: pizzaHut, title: "Restaurante Pizza Hut", tag: "Construcción", span: "tall" },
-  { img: bodegaIndustrial, title: "Bodega industrial", tag: "Obra civil", span: "" },
-  { img: oficinaLounge, title: "Oficinas corporativas", tag: "Acabados", span: "wide" },
-  { img: edificioAndamios, title: "Edificio en ejecución", tag: "Project management", span: "" },
-  { img: estructuraConcreto, title: "Estructura de concreto", tag: "Obra civil", span: "" },
-  { img: interiorObraGris, title: "Interiores en obra gris", tag: "Construcción", span: "" },
+  { img: edificioComercial, title: "Edificio comercial en obra gris", page: "locales-comerciales", tag: "Construcción", span: "tall" },
+  { img: showroomAutomotriz, title: "Showroom automotriz", page: "locales-comerciales", tag: "Acabados", span: "wide" },
+  { img: naveIndustrial, title: "Nave industrial", page: "naves-industriales", tag: "Estructuras metálicas", span: "" },
+  { img: plantaIndustrial, title: "Planta industrial", page: "naves-industriales", tag: "Construcción", span: "" },
+  { img: pizzaHut, title: "Restaurante Pizza Hut", page: "locales-comerciales", tag: "Construcción", span: "tall" },
+  { img: bodegaIndustrial, title: "Bodega industrial", page: "naves-industriales", tag: "Obra civil", span: "" },
+  { img: oficinaLounge, title: "Oficinas corporativas", page: "remodelaciones", tag: "Acabados", span: "wide" },
+  { img: edificioAndamios, title: "Edificio en ejecución", page: "construccion-de-edificios", tag: "Project management", span: "" },
+  { img: estructuraConcreto, title: "Estructura de concreto", page: "construccion-de-edificios", tag: "Obra civil", span: "" },
+  { img: interiorObraGris, title: "Interiores en obra gris", page: "construccion-de-edificios", tag: "Construcción", span: "" },
 ];
 
 export default function ProjectsGallery() {
@@ -39,12 +40,14 @@ export default function ProjectsGallery() {
 
       <ScrollReveal stagger className="gallery__grid">
         {projects.map((p) => (
-          <figure className={`gallery__item ${p.span}`} key={p.title} tabIndex={0}>
-            <img src={p.img} alt={p.title} loading="lazy" data-parallax />
-            <figcaption>
-              <span className="gallery__tag">{p.tag}</span>
-              <span className="gallery__title">{p.title}</span>
-            </figcaption>
+          <figure className={`gallery__item ${p.span}`} key={p.title}>
+            <a href={servicePath(p.page)} className="gallery__link" data-cursor="interactive">
+              <img src={p.img} alt={p.title} loading="lazy" data-parallax />
+              <figcaption>
+                <span className="gallery__tag">{p.tag}</span>
+                <span className="gallery__title">{p.title}</span>
+              </figcaption>
+            </a>
           </figure>
         ))}
       </ScrollReveal>

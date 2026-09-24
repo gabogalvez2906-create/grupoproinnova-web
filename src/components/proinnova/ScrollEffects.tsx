@@ -82,19 +82,25 @@ export default function ScrollEffects() {
         type: "lines",
         mask: "lines",
         autoSplit: true,
-        onSplit: (self) =>
-          gsap.from(self.lines, {
+        onSplit: (self) => {
+          const tween = gsap.from(self.lines, {
             yPercent: 115,
             duration: 1.1,
             ease: "power4.out",
             stagger: 0.09,
             scrollTrigger: { trigger: el, start: "top 88%", toggleActions: "play none none none" },
-          }),
+          });
+          // Lines are now parked below their masks: safe to lift the pre-paint hide (styles.css).
+          el.style.visibility = "visible";
+          return tween;
+        },
       });
     });
 
     gsap.utils.toArray<HTMLElement>("[data-count]").forEach((el) => {
       const end = Number(el.dataset["count"] ?? 0);
+      // The HTML ships the real figure (crawlers, no-JS); start the count from zero on screen.
+      el.textContent = "0";
       const state = { v: 0 };
       gsap.to(state, {
         v: end,

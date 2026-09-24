@@ -4,16 +4,19 @@ import { StrictMode } from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
 
 import "../src/styles.css";
-import ProinnovaHome from "../src/components/proinnova/ProinnovaHome";
+import { PageById } from "./pages";
 
 const root = document.getElementById("root");
+// Written by scripts/prerender.mjs; a plain `vite build` has none and shows the home page.
+const id = document.body.dataset["page"] ?? "home";
+
 const app = (
   <StrictMode>
-    <ProinnovaHome />
+    <PageById id={id} />
   </StrictMode>
 );
-// The deployed HTML is pre-rendered (scripts/prerender.mjs): hydrate it. A plain
-// `vite build` without the prerender step leaves #root empty, so render instead.
+
+// Deployed pages are pre-rendered: hydrate them. Without the prerender step #root is empty.
 if (root) {
   if (root.firstElementChild) hydrateRoot(root, app);
   else createRoot(root).render(app);

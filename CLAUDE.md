@@ -65,21 +65,32 @@ Browser de la app no compone WebGL (`document.hidden`), no sirve para esto.
 - Tipos: Bebas Neue (títulos), Source Sans 3 (texto), Jost (wordmark).
 - `CONTACT` en `site.ts` es la única verdad de contacto. El correo real es `contacto@grupoproinnova.com`.
 
-## SEO
+## SEO y páginas
 
-- El HTML publicado va **pre-renderizado** (`static-site/entry-server.tsx` + `scripts/prerender.mjs`,
-  corre dentro de `build-static.sh`) y el cliente hidrata. Así Google ve todo el texto sin ejecutar JS.
-  Todo componente debe seguir siendo SSR-safe: nada de `window`/`document` fuera de efectos.
-- Title, description y JSON-LD (`GeneralContractor`) están en `static-site/index.html`.
-  `public/robots.txt` y `public/sitemap.xml` (si agregas páginas, agrégalas al sitemap).
-- El H1 lleva "Constructora en Guatemala" (el eyebrow vive dentro del H1). No lo saques.
+- Sitio **multipágina pre-renderizado**: `/`, `/servicios/`, 8 páginas `/servicios/<slug>/` y `404.html`.
+  `scripts/prerender.mjs` (dentro de `build-static.sh`) escribe un HTML por página con su `<head>`
+  propio y el cuerpo ya renderizado; el cliente hidrata el componente que indica `<body data-page>`.
+  Todo componente debe ser SSR-safe: nada de `window`/`document` fuera de efectos.
+- **Contenido de servicios: `services.ts`** (textos, fotos, FAQ, relacionados). **Head/JSON-LD: `seo.ts`**
+  (GeneralContractor, Service, BreadcrumbList, FAQPage). El sitemap se genera solo desde `seo.ts`.
+  Regla del contenido: nada de precios, clientes, años ni certificaciones que la empresa no haya dicho.
+- Piezas compartidas: `PageShell` (scroll, cursor, nav, footer), `SiteNav`, `SiteFooter` (enlaza a todos
+  los servicios), `ContactBand`, `ReachStats`, `PageHero`.
+- **Anti-parpadeo**: el HTML trae el texto visible, así que lo que anima GSAP (`[data-split]`,
+  `[data-reveal]`, intro del hero) arranca oculto con `html.js` y cada componente lo destapa al montar su
+  tween; si el JS no carga, se muestra a los 2.5 s. Si agregas animaciones de entrada, respeta eso.
+- El H1 lleva la palabra clave (eyebrow dentro del H1). Fotos en `.webp`; los `.jpg` quedan para og:image.
+- Verificación: `../proinnova-web/scripts/qa-pages.mjs` recorre todas las páginas (desktop + móvil): errores de
+  hidratación, imágenes rotas, desbordes, enlaces internos. `scripts/shoot-page-sections.mjs <ruta> <prefijo>` captura por sección
+  (en Git Bash usa `MSYS_NO_PATHCONV=1`).
 
 ## Estructura de la página (orden pedido por él)
 
 Hero → marquesina fija (no rota) → cifras (+50 proyectos, +8 en simultáneo) → **1 Quiénes somos** (texto justificado + cita "Creamos valor") → **2 Valores** →
 **3 Servicios** (incluye "Nuestra especialidad") → **4 Casos de éxito** (incluye clientes) →
 **5 Contacto** → footer. Metodología se quitó a pedido suyo (la explica al licitar): no la regreses. El menú refleja ese orden.
-Si agregas algo, encájalo en una de esas cinco; no crees secciones sueltas.
+Si agregas algo, encájalo en una de esas cinco; no crees secciones sueltas (las páginas de servicio
+son páginas aparte, no secciones de la portada).
 
 ## Infraestructura
 

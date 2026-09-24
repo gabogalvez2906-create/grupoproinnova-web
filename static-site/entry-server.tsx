@@ -1,14 +1,16 @@
-// Build-time render of the page to plain HTML (scripts/prerender.mjs), so search
+// Build-time render of every page to plain HTML (scripts/prerender.mjs), so search
 // engines and link previews get the full content without running JavaScript.
 import { StrictMode } from "react";
 import { renderToString } from "react-dom/server";
 
-import ProinnovaHome from "../src/components/proinnova/ProinnovaHome";
+import { PageById } from "./pages";
 
-export function render() {
+export { pageMetas, headHtml } from "../src/components/proinnova/seo";
+
+export function render(id: string) {
   return renderToString(
     <StrictMode>
-      <ProinnovaHome />
+      <PageById id={id} />
     </StrictMode>,
   );
 }

@@ -68,6 +68,7 @@ export default function HeroBuild({ onOverHeroChange }: HeroBuildProps) {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         sync(1);
         gsap.set(".hero-build__final", { opacity: 1 });
+        gsap.set([".hero-build__intro", ".hero-build__meter"], { visibility: "visible" });
         // Without the pin there is no hero-sized band for the nav to sit over.
         onOverHeroChange?.(false);
         return;
@@ -111,6 +112,8 @@ export default function HeroBuild({ onOverHeroChange }: HeroBuildProps) {
         )
         .from(".hero-build__kicker", { opacity: 0, y: 12, duration: 0.6, ease: "power2.out" }, "-=0.5")
         .from(".hero-build__meter", { opacity: 0, x: 16, duration: 0.8, ease: "power3.out" }, "-=0.6");
+      // The intro starts hidden (styles.css) so the pre-rendered text never flashes before this runs.
+      gsap.set([".hero-build__intro", ".hero-build__meter"], { visibility: "visible" });
     },
     { scope: sectionRef },
   );

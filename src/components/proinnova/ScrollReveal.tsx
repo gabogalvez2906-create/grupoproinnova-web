@@ -32,12 +32,14 @@ export default function ScrollReveal({ children, className, stagger = false }: S
           toggleActions: "play none none reverse",
         },
       });
+      // Already at opacity 0 (from-tweens render immediately): lift the pre-paint hide.
+      container.style.visibility = "visible";
     },
     { scope: containerRef },
   );
 
   return (
-    <div ref={containerRef} className={className}>
+    <div ref={containerRef} className={className} data-reveal>
       {children}
     </div>
   );

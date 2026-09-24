@@ -1,3 +1,6 @@
+/** Canonical origin of the published site (GitHub Pages custom domain). */
+export const SITE_URL = "https://grupoproinnova.com";
+
 /** Single source of truth for company details shown across the site. */
 export const CONTACT = {
   // Alias on Hostinger that delivers to ggalvez@grupoproinnova.com.

@@ -13,7 +13,6 @@ bash scripts/build-static.sh
 cp -r dist-static/. "$OUT/"
 printf "grupoproinnova.com\n" > "$OUT/CNAME"   # dominio propio en GitHub Pages
 touch "$OUT/.nojekyll"
-cp dist-static/index.html "$OUT/404.html"
 
 cd "$OUT"
 git init -q -b gh-pages
