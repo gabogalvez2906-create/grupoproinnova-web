@@ -41,6 +41,12 @@ const organization = {
   areaServed: { "@type": "Country", name: "Guatemala" },
   knowsLanguage: "es",
   sameAs: Object.values(CONTACT.social),
+  openingHoursSpecification: {
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    opens: CONTACT.opens,
+    closes: CONTACT.closes,
+  },
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Servicios de construcción",

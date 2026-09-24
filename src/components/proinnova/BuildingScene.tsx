@@ -1101,8 +1101,11 @@ function Floodlights({ progressRef }: { progressRef: ProgressRef }) {
           "varying vec2 vUv;",
           "varying vec3 vPos;",
           "void main() {",
-          "  float gradient = pow(vUv.y, 1.6);",
-          "  float edge = pow(1.0 - abs(vUv.x * 2.0 - 1.0), 1.5);",
+          // Bases are clamped: at the cone's seam rounding can push them a hair below 0,
+          // pow() of a negative is NaN on ANGLE-D3D11, and the bloom then smears that
+          // single NaN pixel over the whole frame -> a fully black flash.
+          "  float gradient = pow(clamp(vUv.y, 0.0, 1.0), 1.6);",
+          "  float edge = pow(max(1.0 - abs(vUv.x * 2.0 - 1.0), 0.0), 1.5);",
           "  float flicker = 0.92 + 0.08 * sin(uTime * 2.6 + vPos.y * 1.7);",
           "  gl_FragColor = vec4(uColor, gradient * edge * uOpacity * flicker);",
           "}",
@@ -1406,7 +1409,7 @@ export default function BuildingScene({
   return (
     <Canvas
       frameloop={active ? "always" : "never"}
-      dpr={[1, light ? 1.25 : 1.75]}
+      dpr={[1, light ? 1.1 : 1.75]}
       shadows={!coarse}
       camera={{ fov: 36, near: 0.5, far: 2000, position: [-18, 2, 26] }}
       gl={{ antialias: false, powerPreference: "high-performance" }}

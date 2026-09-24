@@ -2814,7 +2814,7 @@ html.js .hero-build__meter {
 
 .wa-float:hover .wa-float__label,
 .wa-float:focus-visible .wa-float__label {
-  max-width: 220px;
+  max-width: 340px;
 }
 
 @media (max-width: 560px) {

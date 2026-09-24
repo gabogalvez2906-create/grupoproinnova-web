@@ -70,7 +70,7 @@ export default function SiteFooter() {
             <li>
               <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
             </li>
-            <li>Atención de {CONTACT.hours}</li>
+            <li>{CONTACT.hours}</li>
             <li>
               <a href={CONTACT.social.linkedin} target="_blank" rel="noopener noreferrer">
                 LinkedIn
