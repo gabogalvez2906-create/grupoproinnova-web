@@ -144,13 +144,10 @@ export default function HeroBuild({ onOverHeroChange }: HeroBuildProps) {
               Constructora en Guatemala · Diseño, obra y acabados
             </span>{" "}
             <span className="hero-build__line">
-              <span>Levantamos</span>
+              <span>La obra</span>
             </span>{" "}
             <span className="hero-build__line">
-              <span>lo que Guatemala</span>
-            </span>{" "}
-            <span className="hero-build__line">
-              <span>va a recordar.</span>
+              <span>no se apaga.</span>
             </span>
           </h1>
           <p className="hero-build__kicker">
@@ -161,8 +158,8 @@ export default function HeroBuild({ onOverHeroChange }: HeroBuildProps) {
 
         <div className="hero-build__final">
           <p className="hero-build__final-item hero-build__sub">
-            De la primera excavación a la última luz encendida: un solo equipo, un estándar, una
-            fecha, cero excusas.
+            De la primera excavación a la última luz encendida: un solo equipo, un estándar y una
+            fecha que se cumple.
           </p>
           <div className="hero-build__final-item hero-build__cta">
             <MagneticButton href="#contacto">Agenda una consultoría</MagneticButton>

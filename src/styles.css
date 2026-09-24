@@ -2764,3 +2764,77 @@ html.js .hero-build__meter {
   font-size: clamp(1.5rem, 2.1vw, 2.2rem);
   line-height: 1.05;
 }
+
+/* ---------- WhatsApp (floating shortcut + contact band) ---------- */
+.wa-float {
+  position: fixed;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  z-index: 150;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  height: 56px;
+  padding: 0 16px;
+  border-radius: 999px;
+  color: #fff;
+  background: #1fa855;
+  box-shadow:
+    0 14px 30px -12px oklch(0.2 0.02 60 / 0.55),
+    inset 0 0 0 1px oklch(1 0 0 / 0.16);
+  text-decoration: none;
+  transition:
+    gap 350ms cubic-bezier(0.22, 1, 0.36, 1),
+    background 250ms ease,
+    translate 250ms ease;
+}
+
+.wa-float svg {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+.wa-float__label {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: max-width 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.wa-float:hover,
+.wa-float:focus-visible {
+  gap: 10px;
+  background: #178f47;
+  translate: 0 -2px;
+}
+
+.wa-float:hover .wa-float__label,
+.wa-float:focus-visible .wa-float__label {
+  max-width: 220px;
+}
+
+@media (max-width: 560px) {
+  .wa-float {
+    height: 52px;
+    padding: 0 14px;
+  }
+}
+
+.cta-final__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.magnetic-btn.cta-final__btn--wa {
+  background: #1fa855;
+  color: #fff;
+}
+
+.magnetic-btn.cta-final__btn--wa:hover {
+  background: #178f47;
+}

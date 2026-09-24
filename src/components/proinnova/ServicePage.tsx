@@ -23,7 +23,7 @@ function ServiceView({ service: s }: { service: Service }) {
   const related = s.related.map((r) => serviceBySlug(r)).filter((r): r is Service => !!r);
 
   return (
-    <PageShell overHero={overHero}>
+    <PageShell overHero={overHero} waText={`Hola, quiero cotizar: ${s.name}.`}>
       <PageHero
         ref={heroRef}
         photo={s.hero}
@@ -135,6 +135,7 @@ function ServiceView({ service: s }: { service: Service }) {
         title={s.contactTitle}
         lead="Cuéntenos qué necesita construir. Le respondemos con un alcance claro y un presupuesto desglosado."
         subject={`Cotización: ${s.name}`}
+        waText={`Hola, quiero cotizar: ${s.name}.`}
       />
     </PageShell>
   );

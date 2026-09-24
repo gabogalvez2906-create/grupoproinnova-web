@@ -1,5 +1,5 @@
 import Logo from "./Logo";
-import { CONTACT, telHref } from "./site";
+import { CONTACT, telHref, waHref } from "./site";
 import { SERVICES, servicePath } from "./services";
 
 // Baked into the pre-rendered HTML at build time; the browser may disagree around New Year.
@@ -58,6 +58,15 @@ export default function SiteFooter() {
                 <a href={telHref(phone)}>{phone}</a>
               </li>
             ))}
+            <li>
+              <a
+                href={waHref("Hola, quiero información sobre un proyecto de construcción.")}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                WhatsApp
+              </a>
+            </li>
             <li>
               <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
             </li>

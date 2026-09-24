@@ -6,6 +6,8 @@ interface MagneticButtonProps {
   children: ReactNode;
   variant?: "solid" | "outline";
   className?: string;
+  /** Opens in a new tab (WhatsApp, other sites). */
+  external?: boolean;
 }
 
 export default function MagneticButton({
@@ -13,6 +15,7 @@ export default function MagneticButton({
   children,
   variant = "solid",
   className = "",
+  external = false,
 }: MagneticButtonProps) {
   const ref = useRef<HTMLAnchorElement>(null);
 
@@ -36,6 +39,7 @@ export default function MagneticButton({
       ref={ref}
       href={href}
       className={`magnetic-btn magnetic-btn--${variant} ${className}`}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       data-cursor="interactive"
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}

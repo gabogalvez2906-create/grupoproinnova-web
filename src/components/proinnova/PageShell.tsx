@@ -8,6 +8,7 @@ import SmoothScroll from "./SmoothScroll";
 import ScrollEffects from "./ScrollEffects";
 import SiteNav from "./SiteNav";
 import SiteFooter from "./SiteFooter";
+import WhatsAppButton from "./WhatsAppButton";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,11 +17,18 @@ interface PageShellProps {
   overHero: boolean;
   /** The home page links to its own sections in place; every other page links back to them. */
   home?: boolean;
+  /** First WhatsApp message for this page. */
+  waText?: string;
   children: ReactNode;
 }
 
 /** Everything every page shares: smooth scroll, cursor, scroll effects, nav and footer. */
-export default function PageShell({ overHero, home = false, children }: PageShellProps) {
+export default function PageShell({
+  overHero,
+  home = false,
+  waText = "Hola, quiero información sobre un proyecto de construcción.",
+  children,
+}: PageShellProps) {
   const rootRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
@@ -57,6 +65,7 @@ export default function PageShell({ overHero, home = false, children }: PageShel
       <SiteNav overHero={overHero} home={home} />
       <main>{children}</main>
       <SiteFooter />
+      <WhatsAppButton text={waText} />
     </div>
   );
 }
