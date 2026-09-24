@@ -50,6 +50,15 @@ const organization = {
   },
 };
 
+const website = {
+  "@type": "WebSite",
+  "@id": `${SITE_URL}/#sitio`,
+  url: `${SITE_URL}/`,
+  name: "Grupo Proinnova",
+  inLanguage: "es-GT",
+  publisher: { "@id": ORG_ID },
+};
+
 const breadcrumbs = (items: { name: string; path: string }[]) => ({
   "@type": "BreadcrumbList",
   itemListElement: items.map((it, i) => ({
@@ -73,6 +82,7 @@ function serviceMeta(s: Service): PageMeta {
       "@context": "https://schema.org",
       "@graph": [
         organization,
+        website,
         {
           "@type": "Service",
           "@id": `${url}#servicio`,
@@ -112,17 +122,7 @@ export function pageMetas(): PageMeta[] {
       image: `${SITE_URL}/og-image.jpg`,
       jsonLd: {
         "@context": "https://schema.org",
-        "@graph": [
-          organization,
-          {
-            "@type": "WebSite",
-            "@id": `${SITE_URL}/#sitio`,
-            url: `${SITE_URL}/`,
-            name: "Grupo Proinnova",
-            inLanguage: "es-GT",
-            publisher: { "@id": ORG_ID },
-          },
-        ],
+        "@graph": [organization, website],
       },
     },
     {
@@ -136,6 +136,7 @@ export function pageMetas(): PageMeta[] {
         "@context": "https://schema.org",
         "@graph": [
           organization,
+          website,
           {
             "@type": "CollectionPage",
             "@id": `${SITE_URL}/servicios/#pagina`,
