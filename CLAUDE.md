@@ -100,6 +100,22 @@ Hero → marquesina fija (no rota) → cifras (+50 proyectos, +8 en simultáneo)
 Si agregas algo, encájalo en una de esas cinco; no crees secciones sueltas (las páginas de servicio
 son páginas aparte, no secciones de la portada).
 
+## Seguridad (2026-09-24)
+
+- Sitio 100 % estático: sin servidor, base de datos, formularios ni contraseñas → no hay dónde inyectar.
+- GitHub Pages no deja poner cabeceras HTTP, así que la **CSP va en `<meta>`** en `static-site/index.html`
+  (script-src 'self' + hash del script inline, object-src 'none', frame-src 'none', base-uri 'self'…),
+  más `referrer` y un anti-framing en el script inline. **Si cambias ese script inline, recalcula su
+  sha256 en script-src** o el sitio queda sin la clase `js` (el texto se ve a los 2.5 s).
+  Si agregas algo externo (fuentes, mapas, analytics), agrégalo a la CSP o se bloqueará.
+- Enlaces externos siempre con `target="_blank" rel="noopener noreferrer"`.
+- `npm audit` de las dependencias de producción: 0 vulnerabilidades (el repo usa bun.lock; para
+  auditar se genera un package-lock temporal fuera del repo).
+- Dominio en Hostinger: bloqueado contra transferencia y con privacidad WHOIS. Vence 2027-08-26.
+- QA de clics: `node scripts/qa-clicks.mjs [url]` (en `../proinnova-web`; `FAST=1` salta el clic real
+  en cada enlace interno, que tarda ~1 h). Revisa elementos "clicables" que no hacen nada, enlaces
+  tapados, anclas, FAQ, menú móvil, tel/mailto/WhatsApp y errores de consola (incluye bloqueos de CSP).
+
 ## Infraestructura
 
 - GitHub Pages sirve `gh-pages` (con CNAME). DNS en Hostinger vía MCP. **No toques los registros de
