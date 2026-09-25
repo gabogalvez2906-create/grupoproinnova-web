@@ -2985,11 +2985,6 @@ html.menu-open {
   }
 }
 
-/* Anchor jumps and focus scrolling stop below the fixed nav instead of under it. */
-html {
-  scroll-padding-top: 110px;
-}
-
 /* Menu open: the nav sits on dark, so its outline button goes light too. */
 .nav--menu-open .magnetic-btn--outline {
   border-color: oklch(0.968 0.006 84.6 / 0.6);
