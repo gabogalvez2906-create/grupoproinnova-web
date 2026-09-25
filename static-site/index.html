@@ -3,8 +3,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Lets CSS hide animated text until GSAP owns it (see "pre-paint hide" in styles.css). -->
-    <script>document.documentElement.classList.add("js")</script>
+    <!-- Security. GitHub Pages cannot send response headers, so the policy travels in the page.
+         If you change the inline script below, recompute its sha256 in script-src. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-612ceWDyaAaOtiHgou6JZJJuTfJHc2HPVGhP0qvrlLE='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; worker-src 'self' blob:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <!-- "js" lets CSS hide animated text until GSAP owns it (see "pre-paint hide" in styles.css);
+         the second statement stops other sites from framing this one (clickjacking). -->
+    <script>document.documentElement.classList.add("js");if(window.top!==window.self)window.top.location.href=window.location.href</script>
     <!-- Dark canvas from the very first paint: every page opens on a dark hero. -->
     <style>html{background:#1b1614}</style>
     <!--seo-->

@@ -2850,3 +2850,164 @@ html.js .hero-build__meter {
   font-size: 0.8rem;
   opacity: 0.85;
 }
+
+/* Nine services: three per row on wide screens. */
+@media (min-width: 1100px) {
+  .hub__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ---------- nav actions + phone menu ---------- */
+.nav__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav__inner {
+  position: relative;
+  z-index: 2;
+}
+
+.nav__menu-btn {
+  display: none;
+  position: relative;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--pi-ink);
+  cursor: pointer;
+}
+
+.nav--over-hero .nav__menu-btn,
+.nav--menu-open .nav__menu-btn {
+  color: var(--pi-on-dark);
+}
+
+.nav__menu-btn span {
+  position: absolute;
+  left: 13px;
+  right: 13px;
+  height: 1.5px;
+  background: currentColor;
+  transition:
+    translate 300ms ease,
+    rotate 300ms ease;
+}
+
+.nav__menu-btn span:first-child {
+  translate: 0 -4px;
+}
+
+.nav__menu-btn span:last-child {
+  translate: 0 4px;
+}
+
+.nav--menu-open .nav__menu-btn span:first-child {
+  translate: 0 0;
+  rotate: 45deg;
+}
+
+.nav--menu-open .nav__menu-btn span:last-child {
+  translate: 0 0;
+  rotate: -45deg;
+}
+
+.nav__mobile {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  height: 100vh;
+  height: 100dvh;
+  padding: 130px var(--pi-edge) 40px;
+  background: var(--pi-dark);
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    opacity 300ms ease,
+    visibility 0s linear 300ms;
+}
+
+.nav__mobile.is-open {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 300ms ease;
+}
+
+.nav__mobile ul {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav__mobile a {
+  display: block;
+  padding: 10px 0;
+  font-family: var(--pi-font-display);
+  font-size: 2.6rem;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--pi-on-dark);
+  text-decoration: none;
+  border-bottom: 1px solid oklch(0.968 0.006 84.6 / 0.12);
+}
+
+.nav--menu-open {
+  background: var(--pi-dark);
+  border-bottom-color: transparent;
+}
+
+.nav--menu-open::before {
+  display: none;
+}
+
+html.menu-open {
+  overflow: hidden;
+}
+
+@media (max-width: 860px) {
+  .nav__menu-btn {
+    display: inline-block;
+  }
+}
+
+@media (max-width: 420px) {
+  .magnetic-btn.nav__cta {
+    padding: 10px 16px;
+  }
+}
+
+/* Anchor jumps and focus scrolling stop below the fixed nav instead of under it. */
+html {
+  scroll-padding-top: 110px;
+}
+
+/* Menu open: the nav sits on dark, so its outline button goes light too. */
+.nav--menu-open .magnetic-btn--outline {
+  border-color: oklch(0.968 0.006 84.6 / 0.6);
+  color: var(--pi-on-dark);
+}
+
+/* Phones: leave room under the hero facts for the floating WhatsApp button. */
+@media (max-width: 760px) {
+  .page-hero__facts {
+    padding-bottom: 92px;
+  }
+}
+
+.nav--over-hero.nav--scrolled {
+  background: oklch(0.18 0.01 60 / 0.86);
+  backdrop-filter: blur(12px);
+}
+
+.nav--over-hero.nav--scrolled::before {
+  display: none;
+}

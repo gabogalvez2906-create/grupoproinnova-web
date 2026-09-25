@@ -9,6 +9,7 @@
 import naveTragaluces from "../../assets/obra/nave-industrial-tragaluces.webp";
 import naveTragalucesJpg from "../../assets/obra/nave-industrial-tragaluces.jpg";
 import plantaIndustrial from "../../assets/obra/planta-industrial.webp";
+import plantaIndustrialJpg from "../../assets/obra/planta-industrial.jpg";
 import bodegaMontacargas from "../../assets/obra/bodega-industrial-montacargas.webp";
 import estructuraMetalica from "../../assets/obra/estructura-metalica.webp";
 import estructuraMetalicaJpg from "../../assets/obra/estructura-metalica.jpg";
@@ -524,6 +525,71 @@ export const SERVICES: Service[] = [
     contactTitle: "Cotice los acabados de su proyecto.",
   },
   {
+    slug: "instalaciones",
+    name: "Instalaciones",
+    summary: "Instalaciones eléctricas en baja y media tensión e hidrosanitarias.",
+    seoTitle: "Instalaciones Eléctricas e Hidrosanitarias en Guatemala",
+    seoDescription:
+      "Instalaciones eléctricas en baja y media tensión e hidrosanitarias en Guatemala: agua potable, drenajes, iluminación y climatización coordinadas con la obra.",
+    eyebrow: "Instalaciones · Guatemala",
+    h1: "Instalaciones eléctricas e hidrosanitarias en Guatemala",
+    lead: "Diseñamos y ejecutamos las instalaciones que hacen funcionar un edificio —electricidad en baja y media tensión, iluminación, agua potable, drenajes y climatización— coordinadas con la estructura desde el primer plano.",
+    hero: { src: plantaIndustrial, alt: "Planta industrial con ductos, tuberías e iluminación instalados" },
+    heroJpg: plantaIndustrialJpg,
+    facts: [
+      { label: "Eléctricas", value: "Baja y media tensión" },
+      { label: "Hidrosanitarias", value: "Agua potable y drenajes" },
+      { label: "Coordinación", value: "Con estructura y acabados" },
+    ],
+    intro: {
+      title: "Las instalaciones se deciden en el plano, no en la pared.",
+      paragraphs: [
+        "Tuberías que chocan con vigas, tableros sin espacio, drenajes sin la pendiente suficiente: buena parte de los problemas de instalaciones nace cuando se resuelven en obra, sobre la marcha. Se pagan en regatas, demoliciones y acabados que hay que rehacer.",
+        "Por eso integramos las instalaciones hidrosanitarias, eléctricas y de climatización desde el diseño, coordinadas con la estructura y los acabados. En obra las ejecutamos con supervisión técnica y las probamos antes de cerrar muros y cielos.",
+        "Ejecutamos instalaciones para obra nueva, remodelaciones y ampliaciones de oficinas, locales comerciales, naves industriales y edificios.",
+      ],
+    },
+    scope: {
+      title: "Todo lo que corre por dentro",
+      items: [
+        { title: "Media tensión", desc: "Acometidas y distribución en media tensión según la demanda del proyecto." },
+        { title: "Baja tensión", desc: "Tableros, circuitos de fuerza e iluminación, tomacorrientes y protecciones." },
+        { title: "Iluminación", desc: "Iluminación interior y exterior: lineal, indirecta y de exhibición." },
+        { title: "Agua potable", desc: "Redes de agua fría y caliente, cisternas y equipos de bombeo." },
+        { title: "Drenajes", desc: "Drenajes sanitarios y pluviales, con las pendientes y registros correctos." },
+        { title: "Climatización", desc: "Ductos y preparación para aire acondicionado, coordinados con cielos y estructura." },
+      ],
+    },
+    gallery: {
+      title: "Instalaciones en obra",
+      photos: [
+        { src: oficinaIluminacion, alt: "Oficina con cielo abierto e iluminación lineal" },
+        { src: muroGaviones, alt: "Canal pluvial con muro de gaviones" },
+        { src: showroomSala, alt: "Sala de clientes con iluminación circular en el cielo" },
+      ],
+    },
+    faqs: [
+      {
+        q: "¿Trabajan instalaciones eléctricas en media tensión?",
+        a: "Sí. Ejecutamos instalaciones eléctricas en baja y media tensión, desde la acometida hasta los circuitos finales.",
+      },
+      {
+        q: "¿Pueden renovar las instalaciones de un edificio existente?",
+        a: "Sí. Revisamos las instalaciones actuales y las renovamos por etapas, como parte de una remodelación o como trabajo independiente.",
+      },
+      {
+        q: "¿Cuánto cuestan las instalaciones de una obra?",
+        a: "Dependen de la carga eléctrica, la cantidad de puntos, los metros de tubería y los equipos. Las cuantificamos a partir de los planos y las entregamos en un presupuesto desglosado.",
+      },
+      {
+        q: "¿Hacen pruebas antes de cerrar muros y cielos?",
+        a: "Sí. Probamos las redes de agua y drenaje y verificamos los circuitos antes de cerrar muros y cielos, para no tener que abrirlos después.",
+      },
+    ],
+    related: ["construccion-de-edificios", "remodelaciones", "naves-industriales"],
+    contactTitle: "Cotice las instalaciones de su obra.",
+  },
+  {
     slug: "diseno-arquitectonico",
     name: "Diseño arquitectónico",
     summary: "Planos constructivos, ingenierías y licencias de construcción.",
@@ -608,5 +674,5 @@ export const HUB = {
     "Grupo Proinnova es una constructora en Guatemala que integra en un solo equipo todas las especialidades de una obra: diseño arquitectónico, obra civil, estructuras metálicas y de concreto, instalaciones hidrosanitarias y eléctricas, y acabados de alta gama.",
     "Esa integración es lo que nos permite presupuestar con precisión, cumplir las fechas y responder por el resultado completo. Hemos entregado más de 50 proyectos y tenemos capacidad para sostener más de ocho obras en simultáneo.",
   ],
-  more: "También ejecutamos instalaciones hidrosanitarias y eléctricas, movimientos de tierra y project management como parte de cada proyecto.",
+  more: "También ejecutamos movimientos de tierra y project management como parte de cada proyecto.",
 };

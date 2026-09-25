@@ -25,8 +25,8 @@ const services = [
   { page: "diseno-arquitectonico", n: "04", title: "Diseño Arquitectónico", desc: "Planos y permisos", img: residencia },
   { page: "acabados", n: "05", title: "Acabados", desc: "Pisos, muros y detalles", img: oficinaLounge },
   { page: "estructuras-metalicas", n: "06", title: "Estructuras Metálicas", desc: "Fabricación y montaje", img: estructuraMetalica },
-  { n: "07", title: "Instalaciones Hidrosanitarias", desc: "Agua potable y drenajes", img: muroGaviones },
-  { n: "08", title: "Instalaciones Eléctricas", desc: "Baja y media tensión", img: oficinaIluminacion },
+  { page: "instalaciones", n: "07", title: "Instalaciones Hidrosanitarias", desc: "Agua potable y drenajes", img: muroGaviones },
+  { page: "instalaciones", n: "08", title: "Instalaciones Eléctricas", desc: "Baja y media tensión", img: oficinaIluminacion },
   { page: "obra-civil", n: "09", title: "Movimientos de Tierra", desc: "Corte, relleno y nivelación", img: movimientoTierra },
   { page: "construccion-de-edificios", n: "10", title: "Project Management", desc: "Tiempo, costo y calidad", img: obrerosColado },
 ];
