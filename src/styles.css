@@ -3006,3 +3006,92 @@ html.menu-open {
 .nav--over-hero.nav--scrolled::before {
   display: none;
 }
+
+/* ---------- brand band (replaces the old marquee) ---------- */
+.brand-band {
+  background: var(--pi-dark);
+  padding: 34px var(--pi-gutter);
+}
+
+.brand-band__list {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid oklch(0.718 0.051 80.1 / 0.28);
+  border-bottom: 1px solid oklch(0.718 0.051 80.1 / 0.28);
+}
+
+.brand-band__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 26px 12px;
+  font-family: var(--pi-font-brand);
+  font-weight: 400;
+  font-size: clamp(0.84rem, 1.08vw, 1.08rem);
+  letter-spacing: 0.34em;
+  /* tracking also trails the last letter: indent by the same amount to stay centred */
+  text-indent: 0.34em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: oklch(0.93 0.008 84.6);
+  transition: color 300ms ease;
+}
+
+.brand-band__item + .brand-band__item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 1px;
+  height: 28px;
+  translate: 0 -50%;
+  background: oklch(0.718 0.051 80.1 / 0.35);
+}
+
+/* a small tan diamond on every divider */
+.brand-band__item + .brand-band__item::after {
+  content: "";
+  position: absolute;
+  left: -3px;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  translate: 0 -50%;
+  rotate: 45deg;
+  background: var(--pi-tan);
+}
+
+.brand-band__item:hover {
+  color: var(--pi-tan-light);
+}
+
+@media (max-width: 900px) {
+  .brand-band__list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .brand-band__item {
+    padding: 20px 8px;
+    letter-spacing: 0.22em;
+    text-indent: 0.22em;
+  }
+  /* no divider at the start of each row */
+  .brand-band__item:nth-child(3n + 1)::before,
+  .brand-band__item:nth-child(3n + 1)::after {
+    display: none;
+  }
+  .brand-band__item:nth-child(n + 4) {
+    border-top: 1px solid oklch(0.718 0.051 80.1 / 0.14);
+  }
+}
+
+@media (max-width: 420px) {
+  .brand-band__item {
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-indent: 0.16em;
+  }
+}

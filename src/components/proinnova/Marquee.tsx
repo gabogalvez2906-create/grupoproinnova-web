@@ -2,18 +2,16 @@ interface MarqueeProps {
   items: string[];
 }
 
-/** Brand words as a fixed band under the hero (it used to scroll sideways). */
+/**
+ * Brand values as a fixed, quiet band under the hero: the wordmark's typeface,
+ * wide tracking, one column per word with hairline dividers.
+ */
 export default function Marquee({ items }: MarqueeProps) {
   return (
-    <div className="marquee">
-      <ul className="marquee__track">
-        {items.map((item, i) => (
-          <li className="marquee__item" key={item}>
-            {i > 0 && (
-              <span className="marquee__dot" aria-hidden="true">
-                ●
-              </span>
-            )}
+    <div className="brand-band">
+      <ul className="brand-band__list" aria-label="Lo que nos define">
+        {items.map((item) => (
+          <li className="brand-band__item" key={item}>
             {item}
           </li>
         ))}
