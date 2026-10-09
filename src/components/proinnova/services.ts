@@ -11,12 +11,14 @@ import naveTragalucesJpg from "../../assets/obra/nave-industrial-tragaluces.jpg"
 import plantaIndustrial from "../../assets/obra/planta-industrial.webp";
 import plantaIndustrialJpg from "../../assets/obra/planta-industrial.jpg";
 import bodegaMontacargas from "../../assets/obra/bodega-industrial-montacargas.webp";
+import bodegaMontacargasJpg from "../../assets/obra/bodega-industrial-montacargas.jpg";
 import estructuraMetalica from "../../assets/obra/estructura-metalica.webp";
 import estructuraMetalicaJpg from "../../assets/obra/estructura-metalica.jpg";
 import edificioComercial from "../../assets/obra/edificio-comercial-obra-gris.webp";
 import oficinaTablayeso from "../../assets/obra/oficina-remodelacion-tablayeso.webp";
 import oficinaTablayesoJpg from "../../assets/obra/oficina-remodelacion-tablayeso.jpg";
 import showroomSala from "../../assets/obra/showroom-sala-clientes.webp";
+import showroomSalaJpg from "../../assets/obra/showroom-sala-clientes.jpg";
 import oficinaLounge from "../../assets/obra/oficina-lounge.webp";
 import oficinaIluminacion from "../../assets/obra/oficina-iluminacion.webp";
 import pizzaHut from "../../assets/obra/pizza-hut-fachada.webp";
@@ -131,7 +133,7 @@ export const SERVICES: Service[] = [
         a: "Con la ubicación del terreno y una idea de cómo va a operar el espacio es suficiente para la primera reunión. A partir de ahí definimos con usted el alcance, el presupuesto y el cronograma.",
       },
     ],
-    related: ["estructuras-metalicas", "obra-civil", "construccion-de-edificios"],
+    related: ["construccion-de-bodegas", "estructuras-metalicas", "obra-civil"],
     contactTitle: "Cotice su nave industrial.",
   },
   {
@@ -196,7 +198,7 @@ export const SERVICES: Service[] = [
         a: "Por el peso y el tipo de los perfiles, la cubierta y la complejidad del montaje. Entregamos un presupuesto desglosado después de revisar los planos o visitar el sitio.",
       },
     ],
-    related: ["naves-industriales", "locales-comerciales", "construccion-de-edificios"],
+    related: ["naves-industriales", "construccion-de-bodegas", "locales-comerciales"],
     contactTitle: "Cotice su estructura metálica.",
   },
   {
@@ -261,7 +263,7 @@ export const SERVICES: Service[] = [
         a: "Sí. Remodelamos locales comerciales y showrooms, y coordinamos con la administración del inmueble los horarios y requisitos de la obra.",
       },
     ],
-    related: ["acabados", "locales-comerciales", "diseno-arquitectonico"],
+    related: ["tablayeso-y-cielos-falsos", "acabados", "locales-comerciales"],
     contactTitle: "Cotice la remodelación de su espacio.",
   },
   {
@@ -521,7 +523,7 @@ export const SERVICES: Service[] = [
         a: "Sí. Además de oficinas y comercios, ejecutamos acabados para residencias.",
       },
     ],
-    related: ["remodelaciones", "locales-comerciales", "diseno-arquitectonico"],
+    related: ["tablayeso-y-cielos-falsos", "remodelaciones", "locales-comerciales"],
     contactTitle: "Cotice los acabados de su proyecto.",
   },
   {
@@ -653,6 +655,140 @@ export const SERVICES: Service[] = [
     ],
     related: ["construccion-de-edificios", "remodelaciones", "naves-industriales"],
     contactTitle: "Empecemos por el diseño.",
+  },
+  {
+    // Added from keyword data (Oct 2026): "tablayeso" and "cielo falso de tablayeso"
+    // carry the largest search volume in the sector and had no page of their own.
+    slug: "tablayeso-y-cielos-falsos",
+    name: "Tablayeso y cielos falsos",
+    summary: "Divisiones, muros y cielos falsos de tablayeso, instalados y acabados.",
+    seoTitle: "Tablayeso y Cielos Falsos en Guatemala | Grupo Proinnova",
+    seoDescription:
+      "Instalación de tablayeso en Guatemala: divisiones, muros, cielos falsos y detalles para iluminación, con estructura, pasta, pintura y acabado listos para usar.",
+    eyebrow: "Tablayeso y cielos falsos · Guatemala",
+    h1: "Instalación de tablayeso y cielos falsos en Guatemala",
+    lead: "Divisiones, muros y cielos falsos de tablayeso para oficinas, locales y showrooms: suministro, estructura, instalación y acabado final por un solo equipo.",
+    hero: { src: showroomSala, alt: "Sala de atención a clientes con cielo falso de tablayeso e iluminación circular" },
+    heroJpg: showroomSalaJpg,
+    facts: [
+      { label: "Aplicaciones", value: "Divisiones, muros y cielos" },
+      { label: "Espacios", value: "Oficinas, locales y showrooms" },
+      { label: "Incluye", value: "Estructura, instalación y acabado" },
+    ],
+    intro: {
+      title: "El tablayeso se nota cuando está mal hecho.",
+      paragraphs: [
+        "Una división de tablayeso bien ejecutada es invisible: juntas que no se marcan, esquinas a escuadra, cielos nivelados y una superficie lista para pintar. Cuando se instala sin cuidado aparecen fisuras, ondulaciones y uniones a la vista a los pocos meses.",
+        "Trabajamos el tablayeso como parte de la obra, no como un trabajo aislado. El mismo equipo coordina la estructura metálica de soporte, las instalaciones que van por dentro de los muros y sobre el cielo, la pasta, el lijado y la pintura, para que nada se tenga que abrir dos veces.",
+        "Instalamos divisiones para oficinas y salas de juntas, muros de recubrimiento, cielos falsos lisos y con diseño, cajillos y nichos para iluminación indirecta, tanto en obra nueva como en remodelaciones de espacios que siguen en operación.",
+      ],
+    },
+    scope: {
+      title: "Qué incluye la instalación",
+      items: [
+        { title: "Trazo y estructura", desc: "Replanteo en sitio y armado de la estructura de postes y canales que soporta cada muro o cielo." },
+        { title: "Divisiones y muros", desc: "Tabiques para oficinas, salas de juntas y bodegas interiores, con refuerzos donde van puertas y muebles." },
+        { title: "Cielos falsos", desc: "Cielos lisos, a desnivel y con diseño, nivelados y con registros para dar mantenimiento a las instalaciones." },
+        { title: "Detalles para iluminación", desc: "Cajillos, nichos y gargantas para luz indirecta, lineal y luminarias empotradas." },
+        { title: "Instalaciones integradas", desc: "Electricidad, datos y climatización coordinados antes de cerrar muros y cielos." },
+        { title: "Pasta, lijado y pintura", desc: "Tratamiento de juntas y acabado final, listo para usar el espacio." },
+      ],
+    },
+    gallery: {
+      title: "Tablayeso en obra terminada",
+      photos: [
+        { src: oficinaTablayeso, alt: "Oficina remodelada con divisiones de tablayeso e iluminación indirecta" },
+        { src: recepcion, alt: "Recepción corporativa con cielo falso y recubrimientos de madera" },
+        { src: oficinaIluminacion, alt: "Oficina con iluminación lineal suspendida" },
+      ],
+    },
+    faqs: [
+      {
+        q: "¿Cuánto cuesta instalar tablayeso en Guatemala?",
+        a: "Depende del área, de la altura, del tipo de plancha, de si es división o cielo falso y del acabado que se quiera. Después de ver el espacio o los planos le entregamos un presupuesto desglosado por actividad.",
+      },
+      {
+        q: "¿Instalan cielo falso de tablayeso con iluminación indirecta?",
+        a: "Sí. Construimos cielos lisos y a desnivel con cajillos y gargantas para luz indirecta, y coordinamos la instalación eléctrica antes de cerrar el cielo.",
+      },
+      {
+        q: "¿Pueden trabajar en una oficina o local que sigue funcionando?",
+        a: "Sí. Planificamos el trabajo por etapas y, cuando hace falta, en horario nocturno o de fin de semana para no interrumpir su operación.",
+      },
+      {
+        q: "¿El servicio incluye el material?",
+        a: "Sí. Trabajamos por proyecto: suministramos las planchas, la estructura y los materiales de acabado, y entregamos el muro o el cielo terminado y pintado.",
+      },
+    ],
+    related: ["remodelaciones", "acabados", "locales-comerciales"],
+    contactTitle: "Cotice su proyecto de tablayeso.",
+  },
+  {
+    // Added from keyword data (Oct 2026): warehouses were only mentioned inside the
+    // industrial-buildings page, so "construcción de bodegas" had nowhere to land.
+    slug: "construccion-de-bodegas",
+    name: "Construcción de bodegas",
+    summary: "Bodegas industriales y de almacenamiento, de la terracería a la entrega.",
+    seoTitle: "Construcción de Bodegas en Guatemala | Grupo Proinnova",
+    seoDescription:
+      "Construcción de bodegas industriales y de almacenamiento en Guatemala: terracería, cimentación, estructura metálica, cubierta, piso industrial e instalaciones.",
+    eyebrow: "Construcción de bodegas · Guatemala",
+    h1: "Construcción de bodegas industriales en Guatemala",
+    lead: "Bodegas para almacenamiento, distribución y producción, construidas por un solo equipo: desde el movimiento de tierras hasta el piso industrial y las instalaciones.",
+    hero: { src: bodegaMontacargas, alt: "Bodega industrial con estructura metálica y montacargas descargando un contenedor" },
+    heroJpg: bodegaMontacargasJpg,
+    facts: [
+      { label: "Tipos", value: "Almacenamiento, distribución y producción" },
+      { label: "Estructura", value: "Metálica, con cubierta y tragaluces" },
+      { label: "Alcance", value: "De la terracería a la entrega" },
+    ],
+    intro: {
+      title: "Una bodega se diseña desde su operación.",
+      paragraphs: [
+        "Antes de definir la estructura hay que saber cómo se va a usar el espacio: qué se almacena, a qué altura, qué equipos circulan, por dónde entran los camiones y cuánta luz natural hace falta. De esas respuestas salen los claros, la altura libre, el piso y los accesos.",
+        "Construimos la bodega completa bajo un solo contrato. El mismo equipo ejecuta el movimiento de tierras, la cimentación, la estructura metálica, la cubierta, los cerramientos, el piso industrial y las instalaciones eléctricas e hidrosanitarias, sin que usted tenga que coordinar a varios contratistas.",
+        "Trabajamos bodegas nuevas y ampliaciones de naves existentes, y planificamos la obra para que una operación que ya está en marcha pueda seguir funcionando mientras se construye.",
+      ],
+    },
+    scope: {
+      title: "Lo que construimos en una bodega",
+      items: [
+        { title: "Terracería y plataformas", desc: "Corte, relleno, compactación y nivelación del terreno para recibir la estructura y los patios." },
+        { title: "Cimentación", desc: "Zapatas, pedestales y vigas de amarre dimensionadas para las cargas de la estructura." },
+        { title: "Estructura metálica", desc: "Fabricación y montaje de marcos, columnas, vigas y costaneras." },
+        { title: "Cubierta y cerramientos", desc: "Lámina, tragaluces para luz natural, muros perimetrales y portones." },
+        { title: "Piso industrial", desc: "Losa de concreto preparada para el tránsito de montacargas y el peso del almacenamiento." },
+        { title: "Instalaciones y áreas de apoyo", desc: "Electricidad, iluminación, agua, drenajes, oficinas y servicios dentro de la bodega." },
+      ],
+    },
+    gallery: {
+      title: "Bodegas y naves construidas",
+      photos: [
+        { src: naveTragaluces, alt: "Nave industrial con estructura metálica y tragaluces en la cubierta" },
+        { src: plantaIndustrial, alt: "Interior de planta industrial en operación" },
+        { src: estructuraMetalica, alt: "Estructura metálica en montaje" },
+      ],
+    },
+    faqs: [
+      {
+        q: "¿Cuánto cuesta construir una bodega en Guatemala?",
+        a: "Depende del área, de la altura libre, del tipo de terreno, de la estructura y del piso que requiera su operación. Con sus necesidades y el terreno definidos le entregamos un presupuesto desglosado por actividad.",
+      },
+      {
+        q: "¿Cuánto tiempo tarda la construcción de una bodega?",
+        a: "Depende del tamaño y de las condiciones del terreno. Antes de iniciar le entregamos un cronograma por etapas, y ese es el plazo con el que nos comprometemos.",
+      },
+      {
+        q: "¿Se encargan también del movimiento de tierras y del piso?",
+        a: "Sí. Ejecutamos la obra completa: terracería, cimentación, estructura, cubierta, piso industrial e instalaciones, con un solo responsable.",
+      },
+      {
+        q: "¿Pueden ampliar una bodega que ya está en uso?",
+        a: "Sí. Planificamos la ampliación por etapas para que su operación siga funcionando durante la obra.",
+      },
+    ],
+    related: ["naves-industriales", "estructuras-metalicas", "obra-civil"],
+    contactTitle: "Cotice la construcción de su bodega.",
   },
 ];
 
