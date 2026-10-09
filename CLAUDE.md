@@ -117,6 +117,10 @@ son páginas aparte, no secciones de la portada).
 - `npm audit` de las dependencias de producción: 0 vulnerabilidades (el repo usa bun.lock; para
   auditar se genera un package-lock temporal fuera del repo).
 - Dominio en Hostinger: bloqueado contra transferencia y con privacidad WHOIS. Vence 2027-08-26.
+- **QA completo: `node scripts/qa-site.mjs [origen]`** (desde `../proinnova-web`, ~4 min): las páginas del sitemap
+  en escritorio y móvil — consola, HTTP, head SEO, H1 único, JSON-LD, imágenes rotas, enlaces y anclas,
+  desborde y datos de contacto. Dos avisos son esperados: «Desliza para construir» invisible (se oculta
+  al hacer scroll) y el 404 de la página inexistente. Córrelo antes de dar algo por terminado.
 - QA de clics: `node scripts/qa-clicks.mjs [url]` (en `../proinnova-web`; `FAST=1` salta el clic real
   en cada enlace interno, que tarda ~1 h). Revisa elementos "clicables" que no hacen nada, enlaces
   tapados, anclas, FAQ, menú móvil, tel/mailto/WhatsApp y errores de consola (incluye bloqueos de CSP).
