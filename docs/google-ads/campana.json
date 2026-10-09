@@ -1,0 +1,370 @@
+{
+  "campaign": {
+    "name": "Proinnova | Búsqueda | Guatemala",
+    "type": "Búsqueda (sin Red de Display, sin socios de búsqueda)",
+    "locations": "Guatemala — opción «Presencia: personas que están en la ubicación»",
+    "languages": "Español",
+    "schedule": "Todos los días, 7:00 a 19:00",
+    "dailyBudgetGTQ": 65,
+    "bidding": "Maximizar clics con CPC máximo de Q12; cambiar a Maximizar conversiones al llegar a 20-30 conversiones",
+    "finalUrlSuffix": "utm_source=google&utm_medium=cpc&utm_campaign=busqueda-gt"
+  },
+  "adGroups": [
+    {
+      "name": "Constructora",
+      "finalUrl": "https://grupoproinnova.com/",
+      "path": [
+        "constructora",
+        "guatemala"
+      ],
+      "keywords": [
+        "\"empresa constructora\"",
+        "\"empresa constructora guatemala\"",
+        "\"constructoras de guatemala\"",
+        "\"constructora en guatemala\"",
+        "\"empresa constructora cerca de mi\"",
+        "\"contratista general\"",
+        "[constructora guatemala]"
+      ],
+      "headlines": [
+        "Constructora en Guatemala",
+        "Grupo Proinnova",
+        "Diseño, Obra y Acabados",
+        "Un Solo Responsable",
+        "Cotice su Obra Hoy",
+        "Presupuesto Desglosado",
+        "Cronogramas que se Cumplen",
+        "Obra Llave en Mano",
+        "Más de 50 Proyectos",
+        "Atención de 7 a 19 Horas",
+        "Escríbanos por WhatsApp",
+        "Contratista General"
+      ],
+      "descriptions": [
+        "Diseño, obra civil, estructuras, instalaciones y acabados bajo un solo contrato.",
+        "Presupuesto desglosado y un solo interlocutor de la idea a la entrega. Cotice hoy.",
+        "Construcción comercial e industrial en Guatemala. Un estándar y una fecha que se cumple.",
+        "Cuéntenos su proyecto por WhatsApp. Atendemos todos los días, de 7:00 a 19:00."
+      ]
+    },
+    {
+      "name": "Estructuras metálicas",
+      "finalUrl": "https://grupoproinnova.com/servicios/estructuras-metalicas/",
+      "path": [
+        "estructuras",
+        "metalicas"
+      ],
+      "keywords": [
+        "\"estructuras metalicas\"",
+        "\"estructuras metalicas guatemala\"",
+        "\"fabricacion de estructuras metalicas\"",
+        "\"fabricantes de estructuras metalicas\"",
+        "\"estructuras metalicas para bodegas\"",
+        "\"montaje de estructuras metalicas\"",
+        "\"estructuras metalicas para techos\""
+      ],
+      "headlines": [
+        "Estructuras Metálicas",
+        "Fabricación y Montaje",
+        "Estructuras para Bodegas",
+        "Estructuras en Guatemala",
+        "Grupo Proinnova",
+        "Cotice su Estructura",
+        "Diseño, Fabricación y Obra",
+        "Un Solo Responsable",
+        "Presupuesto Desglosado",
+        "Techos y Naves de Acero",
+        "Escríbanos por WhatsApp",
+        "Obra Llave en Mano"
+      ],
+      "descriptions": [
+        "Diseño, fabricación y montaje de estructuras de acero para naves, bodegas y locales.",
+        "Cimentación, estructura y cubierta por un solo equipo. Presupuesto desglosado.",
+        "Cuéntenos el área y el uso de su proyecto y reciba una cotización por actividad.",
+        "Estructuras metálicas en Guatemala con un cronograma por etapas que sí se cumple."
+      ]
+    },
+    {
+      "name": "Naves y bodegas",
+      "finalUrl": "https://grupoproinnova.com/servicios/construccion-de-bodegas/",
+      "path": [
+        "bodegas",
+        "industriales"
+      ],
+      "keywords": [
+        "\"construccion de bodegas\"",
+        "\"construccion de bodegas industriales\"",
+        "\"construccion de naves industriales\"",
+        "\"naves industriales guatemala\"",
+        "\"constructora de bodegas\"",
+        "\"construccion de ofibodegas\"",
+        "\"bodegas industriales construccion\""
+      ],
+      "headlines": [
+        "Construcción de Bodegas",
+        "Naves Industriales",
+        "Bodegas Llave en Mano",
+        "Grupo Proinnova",
+        "De la Terracería al Piso",
+        "Estructura y Piso Industrial",
+        "Cotice su Bodega",
+        "Un Solo Contrato",
+        "Ampliación de Bodegas",
+        "Presupuesto Desglosado",
+        "Bodegas en Guatemala",
+        "Escríbanos por WhatsApp"
+      ],
+      "descriptions": [
+        "Terracería, cimentación, estructura metálica, cubierta y piso industrial en un contrato.",
+        "Bodegas de almacenamiento, distribución y producción. Cronograma por etapas.",
+        "Ampliamos bodegas en operación sin detener su negocio. Cotice su proyecto hoy.",
+        "Cuéntenos el área y la altura que necesita y reciba un presupuesto desglosado."
+      ]
+    },
+    {
+      "name": "Remodelaciones",
+      "finalUrl": "https://grupoproinnova.com/servicios/remodelaciones/",
+      "path": [
+        "remodelaciones",
+        "oficinas"
+      ],
+      "keywords": [
+        "\"remodelacion de oficinas\"",
+        "\"remodelacion de oficina\"",
+        "\"empresas de remodelaciones\"",
+        "\"remodelaciones guatemala\"",
+        "\"contratista de remodelaciones\"",
+        "\"remodelacion de locales\"",
+        "\"remodelacion de locales comerciales\""
+      ],
+      "headlines": [
+        "Remodelación de Oficinas",
+        "Remodelación de Locales",
+        "Sin Detener su Operación",
+        "Trabajo Nocturno o por Etapas",
+        "Grupo Proinnova",
+        "Cotice su Remodelación",
+        "Diseño, Obra y Acabados",
+        "Un Solo Responsable",
+        "Tablayeso e Iluminación",
+        "Presupuesto Desglosado",
+        "Remodelaciones en Guatemala",
+        "Escríbanos por WhatsApp"
+      ],
+      "descriptions": [
+        "Remodelamos oficinas, recepciones, showrooms y locales sin detener su operación.",
+        "Diseño, tablayeso, instalaciones y acabados con un solo equipo. Cotice hoy.",
+        "Obra por etapas o en horario nocturno, con presupuesto desglosado por actividad.",
+        "Visitamos su espacio y le entregamos un presupuesto claro. Escríbanos por WhatsApp."
+      ]
+    },
+    {
+      "name": "Tablayeso y cielos falsos",
+      "finalUrl": "https://grupoproinnova.com/servicios/tablayeso-y-cielos-falsos/",
+      "path": [
+        "tablayeso",
+        "cielos-falsos"
+      ],
+      "keywords": [
+        "\"instalacion de tablayeso\"",
+        "\"cielo falso de tablayeso\"",
+        "\"instaladores de tablayeso\"",
+        "\"divisiones de tablayeso\"",
+        "\"cielos falsos guatemala\"",
+        "\"instalacion de cielo falso\"",
+        "\"tablayeso para oficinas\""
+      ],
+      "headlines": [
+        "Instalación de Tablayeso",
+        "Cielos Falsos de Tablayeso",
+        "Divisiones para Oficinas",
+        "Material e Instalación",
+        "Grupo Proinnova",
+        "Cotice su Proyecto",
+        "Con Iluminación Indirecta",
+        "Entregado y Pintado",
+        "Oficinas y Locales",
+        "Presupuesto Desglosado",
+        "Tablayeso en Guatemala",
+        "Escríbanos por WhatsApp"
+      ],
+      "descriptions": [
+        "Divisiones, muros y cielos falsos de tablayeso para oficinas y locales, ya pintados.",
+        "Estructura, planchas, pasta y pintura por un solo equipo. Cotice su proyecto hoy.",
+        "Cielos con cajillos para luz indirecta. Trabajamos por etapas o en horario nocturno.",
+        "Envíenos el área o los planos y reciba un presupuesto desglosado por actividad."
+      ]
+    },
+    {
+      "name": "Locales comerciales",
+      "finalUrl": "https://grupoproinnova.com/servicios/locales-comerciales/",
+      "path": [
+        "locales",
+        "comerciales"
+      ],
+      "keywords": [
+        "\"construccion de locales comerciales\"",
+        "\"construccion de restaurantes\"",
+        "\"constructora de locales comerciales\"",
+        "\"construccion de showroom\"",
+        "\"adecuacion de locales comerciales\"",
+        "\"construccion de tiendas\""
+      ],
+      "headlines": [
+        "Locales Comerciales",
+        "Restaurantes y Showrooms",
+        "Locales Listos para Abrir",
+        "Grupo Proinnova",
+        "Cotice su Local",
+        "Diseño, Obra y Acabados",
+        "Un Solo Responsable",
+        "Fecha de Apertura Cumplida",
+        "Presupuesto Desglosado",
+        "Locales en Guatemala",
+        "Obra Llave en Mano",
+        "Escríbanos por WhatsApp"
+      ],
+      "descriptions": [
+        "Construimos restaurantes, showrooms y locales comerciales listos para abrir.",
+        "Obra, instalaciones y acabados con un solo equipo y una fecha que se cumple.",
+        "Coordinamos con la administración del centro comercial los horarios de la obra.",
+        "Cuéntenos su proyecto y reciba un presupuesto desglosado. Escríbanos por WhatsApp."
+      ]
+    }
+  ],
+  "negativeKeywords": [
+    "empleo",
+    "empleos",
+    "trabajo",
+    "trabajos",
+    "vacante",
+    "vacantes",
+    "plaza",
+    "plazas",
+    "sueldo",
+    "salario",
+    "curso",
+    "cursos",
+    "carrera",
+    "universidad",
+    "tesis",
+    "pdf",
+    "libro",
+    "manual",
+    "organigrama",
+    "logotipo",
+    "logo",
+    "que es",
+    "definicion",
+    "historia",
+    "ejemplos",
+    "dibujos",
+    "planos gratis",
+    "gratis",
+    "como crear",
+    "como constituir",
+    "como hacer",
+    "tutorial",
+    "paso a paso",
+    "venta",
+    "ventas",
+    "comprar",
+    "ferreteria",
+    "distribuidor",
+    "plancha",
+    "planchas",
+    "tarugo",
+    "tornillo",
+    "pasta",
+    "poste",
+    "canal",
+    "perfiles",
+    "cinta",
+    "usado",
+    "usados",
+    "alquiler",
+    "renta",
+    "en venta",
+    "mexico",
+    "costa rica",
+    "panama",
+    "el salvador",
+    "honduras",
+    "colombia",
+    "argentina",
+    "chile",
+    "peru",
+    "españa",
+    "irtra",
+    "distelsa",
+    "piscinas",
+    "baño",
+    "baños",
+    "cocina",
+    "cocinas",
+    "jardin",
+    "jardines"
+  ],
+  "sitelinks": [
+    {
+      "text": "Naves Industriales",
+      "d1": "Naves, bodegas y plantas",
+      "d2": "Llave en mano",
+      "url": "https://grupoproinnova.com/servicios/naves-industriales/"
+    },
+    {
+      "text": "Estructuras Metálicas",
+      "d1": "Diseño, fabricación y montaje",
+      "d2": "Estructuras de acero",
+      "url": "https://grupoproinnova.com/servicios/estructuras-metalicas/"
+    },
+    {
+      "text": "Remodelaciones",
+      "d1": "Oficinas, locales y showrooms",
+      "d2": "Sin detener su operación",
+      "url": "https://grupoproinnova.com/servicios/remodelaciones/"
+    },
+    {
+      "text": "Obra Civil",
+      "d1": "Terracería y cimentaciones",
+      "d2": "Muros y drenajes",
+      "url": "https://grupoproinnova.com/servicios/obra-civil/"
+    },
+    {
+      "text": "Todos los Servicios",
+      "d1": "Diseño, obra y acabados",
+      "d2": "Un solo responsable",
+      "url": "https://grupoproinnova.com/servicios/"
+    },
+    {
+      "text": "Casos de Éxito",
+      "d1": "Proyectos entregados",
+      "d2": "Industrial y comercial",
+      "url": "https://grupoproinnova.com/#casos"
+    }
+  ],
+  "callouts": [
+    "Presupuesto Desglosado",
+    "Un Solo Responsable",
+    "Atención 7:00 a 19:00",
+    "Más de 50 Proyectos",
+    "Diseño, Obra y Acabados",
+    "Cronograma por Etapas",
+    "Respuesta por WhatsApp",
+    "Obra Llave en Mano"
+  ],
+  "structuredSnippet": {
+    "header": "Servicios",
+    "values": [
+      "Naves industriales",
+      "Estructuras metálicas",
+      "Remodelaciones",
+      "Locales comerciales",
+      "Obra civil",
+      "Tablayeso",
+      "Acabados",
+      "Instalaciones"
+    ]
+  },
+  "callExtension": "+502 4214 1321"
+}

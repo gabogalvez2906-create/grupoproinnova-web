@@ -75,6 +75,11 @@ Browser de la app no compone WebGL (`document.hidden`), no sirve para esto.
 
 ## SEO y páginas
 
+- **Tráfico (SEO + Google Ads): lee `docs/estrategia-seo-sem.md` antes de proponer nada.** Trae la demanda
+  real de Guatemala (el rubro suma ~1,300 búsquedas comerciales al mes; es un mercado chico y de alto
+  valor por contacto). La campaña de Ads está en `docs/google-ads/` y la ficha de Google en
+  `docs/ficha-google-business.md`. Pendiente del dueño: ID de GA4, cuenta de Ads y ficha verificada.
+
 - Sitio **multipágina pre-renderizado**: `/`, `/servicios/`, 8 páginas `/servicios/<slug>/` y `404.html`.
   `scripts/prerender.mjs` (dentro de `build-static.sh`) escribe un HTML por página con su `<head>`
   propio y el cuerpo ya renderizado; el cliente hidrata el componente que indica `<body data-page>`.

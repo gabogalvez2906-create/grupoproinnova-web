@@ -90,10 +90,11 @@ legítimas en 90 días.
 
 En orden de retorno esperado:
 
-1. **Tablayeso y cielos falsos** — página de servicio nueva. Captura el mayor volumen disponible.
-2. **Remodelación de oficinas** — página propia separada de "Remodelaciones". Poca búsqueda pero la
-   puja más alta del sector (USD 4.03): es donde está el dinero.
-3. **Construcción de bodegas** — hoy va dentro de naves industriales; merece página.
+1. **Tablayeso y cielos falsos** — publicada el 2026-10-09 en `/servicios/tablayeso-y-cielos-falsos/`.
+2. **Construcción de bodegas** — publicada el 2026-10-09 en `/servicios/construccion-de-bodegas/`.
+3. **Remodelación de oficinas** — ya la cubre `/servicios/remodelaciones/` (título y H1 la nombran).
+   No crear otra: competirían entre sí. Es la puja más alta del sector (USD 4.03), así que se
+   refuerza con anuncios y con casos de éxito, no con otra página.
 4. **Casos de éxito con página propia** (uno por obra): alcance, m², plazo, fotos. Es el contenido que
    más convence y el que más enlaces consigue. Requiere datos reales de cada obra.
 5. **Guías** que responden lo que se pregunta antes de contratar: cuánto tarda construir una nave
@@ -155,11 +156,10 @@ El mercado mismo pone el techo: con ~1,300 búsquedas al mes no se puede gastar 
 |---|---|---|
 | 1 | Ficha de Google creada y en verificación; GA4 creado; Bing Webmaster importado | Empresa |
 | 1 | GA4 + conversiones instalados en el sitio | Desarrollo |
-| 2 | Páginas nuevas: tablayeso/cielos falsos y remodelación de oficinas | Desarrollo |
+| 2 | Páginas nuevas: tablayeso/cielos falsos y construcción de bodegas — **hecho** | Desarrollo |
 | 2–3 | Altas en Cámara de la Construcción y directorios | Empresa |
 | 3 | Campaña de Google Ads encendida | Ambos |
 | 4–8 | 3 casos de éxito con página propia; primeras 10 reseñas | Ambos |
-| 6 | Página de construcción de bodegas | Desarrollo |
 | 8–12 | Una guía al mes; ajustar pujas y negativas con datos reales | Ambos |
 | 12 | Revisión: posiciones, contactos por canal, costo por contacto | Ambos |
 
@@ -170,3 +170,9 @@ El mercado mismo pone el techo: con ~1,300 búsquedas al mes no se puede gastar 
 - Ficha de Google: llamadas, solicitudes de ruta y clics al sitio.
 - GA4: contactos por canal (orgánico, anuncios, directo, referido).
 - La métrica que manda: **contactos calificados al mes y costo por contacto**, no visitas.
+
+## 7. Archivos de trabajo
+
+- `docs/google-ads/` — campaña completa: `campana.json` (fuente), CSV para Google Ads Editor y `LEEME.md`.
+- `docs/ficha-google-business.md` — textos y pasos para la ficha de Google.
+- `scripts/build-google-ads.mjs` — valida límites de caracteres y regenera los CSV.
