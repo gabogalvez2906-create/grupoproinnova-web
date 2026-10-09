@@ -14,7 +14,8 @@ const stats = [
     note: "Capacidad para sostener varios frentes a la vez sin que ninguno pierda supervisión.",
   },
   {
-    n: 10,
+    // Matches the numbered list in ServicesInteractive (Soluciones integrales).
+    n: 12,
     plus: false,
     featured: false,
     label: "Especialidades integradas",
