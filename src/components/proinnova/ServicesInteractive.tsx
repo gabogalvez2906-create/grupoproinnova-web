@@ -14,6 +14,7 @@ import muroGaviones from "../../assets/obra/muro-gaviones.webp";
 import oficinaIluminacion from "../../assets/obra/oficina-iluminacion.webp";
 import movimientoTierra from "../../assets/obra/movimiento-de-tierra.webp";
 import obrerosColado from "../../assets/obra/obreros-colado-losa.webp";
+import bodegaMontacargas from "../../assets/obra/bodega-industrial-montacargas.webp";
 import estructuraConcreto from "../../assets/obra/estructura-concreto-multinivel.webp";
 import oficinaRemodelacion from "../../assets/obra/oficina-remodelacion-tablayeso.webp";
 import recepcionCorporativa from "../../assets/obra/recepcion-corporativa.webp";
@@ -29,6 +30,8 @@ const services = [
   { page: "instalaciones", n: "08", title: "Instalaciones Eléctricas", desc: "Baja y media tensión", img: oficinaIluminacion },
   { page: "obra-civil", n: "09", title: "Movimientos de Tierra", desc: "Corte, relleno y nivelación", img: movimientoTierra },
   { page: "construccion-de-edificios", n: "10", title: "Project Management", desc: "Tiempo, costo y calidad", img: obrerosColado },
+  { page: "tablayeso-y-cielos-falsos", n: "11", title: "Tablayeso y Cielos Falsos", desc: "Divisiones, muros y cielos", img: oficinaRemodelacion },
+  { page: "construccion-de-bodegas", n: "12", title: "Construcción de Bodegas", desc: "De la terracería al piso", img: bodegaMontacargas },
 ];
 
 // Lines where a whole project is handed to one team. These used to be a section
