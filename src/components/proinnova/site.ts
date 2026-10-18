@@ -5,7 +5,8 @@ export const SITE_URL = "https://grupoproinnova.com";
 export const CONTACT = {
   // Alias on Hostinger that delivers to ggalvez@grupoproinnova.com.
   email: "contacto@grupoproinnova.com",
-  phones: ["+502 4142 0285", "+502 4214 1321"],
+  // First = main line (also the WhatsApp number); it is the telephone in the JSON-LD.
+  phones: ["+502 4214 1321", "+502 4142 0285"],
   // WhatsApp goes to the second number (Gabo, 2026-09-23). Keep both fields in step.
   whatsapp: "50242141321",
   whatsappLabel: "+502 4214 1321",
