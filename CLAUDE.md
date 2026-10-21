@@ -21,8 +21,12 @@ así que muéstrale capturas, no descripciones.
 ./node_modules/.bin/tsc --noEmit                    # typecheck (TS estricto, debe salir limpio)
 bash scripts/build-static.sh                        # build estático + HTML pre-renderizado (SEO)
 bash scripts/deploy-pages.sh                        # publica a gh-pages → grupoproinnova.com
-git push origin main                                # el fuente va aparte del deploy
+git push origin main                                # también publica: ver abajo
 ```
+
+**Publicación automática (2026-10-21):** `.github/workflows/publicar.yml` revisa tipos, compila y
+publica en `gh-pages` en cada push a `main`, y avisa a IndexNow. Existe porque la red de la
+computadora de CMI bloquea registry.npmjs.org. `deploy-pages.sh` sigue sirviendo para publicar a mano.
 
 No levantes servidores de desarrollo para revisar: compila el build estático y sírvelo
 (`npx vite preview --config vite.config.static.ts --port 4185`).

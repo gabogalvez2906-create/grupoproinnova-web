@@ -450,6 +450,10 @@ export const SERVICES: Service[] = [
         a: "Coordina y ejecuta todas las especialidades de la obra —obra civil, estructura, instalaciones y acabados— y responde ante el propietario por el tiempo, el costo y la calidad del proyecto completo.",
       },
       {
+        q: "¿También construyen casas?",
+        a: "Sí. Diseñamos y construimos casas llave en mano: diseño y planos, licencia de construcción, obra gris y acabados, con un solo responsable de principio a fin.",
+      },
+      {
         q: "¿Pueden continuar una obra que ya empezó otra empresa?",
         a: "Sí. Revisamos el estado de la obra, la documentación y lo ejecutado, y definimos con usted cómo continuar.",
       },
@@ -597,7 +601,7 @@ export const SERVICES: Service[] = [
     summary: "Planos constructivos, ingenierías y licencias de construcción.",
     seoTitle: "Diseño Arquitectónico y Planos en Guatemala | Proinnova",
     seoDescription:
-      "Diseño arquitectónico, planos constructivos, cálculo estructural e instalaciones en Guatemala, más la gestión de la licencia de construcción.",
+      "Diseño arquitectónico y planos de casas, oficinas, locales y naves en Guatemala: planos constructivos, cálculo estructural, instalaciones y licencia de construcción.",
     eyebrow: "Diseño y planificación · Guatemala",
     h1: "Diseño arquitectónico, planos y permisos de construcción en Guatemala",
     lead: "Convertimos su idea en planos constructivos completos —arquitectura, estructura e instalaciones coordinadas desde el inicio— y gestionamos la licencia, para construir sin sorpresas.",
@@ -613,7 +617,7 @@ export const SERVICES: Service[] = [
       paragraphs: [
         "Buena parte de los sobrecostos de una construcción nace en planos incompletos: instalaciones que chocan con la estructura, medidas que no cuadran, acabados que nadie definió. Cada una de esas decisiones pendientes se paga después, en obra, al precio más alto.",
         "Por eso diseñamos integrando desde el primer plano la arquitectura, el cálculo estructural y las instalaciones hidrosanitarias, eléctricas y de climatización. El resultado es un proyecto que se puede presupuestar con precisión y construir sin cambios costosos.",
-        "Diseñamos oficinas, locales comerciales, naves industriales, edificios y residencias, y preparamos la documentación para tramitar la licencia de construcción ante la municipalidad correspondiente.",
+        "Diseñamos oficinas, locales comerciales, naves industriales, edificios y casas —desde el diseño de una casa moderna hasta los planos completos para construirla— y preparamos la documentación para tramitar la licencia de construcción ante la municipalidad correspondiente.",
       ],
     },
     scope: {
@@ -643,6 +647,10 @@ export const SERVICES: Service[] = [
       {
         q: "¿Ustedes tramitan la licencia de construcción?",
         a: "Sí. Preparamos la documentación técnica y gestionamos el trámite de la licencia como parte del proyecto.",
+      },
+      {
+        q: "¿Diseñan casas y hacen planos de casas?",
+        a: "Sí. Diseñamos casas a la medida del terreno y de la familia, y entregamos los planos arquitectónicos, estructurales y de instalaciones para tramitar la licencia y construirlas. Si lo desea, también construimos la casa con el mismo equipo.",
       },
       {
         q: "¿Puedo contratar solo el diseño?",

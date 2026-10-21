@@ -3,6 +3,7 @@ import { useState } from "react";
 import ScrollReveal from "./ScrollReveal";
 import Tilt from "./Tilt";
 import { servicePath } from "./services";
+import { waHref } from "./site";
 
 import showroomSala from "../../assets/obra/showroom-sala-clientes.webp";
 import torreResidencial from "../../assets/obra/torre-residencial.webp";
@@ -43,6 +44,7 @@ const especialidades = [
     title: "Contratista general",
     desc: "Coordinamos toda la obra bajo un solo responsable, de principio a fin.",
     img: estructuraConcreto,
+    alt: "Estructura de concreto de varios niveles en construcción",
   },
   {
     n: "02",
@@ -50,6 +52,7 @@ const especialidades = [
     title: "Obra civil",
     desc: "Movimiento de tierras, cimentaciones e infraestructura que perdura.",
     img: movimientoTierra,
+    alt: "Maquinaria haciendo movimiento de tierras para una obra",
   },
   {
     n: "03",
@@ -57,6 +60,7 @@ const especialidades = [
     title: "Remodelaciones",
     desc: "Transformamos espacios existentes en entornos modernos y funcionales.",
     img: oficinaRemodelacion,
+    alt: "Oficina remodelada con divisiones de tablayeso",
   },
   {
     n: "04",
@@ -64,7 +68,15 @@ const especialidades = [
     title: "Acabados",
     desc: "Superficies, detalles y terminaciones de alta gama que definen la calidad.",
     img: recepcionCorporativa,
+    alt: "Recepción corporativa con acabados de alta gama",
   },
+];
+
+const casas = [
+  { title: "Diseño de casas.", desc: "Casas modernas a la medida del terreno, la familia y el presupuesto." },
+  { title: "Planos de casas.", desc: "Arquitectura, estructura e instalaciones, listos para construir." },
+  { title: "Licencia de construcción.", desc: "Preparamos la documentación y hacemos el trámite en la municipalidad." },
+  { title: "Construcción llave en mano.", desc: "De la cimentación a los acabados, con presupuesto desglosado." },
 ];
 
 export default function ServicesInteractive() {
@@ -117,7 +129,7 @@ export default function ServicesInteractive() {
             <img
               key={s.n}
               src={s.img}
-              alt={i === active ? s.title : ""}
+              alt={`${s.title}: ${s.desc.toLowerCase()} por Grupo Proinnova`}
               aria-hidden={i !== active}
               loading="lazy"
               className={`services__preview-img ${i === active ? "is-visible" : ""}`}
@@ -135,7 +147,7 @@ export default function ServicesInteractive() {
           {especialidades.map((e) => (
             <Tilt className="especialidad-card" key={e.n}>
               <a className="card-link" href={servicePath(e.page)} data-cursor="interactive">
-                <img src={e.img} alt="" loading="lazy" />
+                <img src={e.img} alt={e.alt} loading="lazy" />
                 <div className="especialidad-card__overlay" />
                 <div className="especialidad-card__content">
                   <span className="pillar__num">{e.n}</span>
@@ -145,6 +157,47 @@ export default function ServicesInteractive() {
               </a>
             </Tilt>
           ))}
+        </ScrollReveal>
+      </div>
+
+      {/* Houses: a block inside Servicios on purpose (he asked for a space, not a page). */}
+      <div className="casas" id="casas">
+        <figure className="casas__media">
+          <img
+            src={residencia}
+            alt="Casa contemporánea con fachada de madera, diseño y construcción de casas en Guatemala"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+        <ScrollReveal className="casas__body">
+          <span className="eyebrow">Casas a la medida</span>
+          <h3 data-split>Diseño y construcción de casas en Guatemala</h3>
+          <p>
+            También diseñamos y construimos casas para familias: del diseño de la casa y los planos a la
+            licencia de construcción y la obra terminada, con el mismo equipo y un solo responsable.
+          </p>
+          <ul className="casas__list">
+            {casas.map((c) => (
+              <li key={c.title}>
+                <strong>{c.title}</strong> {c.desc}
+              </li>
+            ))}
+          </ul>
+          <div className="casas__links">
+            <a
+              className="services__all"
+              href={waHref("Hola, quiero cotizar el diseño y la construcción de una casa.")}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor="interactive"
+            >
+              Cotizar mi casa por WhatsApp →
+            </a>
+            <a className="services__all" href={servicePath("diseno-arquitectonico")} data-cursor="interactive">
+              Ver diseño y planos →
+            </a>
+          </div>
         </ScrollReveal>
       </div>
     </section>

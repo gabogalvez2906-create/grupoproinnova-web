@@ -1,0 +1,61 @@
+# Compila el sitio estático y lo publica en GitHub Pages (rama gh-pages → grupoproinnova.com).
+# Hace lo mismo que scripts/deploy-pages.sh, pero en los servidores de GitHub: sirve desde
+# cualquier computadora, incluso una cuya red bloquee el registro de npm.
+name: Publicar sitio
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publicar-sitio
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Dependencias (versiones exactas de bun.lock)
+        run: bun install --frozen-lockfile
+
+      - name: Revisión de tipos
+        run: ./node_modules/.bin/tsc --noEmit
+
+      - name: Build estático + HTML pre-renderizado
+        run: bash scripts/build-static.sh
+
+      - name: Publicar en gh-pages
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          OUT="$(mktemp -d)"
+          cp -r dist-static/. "$OUT/"
+          printf "grupoproinnova.com\n" > "$OUT/CNAME"
+          touch "$OUT/.nojekyll"
+          cd "$OUT"
+          git init -q -b gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Publicar sitio (${GITHUB_SHA::7})"
+          git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" gh-pages
+
+      - name: Avisar a Bing y otros buscadores (IndexNow)
+        continue-on-error: true
+        run: |
+          URLS=$(grep -o '<loc>[^<]*</loc>' dist-static/sitemap.xml | sed 's/<[^>]*>//g' | sed 's/.*/"&"/' | paste -sd, -)
+          curl -s -o /dev/null -w "IndexNow: %{http_code}\n" -X POST https://api.indexnow.org/indexnow \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d "{\"host\":\"grupoproinnova.com\",\"key\":\"c6c3ed75743f0a4b2c21947ae95dc684\",\"keyLocation\":\"https://grupoproinnova.com/c6c3ed75743f0a4b2c21947ae95dc684.txt\",\"urlList\":[${URLS}]}"

@@ -17,6 +17,8 @@ export const CONTACT = {
   closes: "19:00",
   /** Official profiles; also emitted as `sameAs` in the JSON-LD. */
   social: { linkedin: "https://www.linkedin.com/company/grupo-proinnova/" },
+  /** Google Business Profile (Maps CID). Emitted in `sameAs`, not shown as a link. */
+  googleProfile: "https://www.google.com/maps?cid=16335641489318755706",
   website: "grupoproinnova.com",
   location: "Ciudad de Guatemala, Guatemala",
 } as const;

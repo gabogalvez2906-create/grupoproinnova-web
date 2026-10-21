@@ -7,7 +7,7 @@ import { HUB, SERVICES, servicePath, type Service } from "./services";
 
 export const HOME_TITLE = "Constructora en Guatemala | Grupo Proinnova";
 export const HOME_DESCRIPTION =
-  "Grupo Proinnova, constructora en Guatemala: construcción comercial e industrial, obra civil, estructuras metálicas, remodelaciones y acabados. Cotice su obra.";
+  "Grupo Proinnova, constructora en Guatemala: construcción comercial, industrial y de casas, obra civil, estructuras metálicas, remodelaciones y acabados. Cotice su obra.";
 
 export interface PageMeta {
   /** Matches `data-page` on <body>, which tells the client what to hydrate. */
@@ -40,7 +40,7 @@ const organization = {
   address: { "@type": "PostalAddress", addressLocality: "Ciudad de Guatemala", addressCountry: "GT" },
   areaServed: { "@type": "Country", name: "Guatemala" },
   knowsLanguage: "es",
-  sameAs: Object.values(CONTACT.social),
+  sameAs: [...Object.values(CONTACT.social), CONTACT.googleProfile],
   openingHoursSpecification: {
     "@type": "OpeningHoursSpecification",
     dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
@@ -50,10 +50,17 @@ const organization = {
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Servicios de construcción",
-    itemListElement: SERVICES.map((s) => ({
-      "@type": "Offer",
-      itemOffered: { "@type": "Service", name: s.name, url: abs(servicePath(s.slug)) },
-    })),
+    itemListElement: [
+      ...SERVICES.map((s) => ({
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: s.name, url: abs(servicePath(s.slug)) },
+      })),
+      // Houses live in a block of the home page (#casas), not on a page of their own.
+      {
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: "Diseño y construcción de casas", url: abs("/#casas") },
+      },
+    ],
   },
 };
 

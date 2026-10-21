@@ -113,7 +113,7 @@ function ServiceView({ service: s }: { service: Service }) {
           {related.map((r) => (
             <Tilt className="especialidad-card" key={r.slug}>
               <a href={servicePath(r.slug)} className="card-link" data-cursor="interactive">
-                <img src={r.hero.src} alt="" loading="lazy" decoding="async" />
+                <img src={r.hero.src} alt={r.hero.alt} loading="lazy" decoding="async" />
                 <div className="especialidad-card__overlay" />
                 <div className="especialidad-card__content">
                   <h3 className="on-dark">{r.name}</h3>
