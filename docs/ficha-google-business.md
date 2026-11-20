@@ -8,8 +8,9 @@ a la empresa en Google Maps y en "constructora cerca de mí".
 | Campo | Valor |
 |---|---|
 | Nombre | Grupo Proinnova |
-| Categoría principal | Empresa constructora |
-| Categorías adicionales | Contratista general · Servicio de remodelación · Contratista de estructuras metálicas · Contratista de tablaroca |
+| Categoría principal | Empresa de construcción (puesta el 2026-11-20; antes solo "Contratista general") |
+| Categorías adicionales | Contratista general · Servicio de remodelación de oficinas · Empresa de construcciones metálicas · Empresa de ingeniería civil (en Google GT no existe "tablaroca"; el tablayeso va como servicio "Instalación de paneles de yeso") |
+| Servicio quitado | "Instalación de accesorios para plomería": Google lo agrega solo con la categoría y atraía trabajos de plomería. No volver a ponerlo. |
 | Teléfono principal | +502 4214 1321 |
 | Teléfono adicional | +502 4142 0285 |
 | Sitio web | https://grupoproinnova.com/ |
