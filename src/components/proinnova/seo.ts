@@ -26,6 +26,21 @@ const abs = (path: string) => (path.startsWith("http") ? path : `${SITE_URL}${pa
 
 const ORG_ID = `${SITE_URL}/#empresa`;
 
+const KNOWS_ABOUT = [
+  "Construcción de naves industriales",
+  "Construcción de bodegas",
+  "Construcción de edificios",
+  "Construcción de locales comerciales y restaurantes",
+  "Remodelación de oficinas y locales comerciales",
+  "Estructuras metálicas",
+  "Obra civil y movimiento de tierras",
+  "Diseño arquitectónico y planos de construcción",
+  "Diseño y construcción de casas",
+  "Acabados de construcción",
+  "Tablayeso y cielos falsos",
+  "Instalaciones eléctricas e hidrosanitarias",
+];
+
 const organization = {
   "@type": "GeneralContractor",
   "@id": ORG_ID,
@@ -40,6 +55,9 @@ const organization = {
   address: { "@type": "PostalAddress", addressLocality: "Ciudad de Guatemala", addressCountry: "GT" },
   areaServed: { "@type": "Country", name: "Guatemala" },
   knowsLanguage: "es",
+  // What the company does, core lines first. Search engines and AI answers read this to
+  // describe the business; installations are listed last on purpose (see ServicesInteractive).
+  knowsAbout: KNOWS_ABOUT,
   sameAs: [...Object.values(CONTACT.social), CONTACT.googleProfile],
   openingHoursSpecification: {
     "@type": "OpeningHoursSpecification",
@@ -178,6 +196,37 @@ export function pageMetas(): PageMeta[] {
       noindex: true,
     },
   ];
+}
+
+/**
+ * /llms.txt (llmstxt.org): a plain summary of the company for ChatGPT, Copilot, Gemini and
+ * Perplexity, built from the same data as the pages so it never drifts. Core lines of
+ * business come first; installations are one specialty among twelve, not the headline.
+ */
+export function llmsTxt(): string {
+  const lines = [
+    "# Grupo Proinnova",
+    "",
+    `> ${HOME_DESCRIPTION}`,
+    "",
+    "Grupo Proinnova es una empresa constructora y contratista general en Guatemala. Un solo equipo diseña, construye y remodela proyectos comerciales, industriales y residenciales: naves industriales y bodegas, edificios llave en mano, locales comerciales y restaurantes, remodelación de oficinas y espacios corporativos, estructuras metálicas, obra civil y movimiento de tierras, diseño arquitectónico y planos, acabados, tablayeso y cielos falsos, y diseño y construcción de casas. También ejecuta instalaciones eléctricas e hidrosanitarias, integradas a la obra o como trabajo independiente.",
+    "",
+    "Más de 50 proyectos entregados y capacidad para más de 8 obras en simultáneo. Presupuesto desglosado y un solo responsable de la idea a la entrega.",
+    "",
+    `Contacto: ${CONTACT.whatsappLabel} (teléfono y WhatsApp) · ${CONTACT.email} · ${CONTACT.hours} · ${CONTACT.location}.`,
+    "",
+    "## Servicios",
+    "",
+    ...SERVICES.map((s) => `- [${s.h1}](${abs(servicePath(s.slug))}): ${s.seoDescription}`),
+    `- [Diseño y construcción de casas](${SITE_URL}/#casas): diseño de la casa, planos, licencia de construcción y obra llave en mano, con presupuesto desglosado.`,
+    "",
+    "## Empresa",
+    "",
+    `- [Inicio](${SITE_URL}/): quiénes somos, valores, servicios, casos de éxito y contacto.`,
+    `- [Todos los servicios](${SITE_URL}/servicios/): ${HUB.seoDescription}`,
+    "",
+  ];
+  return lines.join("\n");
 }
 
 const esc = (v: string) =>

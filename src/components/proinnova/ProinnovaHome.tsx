@@ -50,6 +50,11 @@ export default function ProinnovaHome() {
               una fecha, cero excusas.
             </p>
             <p>
+              Construimos naves industriales, bodegas, locales comerciales, edificios y casas;
+              remodelamos oficinas y espacios corporativos; y fabricamos y montamos estructuras
+              metálicas.
+            </p>
+            <p>
               Diseñamos espacios funcionales, modernos y duraderos que hacen crecer a nuestros
               clientes. Cada diseño integra estructuras, instalaciones hidrosanitarias,
               eléctricas y climatización desde el primer plano — garantizando estética y

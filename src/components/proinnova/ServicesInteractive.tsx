@@ -7,11 +7,11 @@ import { waHref } from "./site";
 
 import showroomSala from "../../assets/obra/showroom-sala-clientes.webp";
 import torreResidencial from "../../assets/obra/torre-residencial.webp";
-import excavadora from "../../assets/obra/excavadora-terreno.webp";
+import naveIndustrial from "../../assets/obra/nave-industrial-tragaluces.webp";
+import pizzaHut from "../../assets/obra/pizza-hut-fachada.webp";
 import residencia from "../../assets/obra/residencia-fachada-madera.webp";
 import oficinaLounge from "../../assets/obra/oficina-lounge.webp";
 import estructuraMetalica from "../../assets/obra/estructura-metalica.webp";
-import muroGaviones from "../../assets/obra/muro-gaviones.webp";
 import oficinaIluminacion from "../../assets/obra/oficina-iluminacion.webp";
 import movimientoTierra from "../../assets/obra/movimiento-de-tierra.webp";
 import obrerosColado from "../../assets/obra/obreros-colado-losa.webp";
@@ -20,19 +20,23 @@ import estructuraConcreto from "../../assets/obra/estructura-concreto-multinivel
 import oficinaRemodelacion from "../../assets/obra/oficina-remodelacion-tablayeso.webp";
 import recepcionCorporativa from "../../assets/obra/recepcion-corporativa.webp";
 
+// One row per service page (plus project management), so every line of business gets the
+// same weight. Installations used to take two rows (hidrosanitarias + eléctricas) while
+// naves and locales had none, and search engines and AI answers read the company as a
+// plumbing contractor (Gabo, 2026-11-19). Keep it at 12: ReachStats shows that number.
 const services = [
-  { page: "remodelaciones", n: "01", title: "Remodelaciones", desc: "Renovación de espacios", img: showroomSala },
-  { page: "construccion-de-edificios", n: "02", title: "Construcción", desc: "Obra nueva llave en mano", img: torreResidencial },
-  { page: "obra-civil", n: "03", title: "Obra Civil", desc: "Tierras e infraestructura", img: excavadora },
-  { page: "diseno-arquitectonico", n: "04", title: "Diseño Arquitectónico", desc: "Planos y permisos", img: residencia },
-  { page: "acabados", n: "05", title: "Acabados", desc: "Pisos, muros y detalles", img: oficinaLounge },
-  { page: "estructuras-metalicas", n: "06", title: "Estructuras Metálicas", desc: "Fabricación y montaje", img: estructuraMetalica },
-  { page: "instalaciones", n: "07", title: "Instalaciones Hidrosanitarias", desc: "Agua potable y drenajes", img: muroGaviones },
-  { page: "instalaciones", n: "08", title: "Instalaciones Eléctricas", desc: "Baja y media tensión", img: oficinaIluminacion },
-  { page: "obra-civil", n: "09", title: "Movimientos de Tierra", desc: "Corte, relleno y nivelación", img: movimientoTierra },
-  { page: "construccion-de-edificios", n: "10", title: "Project Management", desc: "Tiempo, costo y calidad", img: obrerosColado },
-  { page: "tablayeso-y-cielos-falsos", n: "11", title: "Tablayeso y Cielos Falsos", desc: "Divisiones, muros y cielos", img: oficinaRemodelacion },
-  { page: "construccion-de-bodegas", n: "12", title: "Construcción de Bodegas", desc: "De la terracería al piso", img: bodegaMontacargas },
+  { page: "remodelaciones", n: "01", title: "Remodelaciones", desc: "Oficinas, locales y showrooms", img: showroomSala },
+  { page: "construccion-de-edificios", n: "02", title: "Construcción de Edificios", desc: "Obra nueva llave en mano", img: torreResidencial },
+  { page: "naves-industriales", n: "03", title: "Naves Industriales", desc: "Naves, plantas y ofibodegas", img: naveIndustrial },
+  { page: "locales-comerciales", n: "04", title: "Locales Comerciales", desc: "Restaurantes, tiendas y showrooms", img: pizzaHut },
+  { page: "estructuras-metalicas", n: "05", title: "Estructuras Metálicas", desc: "Fabricación y montaje", img: estructuraMetalica },
+  { page: "construccion-de-bodegas", n: "06", title: "Construcción de Bodegas", desc: "De la terracería al piso", img: bodegaMontacargas },
+  { page: "obra-civil", n: "07", title: "Obra Civil", desc: "Movimiento de tierras y cimentaciones", img: movimientoTierra },
+  { page: "diseno-arquitectonico", n: "08", title: "Diseño Arquitectónico", desc: "Planos y permisos", img: residencia },
+  { page: "acabados", n: "09", title: "Acabados", desc: "Pisos, muros y detalles", img: oficinaLounge },
+  { page: "tablayeso-y-cielos-falsos", n: "10", title: "Tablayeso y Cielos Falsos", desc: "Divisiones, muros y cielos", img: oficinaRemodelacion },
+  { page: "instalaciones", n: "11", title: "Instalaciones", desc: "Eléctricas, hidrosanitarias y climatización", img: oficinaIluminacion },
+  { page: "construccion-de-edificios", n: "12", title: "Project Management", desc: "Tiempo, costo y calidad", img: obrerosColado },
 ];
 
 // Lines where a whole project is handed to one team. These used to be a section

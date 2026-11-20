@@ -10,7 +10,7 @@ const dist = resolve(root, "dist-static");
 const ssrDir = resolve(root, "dist-ssr");
 const SITE = "https://grupoproinnova.com";
 
-const { render, pageMetas, headHtml } = await import(pathToFileURL(resolve(ssrDir, "entry-server.js")).href);
+const { render, pageMetas, headHtml, llmsTxt } = await import(pathToFileURL(resolve(ssrDir, "entry-server.js")).href);
 const template = readFileSync(resolve(dist, "index.html"), "utf8");
 
 const SEO_BLOCK = /<!--seo-->[\s\S]*?<!--\/seo-->/;
@@ -48,5 +48,8 @@ writeFileSync(
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`,
 );
 
+// Summary for AI assistants (ChatGPT, Copilot, Gemini, Perplexity): https://llmstxt.org
+writeFileSync(resolve(dist, "llms.txt"), llmsTxt());
+
 rmSync(ssrDir, { recursive: true, force: true });
-console.log(`prerendered ${pages.length} pages + sitemap.xml`);
+console.log(`prerendered ${pages.length} pages + sitemap.xml + llms.txt`);

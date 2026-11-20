@@ -5,7 +5,7 @@ import { renderToString } from "react-dom/server";
 
 import { PageById } from "./pages";
 
-export { pageMetas, headHtml } from "../src/components/proinnova/seo";
+export { pageMetas, headHtml, llmsTxt } from "../src/components/proinnova/seo";
 
 export function render(id: string) {
   return renderToString(
