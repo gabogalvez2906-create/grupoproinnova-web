@@ -96,11 +96,12 @@ Browser de la app no compone WebGL (`document.hidden`), no sirve para esto.
 - **Anti-parpadeo**: el HTML trae el texto visible, así que lo que anima GSAP (`[data-split]`,
   `[data-reveal]`, intro del hero) arranca oculto con `html.js` y cada componente lo destapa al montar su
   tween; si el JS no carga, se muestra a los 2.5 s. Si agregas animaciones de entrada, respeta eso.
-- **Plomería (2026-11-19):** Bing/Copilot, ChatGPT y los clientes leían a Proinnova como empresa de plomería.
-  Por eso la lista "Soluciones integrales" tiene **una fila por página de servicio** (12, igual que la cifra
-  de ReachStats), las instalaciones son **una sola fila y van al final** (también en `SERVICES`, el footer y
-  el catálogo JSON-LD), y el schema lleva `knowsAbout` con las líneas principales primero. El build genera
-  `/llms.txt` (resumen para IA) desde `seo.ts`. No vuelvas a partir las instalaciones en dos filas.
+- **Plomería (2026-11-19):** casi todos los pedidos que les llegan son de plomería. **La plomería es un servicio
+  que sí ofrecen y se queda** (él lo aclaró el 2026-11-23): la meta es que se vean también los demás servicios,
+  no quitarla. Por eso la lista "Soluciones integrales" tiene **una fila por página de servicio** (12, igual que
+  la cifra de ReachStats), con naves y locales incluidos; las instalaciones (eléctricas e hidrosanitarias) son una
+  fila al final. El schema lleva `knowsAbout` con las líneas principales primero y el build genera `/llms.txt`
+  (resumen para IA) desde `seo.ts`. Nunca borres contenido ni servicios de plomería sin que él lo pida.
 - El H1 lleva la palabra clave (eyebrow dentro del H1). Fotos en `.webp`; los `.jpg` quedan para og:image.
 - Verificación: `../proinnova-web/scripts/qa-pages.mjs` recorre todas las páginas (desktop + móvil): errores de
   hidratación, imágenes rotas, desbordes, enlaces internos. `scripts/shoot-page-sections.mjs <ruta> <prefijo>` captura por sección
