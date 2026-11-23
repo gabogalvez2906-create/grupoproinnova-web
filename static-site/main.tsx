@@ -4,6 +4,7 @@ import { StrictMode } from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
 
 import "../src/styles.css";
+import { initAnalytics } from "../src/components/proinnova/analytics";
 import { PageById } from "./pages";
 
 const root = document.getElementById("root");
@@ -21,3 +22,5 @@ if (root) {
   if (root.firstElementChild) hydrateRoot(root, app);
   else createRoot(root).render(app);
 }
+
+initAnalytics();

@@ -23,6 +23,13 @@ export const CONTACT = {
   location: "Ciudad de Guatemala, Guatemala",
 } as const;
 
+/**
+ * Google Analytics 4 measurement ID: account "Grupo Proinnova", property "grupoproinnova.com",
+ * web stream 16398136620 (gabogalvez2906, created 2026-11-23). Empty = analytics off.
+ * See analytics.ts.
+ */
+export const GA_ID: string = "G-S1WL4PEL2E";
+
 /** Floors in the hero model. The hero's level meter reads this too, so they stay in sync. */
 export const BUILDING_FLOORS = 8;
 

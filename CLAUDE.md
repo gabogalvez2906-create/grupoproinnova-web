@@ -123,6 +123,11 @@ son páginas aparte, no secciones de la portada).
   más `referrer` y un anti-framing en el script inline. **Si cambias ese script inline, recalcula su
   sha256 en script-src** o el sitio queda sin la clase `js` (el texto se ve a los 2.5 s).
   Si agregas algo externo (fuentes, mapas, analytics), agrégalo a la CSP o se bloqueará.
+- **Google Analytics 4 (2026-11-23):** `G-S1WL4PEL2E` en `site.ts` (`GA_ID`), cargado por `analytics.ts` desde
+  `static-site/main.tsx`, solo en el dominio real. Cada clic a WhatsApp, teléfono o correo manda
+  `contacto_whatsapp` / `contacto_llamada` / `contacto_correo` con `pagina`, `servicio` y `bloque`; sirven
+  para saber de dónde llega cada contacto (él preguntó por qué solo les llega plomería). La CSP ya permite
+  googletagmanager.com y google-analytics.com.
 - Enlaces externos siempre con `target="_blank" rel="noopener noreferrer"`.
 - `npm audit` de las dependencias de producción: 0 vulnerabilidades (el repo usa bun.lock; para
   auditar se genera un package-lock temporal fuera del repo).
